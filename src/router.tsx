@@ -8,8 +8,6 @@ export function getRouter() {
     routeTree,
 
     context: getContext(),
-
-    scrollRestoration: true,
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
   })

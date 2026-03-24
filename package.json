@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vite --port 4000",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -23,8 +23,6 @@
     "@tanstack/react-query-devtools": "latest",
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
-    "@tanstack/react-router-ssr-query": "latest",
-    "@tanstack/react-start": "latest",
     "@tanstack/react-store": "latest",
     "@tanstack/router-plugin": "^1.132.0",
     "@tanstack/store": "latest",
