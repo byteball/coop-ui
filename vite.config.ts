@@ -17,7 +17,10 @@ const config = defineConfig({
     }),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tailwindcss(),
-    TanStackRouterVite(),
+    TanStackRouterVite({
+      routesDirectory: './src/pages',
+      generatedRouteTree: './src/routeTree.gen.ts',
+    }),
     viteReact({
       babel: {
         plugins: ['babel-plugin-react-compiler'],

@@ -1,4 +1,4 @@
-import client from '#/services/obyte'
+import client from './obyte'
 
 let heartbeatInterval: ReturnType<typeof setInterval> | undefined
 
@@ -9,6 +9,7 @@ export const bootstrap = async () => {
     client.api.heartbeat()
   }, 10 * 1000)
 
+  // @ts-expect-error - client.client.ws is not typed
   client.client.ws.addEventListener('close', () => {
     if (heartbeatInterval) {
       clearInterval(heartbeatInterval)

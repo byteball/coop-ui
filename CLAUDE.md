@@ -62,16 +62,30 @@ COOP is a dapp on Obyte that encourages cooperative community engagement. The go
 
 Add shadcn components: `pnpm dlx shadcn@latest add <component>`
 
-## Architecture
+## Architecture (Feature-Sliced Design)
+
+Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
+
+- **`app/`** — global setup: entry point (`main.tsx`), router, providers (`providers/`), env config, styles.
+- **`pages/`** — TanStack Router file-based routes. Root layout in `__root.tsx`. Route tree auto-generated in `src/routeTree.gen.ts`.
+- **`widgets/`** — composed UI blocks (header, sidebar, etc.).
+- **`features/`** — user interactions: `deposit/`, `voting/`, `governance/`, `referrals/`.
+- **`entities/`** — business domain: `user/`, `coop-token/`, `emission/`.
+- **`shared/`** — reusable infrastructure:
+  - `ui/` — Shadcn components (new-york style, zinc base).
+  - `lib/` — utilities (`utils.ts` with `cn()`).
+  - `api/` — Obyte WebSocket client and bootstrap.
+  - `i18n/` — re-exports from ParaglideJS runtime.
+
+**FSD import rule**: higher layers import from lower layers only (`app` > `pages` > `widgets` > `features` > `entities` > `shared`).
+
+### Key details
 
 - **Framework**: TanStack Start (Vite + React 19 with SSR). React Compiler enabled via babel plugin.
-- **Routing**: File-based via TanStack Router. Routes in `src/routes/`, route tree auto-generated in `src/routeTree.gen.ts`. Root layout in `src/routes/__root.tsx`.
-- **Data fetching**: TanStack Query integrated at root level (`src/integrations/tanstack-query/`). Router context carries `QueryClient`.
-- **State**: TanStack Store available (`src/lib/demo-store.ts`).
+- **Data fetching**: TanStack Query. Router context carries `QueryClient`.
 - **i18n**: ParaglideJS with URL-based locale strategy. Messages in `messages/` (en, de). Generated runtime in `src/paraglide/` (auto-generated, do not edit).
-- **Styling**: Tailwind CSS v4 with custom design tokens (CSS variables in `src/styles.css`). Shadcn UI (new-york style, zinc base color). Custom utility classes: `.page-wrap`, `.island-shell`, `.feature-card`, `.display-title`, `.nav-link`, `.rise-in`.
-- **Env vars**: Type-safe via T3 Env (`src/env.ts`). Client vars must be prefixed `VITE_`.
-- **UI components**: Shadcn components in `src/components/ui/`, app components in `src/components/`.
+- **Styling**: Tailwind CSS v4 with custom design tokens (CSS variables in `src/app/styles.css`). Custom utility classes: `.page-wrap`, `.island-shell`, `.feature-card`, `.display-title`, `.nav-link`, `.rise-in`.
+- **Env vars**: Type-safe via T3 Env (`src/app/env.ts`). Client vars must be prefixed `VITE_`.
 
 ## Path Aliases
 
