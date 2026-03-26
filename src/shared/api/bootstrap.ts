@@ -2,6 +2,7 @@ import client from './obyte';
 import { env } from '#/app/env';
 import { aaStateStore } from '#/shared/store/aa-state'
 import { governanceStateStore } from '#/shared/store/governance-state'
+import { assetMetadataStore } from '#/shared/store/asset-metadata'
 
 let heartbeatInterval: ReturnType<typeof setInterval> | undefined
 
@@ -46,6 +47,31 @@ export const bootstrap = async () => {
 
   governanceStateStore.setState(() => ({ status: 'loaded', vars: governanceVars }));
 
+
+  // asset metadata (symbol, decimals)
+  const registryAddress = client.api.getOfficialTokenRegistryAddress();
+
+  let symbol: string | null = null;
+  let decimals: number | null = null;
+
+  try {
+    [symbol, decimals] = await Promise.all([
+      client.api.getSymbolByAsset(registryAddress, constants.asset),
+      client.api.getDecimalsBySymbolOrAsset(registryAddress, constants.asset),
+    ]);
+
+    console.info('log: asset metadata loaded', symbol, decimals)
+  } catch {
+    throw new Error('Failed to load asset metadata. Please add symbol and decimals for the asset in the official token registry.');
+  }
+
+  assetMetadataStore.setState((prev) => ({
+    ...prev,
+    [constants.asset]: {
+      symbol: symbol ?? null,
+      decimals: decimals ?? null,
+    },
+  }))
 
   // heartbeat
   heartbeatInterval = setInterval(() => {
