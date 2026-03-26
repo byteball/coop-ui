@@ -6,6 +6,7 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_AA_ADDRESS: z.string().length(32),
     VITE_TESTNET: z
       .enum(['true', 'false'])
       .optional()
