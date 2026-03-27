@@ -8,22 +8,35 @@ const suffixes = {
 
 const suffix = suffixes[env.VITE_TESTNET ? "testnet" : "livenet"];
 
-type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
 
 interface IGenerateLink {
-  amount: number
-  aa: string
-  asset?: string
-  data: Record<string, JsonValue | undefined>
-  from_address?: string
-  is_single?: boolean
+  amount: number;
+  aa: string;
+  asset?: string;
+  data: Record<string, JsonValue | undefined>;
+  from_address?: string;
+  is_single?: boolean;
 }
 
-export const generateLink = ({ amount, data, from_address, aa, asset = "base", is_single }: IGenerateLink): string => {
+export const generateLink = ({
+  amount,
+  data,
+  from_address,
+  aa,
+  asset = "base",
+  is_single,
+}: IGenerateLink): string => {
   let link = `obyte${suffix}:${aa}?amount=${Math.round(amount)}&asset=${encodeURIComponent(asset)}`;
   const encodedData = encodeData(data);
 
-  if (data && encodedData !== null) link += "&base64data=" + encodeURIComponent(encodedData);
+  link += "&base64data=" + encodeURIComponent(encodedData);
   if (from_address) link += "&from_address=" + encodeURIComponent(from_address);
   if (is_single) link += "&single_address=1";
   return link;

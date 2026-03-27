@@ -1,32 +1,32 @@
-import { defineConfig } from 'vite'
-import { devtools } from '@tanstack/devtools-vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import { paraglideVitePlugin } from '@inlang/paraglide-js'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import { defineConfig } from "vite";
+import { devtools } from "@tanstack/devtools-vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
-import viteReact from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import viteReact from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 const config = defineConfig({
   plugins: [
     devtools(),
     paraglideVitePlugin({
-      project: './project.inlang',
-      outdir: './src/paraglide',
-      strategy: ['url', 'baseLocale'],
+      project: "./project.inlang",
+      outdir: "./src/paraglide",
+      strategy: ["url", "baseLocale"],
     }),
-    tsconfigPaths({ projects: ['./tsconfig.json'] }),
+    tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
     TanStackRouterVite({
-      routesDirectory: './src/pages',
-      generatedRouteTree: './src/routeTree.gen.ts',
+      routesDirectory: "./src/pages",
+      generatedRouteTree: "./src/routeTree.gen.ts",
     }),
     viteReact({
       babel: {
-        plugins: ['babel-plugin-react-compiler'],
+        plugins: ["babel-plugin-react-compiler"],
       },
     }),
   ],
-})
+});
 
-export default config
+export default config;

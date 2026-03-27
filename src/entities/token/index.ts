@@ -3,4 +3,4 @@ export {
   hasAssetMetadata,
   setAssetMetadata,
   type AssetMetadata,
-} from './model/store'
+} from "./model/store";

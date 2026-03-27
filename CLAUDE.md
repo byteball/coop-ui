@@ -58,18 +58,22 @@ Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
 ### coop.oscript — 7 actions
 
 **1. Define** — one-time initialization, creates COOP asset and governance AA.
+
 - `trigger.data`: `{ define: 1 }`
 
 **2. Set variable** — called only by governance AA, records new parameter value.
+
 - `trigger.data`: `{ name, value }` (from governance AA only)
 
 **3. Deposit** — lock COOP and/or GBYTE tokens.
+
 - `trigger.data`: `{ deposit: 1 }` + optional `{ term: number (days, min 365, default 365), ref: address (first deposit only), no_referrer_deposit_reward: 1 }`
 - Payment: COOP tokens and/or bytes (above 10000 bounce fee)
 - Requirements: messaging attestation, real-name attestation OR balance >= 50 COOP, not an AA, one account per user
 - Response event fields: `type: 'deposit', owner, amount, bytes_amount, referral_reward, total_balance`
 
 **4. Vote** — cast vote for a contributor.
+
 - `trigger.data`: `{ vote: 1, for: address, strength: 0|1|2|3 }` + optional `{ delete_expired_votes: { from_addr: to_addr, ... } }` (up to 5)
 - Requirements: registered user with balance, unlock_date >= +1 year (both voter and recipient), cannot vote for self
 - Vote weight: `sqrt(total_balance) * strength`. Self-vote at strength=3 is auto-added.
@@ -77,17 +81,20 @@ Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
 - Response event fields: `type: 'vote', address, for, strength, votes, total_balance, for_total_balance`
 
 **5. Claim** — withdraw liquid rewards.
+
 - `trigger.data`: `{ claim: 1 }` + optional `{ restake_percent: 0-100 }`
 - Sends `floor(liquid_balance * (1 - restake_percent/100))` COOP to user. Restaked portion goes to locked balance. Auto-extends unlock_date to +1 year if restaking.
 - Response event fields: `type: 'claim', address, claimed_amount, restaked_amount, restake_percent, total_balance`
 
 **6. Withdraw** — full withdrawal after unlock date.
+
 - `trigger.data`: `{ withdraw: 1 }`
 - Requirements: unlock_date has passed, non-zero balance
 - Sends all bytes_balance + balance + liquid_balance. Zeroes all balances. Pings governance AA to update user's vote weight.
 - Response event fields: `type: 'withdrawal', address, balance, bytes_balance, total_balance: 0`
 
 **7. Replace** — swap locked COOP ↔ locked bytes at ceiling_price.
+
 - `trigger.data`: `{ replace: 1 }` + send COOP **or** bytes (not both)
 - Send COOP → receive bytes back. Send bytes → receive COOP back. Price: `2^((now - launch_ts) / year)`.
 - Response event fields: `type: 'replace', address, received_amount, received_bytes_amount, out_amount, out_bytes_amount, total_balance`
@@ -95,6 +102,7 @@ Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
 ### governance.oscript — 3 actions
 
 **1. Vote/Support** — propose or support a parameter value.
+
 - `trigger.data`: `{ name: string, value: string|number }` (omit `value` to retract vote)
 - Requirements: coop user with unlock_date >= +1 year and non-zero balance
 - Vote weight: `sqrt(total_balance)`. If value gets more support than current leader → becomes new leader, 3-day challenging period restarts.
@@ -103,11 +111,13 @@ Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
 - Governable parameters (string, colon-separated addresses): `messaging_attestors`, `real_name_attestors`
 
 **2. Commit** — apply the leading value after challenging period.
+
 - `trigger.data`: `{ name: string, commit: 1 }`
 - Requirements: leader exists, differs from current value, 3-day challenging period expired
 - Sends `{ name, value }` to coop AA
 
 **3. Update user balance** — recalculate user's governance vote weight.
+
 - `trigger.data`: `{ update_user_balance: 1, address: string }`
 - Called automatically by coop AA on withdraw. Can also be called manually.
 - Recalculates `sqrt(balance)` across all governance votes for the user.
@@ -155,7 +165,7 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 
 ## Code Style
 
-- Prettier: no semicolons, single quotes, trailing commas
+- Prettier: semicolons, double quotes, trailing commas
 - ESLint: TanStack config with relaxed rules (no import ordering, no cycle checks, no require-await)
 - TypeScript strict mode enabled
 

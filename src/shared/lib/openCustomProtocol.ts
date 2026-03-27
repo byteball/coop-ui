@@ -11,13 +11,19 @@ const isMobileSafari = () => {
   const ua = window.navigator.userAgent;
   const isIOS =
     /iP(hone|ad|od)/i.test(ua) ||
-    (window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
-  const isSafari = /Safari/i.test(ua) && !/(CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser)/i.test(ua);
+    (window.navigator.platform === "MacIntel" &&
+      window.navigator.maxTouchPoints > 1);
+  const isSafari =
+    /Safari/i.test(ua) && !/(CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser)/i.test(ua);
 
   return isIOS && isSafari;
 };
 
-const openInMobileSafari = (href: string, onProtocolMissing: () => void, timeoutMs: number) => {
+const openInMobileSafari = (
+  href: string,
+  onProtocolMissing: () => void,
+  timeoutMs: number,
+) => {
   let appOpened = false;
   let timeoutId = 0;
 
@@ -77,6 +83,6 @@ export const openCustomProtocol = ({
     timeoutMs,
     () => {
       window.location.href = href;
-    }
+    },
   );
 };

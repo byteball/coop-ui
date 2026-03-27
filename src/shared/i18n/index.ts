@@ -1,1 +1,1 @@
-export { getLocale, setLocale, locales, baseLocale } from '#/paraglide/runtime'
+export { getLocale, setLocale, locales, baseLocale } from "#/paraglide/runtime";

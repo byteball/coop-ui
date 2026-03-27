@@ -1,16 +1,16 @@
-import { createEnv } from '@t3-oss/env-core'
-import { z } from 'zod'
+import { createEnv } from "@t3-oss/env-core";
+import { z } from "zod";
 
 export const env = createEnv({
-  clientPrefix: 'VITE_',
+  clientPrefix: "VITE_",
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
     VITE_AA_ADDRESS: z.string().length(32),
     VITE_TESTNET: z
-      .enum(['true', 'false'])
+      .enum(["true", "false"])
       .optional()
-      .transform((v) => v === 'true'),
+      .transform((v) => v === "true"),
   },
 
   /**
@@ -33,4 +33,4 @@ export const env = createEnv({
    * explicitly specify this option as true.
    */
   emptyStringAsUndefined: true,
-})
+});
