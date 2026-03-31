@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_leaderboard": "排行榜",
+  "nav_governance": "治理",
+  "nav_faq": "常见问题",
+  "deposit_title": "存款",
+  "home_page": "首页",
+  "language_label": "语言",
+  "current_locale": "当前语言: {locale}",
+  "wallet_add": "添加钱包",
+  "wallet_connect": "连接",
+  "wallet_placeholder": "钱包地址",
+  "wallet_description": "如果您还没有钱包，请安装 {link}，然后在此粘贴您的地址。",
+  "wallet_link_text": "Obyte 钱包",
+  "wallet_error_empty": "请输入钱包地址",
+  "wallet_error_invalid": "无效的 Obyte 地址"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_leaderboard": "Clasificación",
+  "nav_governance": "Gobernanza",
+  "nav_faq": "Preguntas frecuentes",
+  "deposit_title": "Depósito",
+  "home_page": "Página principal",
+  "language_label": "Idioma",
+  "current_locale": "Idioma actual: {locale}",
+  "wallet_add": "Añadir billetera",
+  "wallet_connect": "Conectar",
+  "wallet_placeholder": "Dirección de billetera",
+  "wallet_description": "Instala {link} si aún no tienes una, y copia/pega tu dirección aquí.",
+  "wallet_link_text": "billetera Obyte",
+  "wallet_error_empty": "Introduce tu dirección de billetera",
+  "wallet_error_invalid": "Dirección Obyte no válida"
+}

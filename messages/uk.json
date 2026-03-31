@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_leaderboard": "Рейтинг",
+  "nav_governance": "Управління",
+  "nav_faq": "Питання",
+  "deposit_title": "Депозит",
+  "home_page": "Головна",
+  "language_label": "Мова",
+  "current_locale": "Поточна мова: {locale}",
+  "wallet_add": "Додати гаманець",
+  "wallet_connect": "Підключити",
+  "wallet_placeholder": "Адреса гаманця",
+  "wallet_description": "Встановіть {link}, якщо у вас його ще немає, та вставте свою адресу сюди.",
+  "wallet_link_text": "гаманець Obyte",
+  "wallet_error_empty": "Введіть адресу гаманця",
+  "wallet_error_invalid": "Невірна адреса Obyte"
+}

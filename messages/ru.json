@@ -1,0 +1,17 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_leaderboard": "Рейтинг",
+  "nav_governance": "Управление",
+  "nav_faq": "Вопросы",
+  "deposit_title": "Депозит",
+  "home_page": "Главная",
+  "language_label": "Язык",
+  "current_locale": "Текущий язык: {locale}",
+  "wallet_add": "Добавить кошелёк",
+  "wallet_connect": "Подключить",
+  "wallet_placeholder": "Адрес кошелька",
+  "wallet_description": "Установите {link}, если у вас его ещё нет, и вставьте свой адрес сюда.",
+  "wallet_link_text": "кошелёк Obyte",
+  "wallet_error_empty": "Введите адрес кошелька",
+  "wallet_error_invalid": "Неверный адрес Obyte"
+}

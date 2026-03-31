@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "#/shared/ui/dialog";
 import { setWalletAddress } from "#/entities/user";
+import * as m from "#/paraglide/messages";
 
 export function ConnectWalletDialog() {
   const [open, setOpen] = useState(false);
@@ -22,11 +23,11 @@ export function ConnectWalletDialog() {
   const handleSubmit = () => {
     const trimmed = value.trim();
     if (!trimmed) {
-      setError("Enter your wallet address");
+      setError(m.wallet_error_empty());
       return;
     }
     if (!obyte.utils.isValidAddress(trimmed)) {
-      setError("Invalid Obyte address");
+      setError(m.wallet_error_invalid());
       return;
     }
     setWalletAddress(trimmed);
@@ -48,24 +49,19 @@ export function ConnectWalletDialog() {
     >
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          Add wallet
+          {m.wallet_add()}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add wallet</DialogTitle>
-          <DialogDescription>
-            Install{" "}
-            <a
-              href="https://obyte.org/#download"
-              target="_blank"
-              rel="noopener"
-              className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-            >
-              Obyte wallet
-            </a>{" "}
-            if you don&apos;t have one yet, and copy/paste your address here.
-          </DialogDescription>
+          <DialogTitle>{m.wallet_add()}</DialogTitle>
+          <DialogDescription
+            dangerouslySetInnerHTML={{
+              __html: m.wallet_description({
+                link: `<a href="https://obyte.org/#download" target="_blank" rel="noopener" class="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground">${m.wallet_link_text()}</a>`,
+              }),
+            }}
+          />
         </DialogHeader>
         <div
           className="flex flex-col gap-2"
@@ -77,7 +73,7 @@ export function ConnectWalletDialog() {
           }}
         >
           <Input
-            placeholder="Wallet address"
+            placeholder={m.wallet_placeholder()}
             value={value}
             onChange={(e) => {
               setValue(e.target.value);
@@ -90,7 +86,7 @@ export function ConnectWalletDialog() {
           )}
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit}>Connect</Button>
+          <Button onClick={handleSubmit}>{m.wallet_connect()}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

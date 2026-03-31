@@ -1,6 +1,17 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
+  "nav_leaderboard": "Leaderboard",
+  "nav_governance": "Governance",
+  "nav_faq": "F.A.Q.",
+  "deposit_title": "Deposit",
   "home_page": "Home page",
   "language_label": "Language",
-  "current_locale": "Current locale: {locale}"
+  "current_locale": "Current locale: {locale}",
+  "wallet_add": "Add wallet",
+  "wallet_connect": "Connect",
+  "wallet_placeholder": "Wallet address",
+  "wallet_description": "Install {link} if you don't have one yet, and copy/paste your address here.",
+  "wallet_link_text": "Obyte wallet",
+  "wallet_error_empty": "Enter your wallet address",
+  "wallet_error_invalid": "Invalid Obyte address"
 }
