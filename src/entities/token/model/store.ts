@@ -1,7 +1,8 @@
 import { Store } from "@tanstack/store";
+import { storageKey } from "#/shared/lib/storageKey";
 
-const STORAGE_KEY = "asset_metadata";
-const STORAGE_TS_KEY = "asset_metadata_ts";
+const STORAGE_KEY = storageKey("asset_metadata");
+const STORAGE_TS_KEY = storageKey("asset_metadata_ts");
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export interface AssetMetadata {
@@ -51,7 +52,9 @@ assetMetadataStore.subscribe(() => {
 
 export const hasAssetMetadata = (asset: string): boolean => {
   const entry = assetMetadataStore.state[asset] as AssetMetadata | undefined;
-  return entry !== undefined && entry.symbol !== null && entry.decimals !== null;
+  return (
+    entry !== undefined && entry.symbol !== null && entry.decimals !== null
+  );
 };
 
 export const setAssetMetadata = (asset: string, metadata: AssetMetadata) => {

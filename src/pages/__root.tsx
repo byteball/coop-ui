@@ -3,6 +3,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import TanStackQueryProvider from "#/app/providers/query-provider";
+import { AppLayout } from "#/widgets/layout";
 
 import TanStackQueryDevtools from "#/app/providers/query-devtools";
 
@@ -26,7 +27,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootLayout() {
   return (
     <TanStackQueryProvider>
-      <Outlet />
+      <AppLayout>
+        <Outlet />
+      </AppLayout>
       <TanStackDevtools
         config={{
           position: "bottom-right",
