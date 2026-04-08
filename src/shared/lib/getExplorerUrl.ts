@@ -1,4 +1,4 @@
-import { env } from "#/app/env";
+import { env } from "#/shared/config/env";
 
 type ExplorerUnitType = "address" | "tx" | "asset";
 

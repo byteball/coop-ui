@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Card } from "#/components/ui/card";
-import { KitIllustration } from "#/components/illustrations/kit-illustration";
-import { VisualizationIllustration } from "#/components/illustrations/visualization-illustration";
-import { ScheduleIllustation } from "#/components/illustrations/schedule-illustration";
+import { Card } from "#/shared/ui/card";
+import { KitIllustration } from "#/shared/ui/illustrations/kit-illustration";
+import { VisualizationIllustration } from "#/shared/ui/illustrations/visualization-illustration";
+import { ScheduleIllustation } from "#/shared/ui/illustrations/schedule-illustration";
 import { DepositForm } from "#/features/deposit";
 
 export const Route = createFileRoute("/")({ component: App });

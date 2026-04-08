@@ -26,7 +26,7 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { getLocale } from "#/shared/i18n";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
-import { attestationLinks } from "#/app/appConfig";
+import { attestationLinks } from "#/shared/config/appConfig";
 
 import { buildDepositLink } from "../lib/buildDepositLink";
 import {
@@ -50,8 +50,11 @@ function mapErrors(errors: unknown[]): Array<{ message: string } | undefined> {
 
 export function DepositForm() {
   const qrButtonRef = useRef<HTMLButtonElement>(null);
-  const { coopAsset, coopDecimals, gbyteDecimals, coopSymbol } = useAssetInfo();
-  const { status, getCeilingPrice, getParam, getUser } = useCoopState();
+  const { status, constants, getCeilingPrice, getParam, getUser } =
+    useCoopState();
+  const { coopAsset, coopDecimals, gbyteDecimals, coopSymbol } = useAssetInfo(
+    constants?.asset,
+  );
   const referrer = useMemo(() => {
     const ref = getReferrerFromUrl();
     if (!ref) return undefined;

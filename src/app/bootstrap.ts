@@ -1,5 +1,5 @@
 import client from "#/shared/api/obyte";
-import { env } from "#/app/env";
+import { env } from "#/shared/config/env";
 import { setCoopLoading, setCoopVars } from "#/entities/coop";
 import { setGovernanceLoading, setGovernanceVars } from "#/entities/governance";
 import { hasAssetMetadata, setAssetMetadata } from "#/entities/token";

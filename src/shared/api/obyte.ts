@@ -1,6 +1,6 @@
 import obyte from "obyte";
 
-import { env } from "#/app/env";
+import { env } from "#/shared/config/env";
 
 const testnet = env.VITE_TESTNET;
 

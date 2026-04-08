@@ -1,7 +1,7 @@
 import { generateLink } from "#/shared/lib/generateLink";
 import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
 import { diffDays } from "#/shared/lib/diffDays";
-import { env } from "#/app/env";
+import { env } from "#/shared/config/env";
 
 import { MIN_TERM_DAYS, MAX_TERM_DAYS, BOUNCE_FEE, today } from "./constants";
 

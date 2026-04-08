@@ -3,27 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 
 import { Button } from "#/shared/ui/button";
-import { env } from "#/app/env";
-import { useWallet, clearWalletAddress } from "#/entities/user";
-import { ConnectWalletDialog } from "#/features/connect-wallet";
-import { getLocale, setLocale, locales } from "#/shared/i18n";
+import { env } from "#/shared/config/env";
 import * as m from "#/paraglide/messages";
 
-const localeFlags: Record<string, string> = {
-  en: "\u{1F1EC}\u{1F1E7}",
-  zh: "\u{1F1E8}\u{1F1F3}",
-  es: "\u{1F1EA}\u{1F1F8}",
-  ru: "\u{1F1F7}\u{1F1FA}",
-  uk: "\u{1F1FA}\u{1F1E6}",
-};
-
-const localeNames: Record<string, string> = {
-  en: "English",
-  zh: "中文",
-  es: "Español",
-  ru: "Русский",
-  uk: "Українська",
-};
+import { LocaleSwitcher } from "./LocaleSwitcher";
+import { WalletArea } from "./WalletArea";
 
 const navItems = [
   { to: "/leaderboard", label: () => m.nav_leaderboard() },
@@ -34,66 +18,6 @@ const navItems = [
 const linkClass =
   "text-sm text-muted-foreground transition-colors hover:text-foreground";
 const activeLinkClass = "text-sm font-medium text-foreground";
-
-function LocaleSwitcher() {
-  const [open, setOpen] = useState(false);
-  const current = getLocale();
-
-  return (
-    <div className="relative">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="gap-1.5 text-xs text-muted-foreground"
-        onClick={() => setOpen((v) => !v)}
-      >
-        <span className="text-base leading-none">{localeFlags[current]}</span>
-      </Button>
-      {open && (
-        <div className="absolute right-0 top-full mt-1 z-50 min-w-32 rounded-md border border-border/50 bg-background/90 p-1 shadow-lg backdrop-blur">
-          {locales.map((locale) => (
-            <button
-              key={locale}
-              onClick={() => {
-                setLocale(locale);
-                setOpen(false);
-              }}
-              className={`flex w-full items-center gap-2 rounded px-3 py-1.5 text-left text-xs transition-colors hover:bg-foreground/10 ${
-                locale === current
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground"
-              }`}
-            >
-              <span className="text-base leading-none">
-                {localeFlags[locale]}
-              </span>
-              {localeNames[locale]}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function WalletArea() {
-  const { address, isConnected } = useWallet();
-
-  if (!isConnected) {
-    return <ConnectWalletDialog />;
-  }
-
-  return (
-    <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground">
-        {address!.slice(0, 6)}...{address!.slice(-6)}
-      </span>
-      <Button variant="ghost" size="xs" onClick={clearWalletAddress}>
-        <X className="size-3" />
-      </Button>
-    </div>
-  );
-}
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);

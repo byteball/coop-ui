@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useStore } from "@tanstack/react-store";
 
-import { defaultParams } from "#/app/appConfig";
-import type { AppParamName, AppParams } from "#/app/appConfig";
+import { defaultParams } from "#/shared/config/appConfig";
+import type { AppParamName, AppParams } from "#/shared/config/appConfig";
 import { getCeilingPrice as calcCeilingPrice } from "#/shared/lib/getCeilingPrice";
 
 import { coopStore } from "./store";
