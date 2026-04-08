@@ -16,17 +16,13 @@ import {
 } from "#/shared/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "#/shared/ui/popover";
 import { Calendar } from "#/shared/ui/calendar";
-import { QRButton } from "#/shared/ui/qr-button";
 import { diffDays } from "#/shared/lib/diffDays";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
 import { getReferrerFromUrl } from "#/shared/lib/getReferrerFromUrl";
-import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
-import { toLocalString } from "#/shared/lib/toLocalString";
-import { getLocale } from "#/shared/i18n";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
-import { attestationLinks } from "#/shared/config/appConfig";
+import { useWallet } from "#/entities/user";
 
 import { buildDepositLink } from "../lib/buildDepositLink";
 import {
@@ -36,8 +32,18 @@ import {
   minDate,
   maxDate,
 } from "../lib/constants";
+import { DepositDescription } from "./DepositDescription";
+import { DepositMeta } from "./DepositMeta";
 
 type AssetType = "coop" | "gbyte";
+
+function Skeleton({ className = "w-16" }: { className?: string }) {
+  return (
+    <span
+      className={`inline-block h-4 animate-pulse rounded bg-muted align-middle ${className}`}
+    />
+  );
+}
 
 function mapErrors(errors: unknown[]): Array<{ message: string } | undefined> {
   return errors.map((e) => ({
@@ -48,16 +54,9 @@ function mapErrors(errors: unknown[]): Array<{ message: string } | undefined> {
   }));
 }
 
-function Skeleton({ className = "w-16" }: { className?: string }) {
-  return (
-    <span
-      className={`inline-block h-4 animate-pulse rounded bg-muted align-middle ${className}`}
-    />
-  );
-}
-
 export function DepositForm() {
   const qrButtonRef = useRef<HTMLButtonElement>(null);
+  const { address } = useWallet();
   const { status, constants, getCeilingPrice, getParam, getUser } =
     useCoopState();
   const isLoaded = status === "loaded";
@@ -70,11 +69,19 @@ export function DepositForm() {
     return getUser(ref) ? ref : undefined;
   }, [getUser]);
 
+  const user = address ? getUser(address) : undefined;
+  const effectiveMinDate = useMemo(() => {
+    if (!user?.unlock_date) return minDate;
+    const userUnlock = new Date(user.unlock_date);
+    userUnlock.setHours(0, 0, 0, 0);
+    return userUnlock > minDate ? userUnlock : minDate;
+  }, [user?.unlock_date]);
+
   const form = useForm({
     defaultValues: {
       amount: "",
       asset: "coop",
-      unlockDate: minDate,
+      unlockDate: effectiveMinDate,
     },
     validators: {
       onSubmit: z.object({
@@ -99,7 +106,8 @@ export function DepositForm() {
   });
 
   useEffect(() => {
-    if (isLoaded && !form.getFieldValue("amount")) {
+    if (!isLoaded) return;
+    if (!form.getFieldValue("amount")) {
       form.setFieldValue(
         "amount",
         String(
@@ -107,60 +115,20 @@ export function DepositForm() {
         ),
       );
     }
-  }, [isLoaded]);
+    if (effectiveMinDate > form.getFieldValue("unlockDate")) {
+      form.setFieldValue("unlockDate", effectiveMinDate);
+    }
+  }, [isLoaded, effectiveMinDate]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="text-sm text-muted-foreground">
-        <p>
-          Before depositing, you must be attested on{" "}
-          <a
-            href={attestationLinks.telegram}
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-          >
-            Telegram
-          </a>{" "}
-          and/or{" "}
-          <a
-            href={attestationLinks.discord}
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-          >
-            Discord
-          </a>
-          . This is important to notify you about follow-up rewards in the
-          future.
-        </p>
-        <p className="mt-2">
-          If you deposit less than{" "}
-          <span className="font-medium text-foreground">
-            {isLoaded ? (
-              <>
-                {toLocalString(
-                  getParam("min_balance_instead_of_real_name") /
-                    10 ** coopDecimals,
-                )}{" "}
-                {coopSymbol}
-              </>
-            ) : (
-              <Skeleton className="w-20" />
-            )}
-          </span>{" "}
-          (or equivalent), you must be{" "}
-          <a
-            href={attestationLinks.realName}
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-          >
-            real-name attested
-          </a>
-          . This measure helps prevent multiple accounts by the same user.
-        </p>
-      </div>
+      <DepositDescription
+        isLoaded={isLoaded}
+        minBalance={
+          getParam("min_balance_instead_of_real_name") / 10 ** coopDecimals
+        }
+        coopSymbol={coopSymbol}
+      />
 
       <div
         onKeyDown={(e) => {
@@ -277,7 +245,10 @@ export function DepositForm() {
                           field.handleChange(newRange.to);
                         }
                       }}
-                      disabled={[{ before: minDate }, { after: maxDate }]}
+                      disabled={[
+                        { before: effectiveMinDate },
+                        { after: maxDate },
+                      ]}
                       defaultMonth={field.state.value}
                       numberOfMonths={1}
                     />
@@ -323,49 +294,32 @@ export function DepositForm() {
                 ? (num * 10 ** gbyteDecimals) / price / 10 ** coopDecimals
                 : null;
 
+            const user = address ? getUser(address) : undefined;
+            const currentCoopBalance =
+              (user?.balance ?? 0) / 10 ** coopDecimals;
+            const currentBytesBalance =
+              (user?.bytes_balance ?? 0) / 10 ** gbyteDecimals;
+            const validNum = !isNaN(num) && num > 0 ? num : 0;
+            const newCoopBalance =
+              currentCoopBalance + (!isGbyte ? validNum : 0);
+            const newBytesBalance =
+              currentBytesBalance + (isGbyte ? validNum : 0);
+
             return (
-              <div className="mt-3 flex flex-col gap-2">
-                <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>Locked until</span>
-                  <span className="font-medium text-foreground">
-                    {values.unlockDate.toLocaleDateString(getLocale(), {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-                {coopEquivalent !== null && (
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>{coopSymbol} equivalent</span>
-                    <span className="font-medium text-foreground">
-                      ≈ {toLocalString(coopEquivalent)} {coopSymbol}
-                    </span>
-                  </div>
-                )}
-                {referrer && (
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>Referrer</span>
-                    <a
-                      href={getExplorerUrl(referrer, "address")}
-                      target="_blank"
-                      rel="noopener"
-                      className="font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground"
-                    >
-                      {referrer.slice(0, 6)}...{referrer.slice(-6)}
-                    </a>
-                  </div>
-                )}
-                <QRButton
-                  ref={qrButtonRef}
-                  href={href ?? ""}
-                  size="lg"
-                  className="mt-2 w-full"
-                  disabled={!href}
-                >
-                  {label}
-                </QRButton>
-              </div>
+              <DepositMeta
+                isLoaded={isLoaded}
+                isValid={isValid}
+                href={href}
+                label={label}
+                unlockDate={values.unlockDate}
+                coopSymbol={coopSymbol}
+                coopEquivalent={coopEquivalent}
+                newCoopBalance={newCoopBalance}
+                newBytesBalance={newBytesBalance}
+                address={address}
+                referrer={referrer}
+                qrButtonRef={qrButtonRef}
+              />
             );
           }}
         </form.Subscribe>
