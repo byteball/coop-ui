@@ -115,9 +115,7 @@ export function DepositForm() {
         ),
       );
     }
-    if (effectiveMinDate > form.getFieldValue("unlockDate")) {
-      form.setFieldValue("unlockDate", effectiveMinDate);
-    }
+    form.setFieldValue("unlockDate", effectiveMinDate);
   }, [isLoaded, effectiveMinDate]);
 
   return (
