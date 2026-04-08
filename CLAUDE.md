@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Obyte Coop UI — a web application built with TanStack Start (React 19 SSR framework), using file-based routing, TanStack Query for data fetching, and ParaglideJS for i18n.
+Obyte Coop UI — a client-side SPA built with Vite, React 19, and TanStack Router (file-based routing). Uses TanStack Query for data fetching, TanStack Store for state management, and ParaglideJS for i18n.
 
 ## Domain: COOP Token & Cooperative Incentives
 
@@ -137,26 +137,28 @@ Add shadcn components: `pnpm dlx shadcn@latest add <component>`
 
 Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 
-- **`app/`** — global setup: entry point (`main.tsx`), router, providers (`providers/`), env config, styles.
+- **`app/`** — global setup: entry point (`main.tsx`), router, providers (`providers/`), bootstrap, styles.
 - **`pages/`** — TanStack Router file-based routes. Root layout in `__root.tsx`. Route tree auto-generated in `src/routeTree.gen.ts`.
-- **`widgets/`** — composed UI blocks (header, sidebar, etc.).
-- **`features/`** — user interactions: `deposit/`, `voting/`, `governance/`, `referrals/`.
-- **`entities/`** — business domain: `user/`, `coop-token/`, `emission/`.
+- **`widgets/`** — composed UI blocks: `header/`, `footer/`, `layout/`.
+- **`features/`** — user interactions: `deposit/`, `connect-wallet/`, `voting/`, `governance/`, `referrals/`.
+- **`entities/`** — business domain: `user/`, `coop/`, `token/`, `governance/`, `emission/`.
 - **`shared/`** — reusable infrastructure:
-  - `ui/` — Shadcn components (new-york style, zinc base).
+  - `config/` — env vars (`env.ts` via T3 Env) and app config (`appConfig.ts`).
+  - `ui/` — Shadcn components (new-york style, zinc base) and illustrations.
   - `lib/` — utilities (`utils.ts` with `cn()`).
-  - `api/` — Obyte WebSocket client and bootstrap.
+  - `api/` — Obyte WebSocket client.
   - `i18n/` — re-exports from ParaglideJS runtime.
 
 **FSD import rule**: higher layers import from lower layers only (`app` > `pages` > `widgets` > `features` > `entities` > `shared`).
 
 ### Key details
 
-- **Framework**: TanStack Start (Vite + React 19 with SSR). React Compiler enabled via babel plugin.
-- **Data fetching**: TanStack Query. Router context carries `QueryClient`.
-- **i18n**: ParaglideJS with URL-based locale strategy. Messages in `messages/` (en, de). Generated runtime in `src/paraglide/` (auto-generated, do not edit).
-- **Styling**: Tailwind CSS v4 with custom design tokens (CSS variables in `src/app/styles.css`). Custom utility classes: `.page-wrap`, `.island-shell`, `.feature-card`, `.display-title`, `.nav-link`, `.rise-in`.
-- **Env vars**: Type-safe via T3 Env (`src/app/env.ts`). Client vars must be prefixed `VITE_`.
+- **Framework**: Vite + React 19 (client-side SPA, no SSR). React Compiler enabled via `babel-plugin-react-compiler` in vite config.
+- **Routing**: TanStack Router with file-based routes in `src/pages/`. Router context carries `QueryClient`.
+- **Data fetching**: TanStack Query for server state, TanStack Store for client state.
+- **i18n**: ParaglideJS with cookie/localStorage locale strategy. Locales: en (base), zh, es, ru, uk. Messages in `messages/`. Generated runtime in `src/paraglide/` (auto-generated, do not edit).
+- **Styling**: Tailwind CSS v4 with custom design tokens (CSS variables in `src/app/styles.css`).
+- **Env vars**: Type-safe via T3 Env (`src/shared/config/env.ts`). Client vars must be prefixed `VITE_`.
 
 ## Path Aliases
 
@@ -171,11 +173,13 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 
 ## Shared Utilities (`src/shared/lib/`)
 
-- **`encodeData(data)`** — Base64-кодирование объекта для передачи в Obyte deep-link (`base64data` параметр). Используй при формировании ссылок для кошелька.
-- **`generateLink({amount, aa, data, ...})`** — Генерирует `obyte:` deep-link для отправки транзакции в AA. Автоматически подставляет суффикс testnet/livenet. Используй для всех кнопок отправки транзакций (deposit, vote, claim, withdraw, replace, governance).
-- **`formatPeriod(periodEndTs)`** — Форматирует оставшееся время до unix-timestamp в человекочитаемую строку ("3 days 4h 12m"). Используй для отображения оставшегося времени lock-периода, governance challenging period и т.д.
-- **`getAllStateVarsByAddress(address)`** — Загружает все state vars AA с пагинацией. Используй для начальной загрузки состояния AA (bootstrap).
-- **`getExplorerUrl(value, type)`** — Генерирует URL на Obyte Explorer для адреса, транзакции или ассета. Используй для ссылок на explorer в UI.
-- **`openCustomProtocol({href, onProtocolMissing, ...})`** — Открывает `obyte:` deep-link с определением, установлен ли кошелёк. Специальная обработка для Mobile Safari. Используй для кнопок, которые открывают кошелёк Obyte.
-- **`toLocalString(value)`** — Форматирует число с локализованными разделителями (до 9 значащих цифр). Используй для отображения балансов и сумм COOP/GBYTE.
-- **`toOrdinal(n)`** — Добавляет английский порядковый суффикс (1st, 2nd, 3rd...). Используй для отображения позиций в рейтинге.
+- **`encodeData(data)`** — Base64-encodes an object for Obyte deep-link `base64data` parameter. Use when building wallet links.
+- **`generateLink({amount, aa, data, ...})`** — Generates an `obyte:` deep-link for sending a transaction to an AA. Auto-appends testnet/livenet suffix. Use for all transaction buttons (deposit, vote, claim, withdraw, replace, governance).
+- **`formatPeriod(periodEndTs)`** — Formats remaining time until a unix timestamp as a human-readable string ("3 days 4h 12m"). Use for lock period countdowns, governance challenging period, etc.
+- **`formatDateShort(date)`** — Formats a Date using the app's current locale (short month). Use instead of raw `toLocaleDateString`.
+- **`getAllStateVarsByAddress(address)`** — Loads all AA state vars with pagination. Used during bootstrap.
+- **`getCeilingPrice(launchTs)`** — Calculates GBYTE/COOP ceiling price: `2^((now - launch_ts) / year)`.
+- **`getExplorerUrl(value, type)`** — Generates an Obyte Explorer URL for an address, transaction, or asset.
+- **`openCustomProtocol({href, onProtocolMissing, ...})`** — Opens an `obyte:` deep-link with wallet detection. Special handling for Mobile Safari.
+- **`toLocalString(value)`** — Formats a number with locale-aware separators (up to 9 significant digits). Use for balances and amounts.
+- **`toOrdinal(n)`** — Appends English ordinal suffix (1st, 2nd, 3rd...). Use for leaderboard positions.
