@@ -23,6 +23,7 @@ import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
 import { getReferrerFromUrl } from "#/shared/lib/getReferrerFromUrl";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
 import { toLocalString } from "#/shared/lib/toLocalString";
+import { getLocale } from "#/shared/i18n";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { attestationLinks } from "#/app/appConfig";
@@ -290,7 +291,7 @@ export function DepositForm() {
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Locked until</span>
                   <span className="font-medium text-foreground">
-                    {values.unlockDate.toLocaleDateString(undefined, {
+                    {values.unlockDate.toLocaleDateString(getLocale(), {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
