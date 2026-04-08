@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
 import { CalendarIcon } from "lucide-react";
@@ -48,10 +48,19 @@ function mapErrors(errors: unknown[]): Array<{ message: string } | undefined> {
   }));
 }
 
+function Skeleton({ className = "w-16" }: { className?: string }) {
+  return (
+    <span
+      className={`inline-block h-4 animate-pulse rounded bg-muted align-middle ${className}`}
+    />
+  );
+}
+
 export function DepositForm() {
   const qrButtonRef = useRef<HTMLButtonElement>(null);
   const { status, constants, getCeilingPrice, getParam, getUser } =
     useCoopState();
+  const isLoaded = status === "loaded";
   const { coopAsset, coopDecimals, gbyteDecimals, coopSymbol } = useAssetInfo(
     constants?.asset,
   );
@@ -89,6 +98,17 @@ export function DepositForm() {
     onSubmit: () => {},
   });
 
+  useEffect(() => {
+    if (isLoaded && !form.getFieldValue("amount")) {
+      form.setFieldValue(
+        "amount",
+        String(
+          getParam("min_balance_instead_of_real_name") / 10 ** coopDecimals,
+        ),
+      );
+    }
+  }, [isLoaded]);
+
   return (
     <div className="flex flex-col gap-5">
       <div className="text-sm text-muted-foreground">
@@ -117,10 +137,17 @@ export function DepositForm() {
         <p className="mt-2">
           If you deposit less than{" "}
           <span className="font-medium text-foreground">
-            {toLocalString(
-              getParam("min_balance_instead_of_real_name") / 10 ** coopDecimals,
-            )}{" "}
-            {coopSymbol}
+            {isLoaded ? (
+              <>
+                {toLocalString(
+                  getParam("min_balance_instead_of_real_name") /
+                    10 ** coopDecimals,
+                )}{" "}
+                {coopSymbol}
+              </>
+            ) : (
+              <Skeleton className="w-20" />
+            )}
           </span>{" "}
           (or equivalent), you must be{" "}
           <a
@@ -179,6 +206,7 @@ export function DepositForm() {
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
+                    disabled={!isLoaded}
                     aria-invalid={isInvalid || undefined}
                     className="flex-1"
                   />
@@ -195,7 +223,13 @@ export function DepositForm() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="coop">{coopSymbol}</SelectItem>
+                          <SelectItem value="coop">
+                            {isLoaded ? (
+                              coopSymbol
+                            ) : (
+                              <Skeleton className="w-12" />
+                            )}
+                          </SelectItem>
                           <SelectItem value="gbyte">GBYTE</SelectItem>
                         </SelectContent>
                       </Select>
