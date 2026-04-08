@@ -15,7 +15,11 @@ import {
 import { setWalletAddress } from "#/entities/user";
 import * as m from "#/paraglide/messages";
 
-export function ConnectWalletDialog() {
+export function ConnectWalletDialog({
+  children,
+}: {
+  children?: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -48,9 +52,11 @@ export function ConnectWalletDialog() {
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          {m.wallet_add()}
-        </Button>
+        {children ?? (
+          <Button variant="outline" size="sm">
+            {m.wallet_add()}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

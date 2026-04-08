@@ -17,3 +17,17 @@ export const setGovernanceLoading = () => {
 export const setGovernanceVars = (vars: Record<string, unknown>) => {
   governanceStore.setState(() => ({ status: "loaded", vars }));
 };
+
+export const updateGovernanceVars = (updates: Record<string, unknown>) => {
+  governanceStore.setState((prev) => {
+    const vars = { ...prev.vars };
+    for (const [key, value] of Object.entries(updates)) {
+      if (value === false) {
+        delete vars[key];
+      } else {
+        vars[key] = value;
+      }
+    }
+    return { ...prev, vars };
+  });
+};

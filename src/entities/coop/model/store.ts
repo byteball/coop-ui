@@ -17,3 +17,17 @@ export const setCoopLoading = () => {
 export const setCoopVars = (vars: Record<string, unknown>) => {
   coopStore.setState(() => ({ status: "loaded", vars }));
 };
+
+export const updateCoopVars = (updates: Record<string, unknown>) => {
+  coopStore.setState((prev) => {
+    const vars = { ...prev.vars };
+    for (const [key, value] of Object.entries(updates)) {
+      if (value === false) {
+        delete vars[key];
+      } else {
+        vars[key] = value;
+      }
+    }
+    return { ...prev, vars };
+  });
+};

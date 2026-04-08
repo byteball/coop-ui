@@ -1,7 +1,11 @@
 import client from "#/shared/api/obyte";
 import { env } from "#/shared/config/env";
-import { setCoopLoading, setCoopVars } from "#/entities/coop";
-import { setGovernanceLoading, setGovernanceVars } from "#/entities/governance";
+import { setCoopLoading, setCoopVars, updateCoopVars } from "#/entities/coop";
+import {
+  setGovernanceLoading,
+  setGovernanceVars,
+  updateGovernanceVars,
+} from "#/entities/governance";
 import { hasAssetMetadata, setAssetMetadata } from "#/entities/token";
 import { getAllStateVarsByAddress } from "#/shared/lib/getAllStateVarsByAddress";
 
@@ -69,6 +73,46 @@ export const bootstrap = async () => {
         decimals,
       });
     }
+    // subscribe to AA state changes
+    const coopAa = env.VITE_AA_ADDRESS;
+    const governanceAa = constants.governance_aa;
+
+    client.subscribe((_err: unknown, message: unknown) => {
+      const [, payload] = message as [
+        string,
+        { subject?: string; body?: Record<string, unknown> },
+      ];
+
+      if (payload.subject !== "light/aa_response") return;
+
+      const body = payload.body as
+        | {
+            updatedStateVars?: Record<
+              string,
+              Record<string, { value: unknown }>
+            >;
+          }
+        | undefined;
+
+      if (!body?.updatedStateVars) return;
+
+      for (const [address, stateVars] of Object.entries(
+        body.updatedStateVars,
+      )) {
+        const updates: Record<string, unknown> = {};
+        for (const [key, entry] of Object.entries(stateVars)) {
+          updates[key] = entry.value;
+        }
+
+        if (address === coopAa) {
+          console.info("log: coop state updated", Object.keys(updates));
+          updateCoopVars(updates);
+        } else if (address === governanceAa) {
+          console.info("log: governance state updated", Object.keys(updates));
+          updateGovernanceVars(updates);
+        }
+      }
+    });
   } catch (error) {
     console.error("bootstrap failed:", error);
   }
