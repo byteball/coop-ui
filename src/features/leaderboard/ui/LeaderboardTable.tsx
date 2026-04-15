@@ -36,7 +36,7 @@ export function LeaderboardTable({
   connectedAddress,
 }: LeaderboardTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "total_balance", desc: true },
+    { id: "votes", desc: true },
   ]);
 
   const columns = useMemo(

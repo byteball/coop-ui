@@ -28,12 +28,14 @@ import { buildDepositLink } from "../lib/buildDepositLink";
 import {
   MIN_TERM_DAYS,
   MAX_TERM_DAYS,
-  today,
-  minDate,
-  maxDate,
+  getToday,
+  getMinDate,
+  getMaxDate,
 } from "../lib/constants";
 import { DepositDescription } from "./DepositDescription";
 import { DepositMeta } from "./DepositMeta";
+
+import * as m from "#/paraglide/messages";
 
 type AssetType = "coop" | "gbyte";
 
@@ -71,10 +73,11 @@ export function DepositForm() {
 
   const user = address ? getUser(address) : undefined;
   const effectiveMinDate = useMemo(() => {
-    if (!user?.unlock_date) return minDate;
+    const min = getMinDate();
+    if (!user?.unlock_date) return min;
     const userUnlock = new Date(user.unlock_date);
     userUnlock.setHours(0, 0, 0, 0);
-    return userUnlock > minDate ? userUnlock : minDate;
+    return userUnlock > min ? userUnlock : min;
   }, [user?.unlock_date]);
 
   const form = useForm({
@@ -95,10 +98,10 @@ export function DepositForm() {
         asset: z.enum(["coop", "gbyte"]),
         unlockDate: z.date().refine(
           (d) => {
-            const days = diffDays(today, d);
+            const days = diffDays(getToday(), d);
             return days >= MIN_TERM_DAYS && days <= MAX_TERM_DAYS;
           },
-          { message: "Unlock date must be between 1 and 5 years from now" },
+          { message: m.deposit_error_unlock_date() },
         ),
       }),
     },
@@ -146,11 +149,11 @@ export function DepositForm() {
               const asset = fieldApi.form.getFieldValue("asset");
               const decimals = asset === "coop" ? coopDecimals : gbyteDecimals;
               if (tooManyDecimals(value, decimals)) {
-                return `Maximum ${decimals} decimal places`;
+                return m.deposit_error_decimals({ decimals: String(decimals) });
               }
               const n = Number(value);
               if (isNaN(n) || n <= 0) {
-                return "Enter a positive amount";
+                return m.deposit_error_positive();
               }
               return undefined;
             },
@@ -161,7 +164,7 @@ export function DepositForm() {
               field.state.meta.isTouched && !field.state.meta.isValid;
             return (
               <Field data-invalid={isInvalid || undefined}>
-                <FieldLabel htmlFor={field.name}>Amount</FieldLabel>
+                <FieldLabel htmlFor={field.name}>{m.deposit_amount_label()}</FieldLabel>
                 <div className="flex gap-2">
                   <Input
                     id={field.name}
@@ -214,13 +217,13 @@ export function DepositForm() {
         <form.Field name="unlockDate">
           {(field) => {
             const range: DateRange = {
-              from: today,
+              from: getToday(),
               to: field.state.value,
             };
 
             return (
               <Field>
-                <FieldLabel>Lock period</FieldLabel>
+                <FieldLabel>{m.deposit_lock_period_label()}</FieldLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -229,7 +232,7 @@ export function DepositForm() {
                     >
                       <CalendarIcon className="mr-2 size-4 text-muted-foreground" />
                       <span>
-                        {formatDateShort(today)} –{" "}
+                        {formatDateShort(getToday())} –{" "}
                         {formatDateShort(field.state.value)}
                       </span>
                     </Button>
@@ -245,7 +248,7 @@ export function DepositForm() {
                       }}
                       disabled={[
                         { before: effectiveMinDate },
-                        { after: maxDate },
+                        { after: getMaxDate() },
                       ]}
                       defaultMonth={field.state.value}
                       numberOfMonths={1}
@@ -269,8 +272,11 @@ export function DepositForm() {
             const symbol = values.asset === "coop" ? coopSymbol : "GBYTE";
             const label =
               values.amount && !isNaN(num) && num > 0
-                ? `Deposit ${values.amount} ${symbol}`
-                : "Deposit";
+                ? m.deposit_button_with_amount({
+                    amount: values.amount,
+                    symbol,
+                  })
+                : m.deposit_button();
 
             const href =
               isValid && status === "loaded"

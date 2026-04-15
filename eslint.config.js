@@ -15,6 +15,11 @@ export default [
     },
   },
   {
-    ignores: ["eslint.config.js", "prettier.config.js", "aa/**", "src/paraglide/**"],
+    ignores: [
+      "eslint.config.js",
+      "prettier.config.js",
+      "aa/**",
+      "src/paraglide/**",
+    ],
   },
 ];

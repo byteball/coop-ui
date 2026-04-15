@@ -120,7 +120,8 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
             asChild
             ref={ref}
             className={cn(
-              "cursor-pointer rounded-bl-none rounded-tl-none pl-2",
+              "cursor-pointer rounded-bl-none rounded-tl-none",
+              "pl-2",
               {
                 "pointer-events-none select-none opacity-50": disabled,
               },

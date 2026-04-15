@@ -3,7 +3,12 @@ import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
 import { diffDays } from "#/shared/lib/diffDays";
 import { env } from "#/shared/config/env";
 
-import { MIN_TERM_DAYS, MAX_TERM_DAYS, BOUNCE_FEE, today } from "./constants";
+import {
+  MIN_TERM_DAYS,
+  MAX_TERM_DAYS,
+  BOUNCE_FEE,
+  getToday,
+} from "./constants";
 
 interface BuildDepositLinkParams {
   amount: string;
@@ -31,15 +36,13 @@ export function buildDepositLink({
   if (tooManyDecimals(amount, decimals)) return null;
 
   const parsedAmount = Math.round(num * 10 ** decimals);
-  const term = diffDays(today, unlockDate);
+  const term = diffDays(getToday(), unlockDate);
 
   if (term < MIN_TERM_DAYS || term > MAX_TERM_DAYS) return null;
 
   const data: Record<string, string | number> = { deposit: 1 };
 
-  if (term !== MIN_TERM_DAYS) {
-    data.term = term;
-  }
+  data.term = term;
 
   if (referrer) {
     data.ref = referrer;

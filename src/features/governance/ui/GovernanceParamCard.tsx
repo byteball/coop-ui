@@ -139,7 +139,7 @@ export function GovernanceParamCard({
                       href={commitHref ?? ""}
                       disabled={!commitHref}
                       size="xs"
-                      variant="outline"
+                      variant="link"
                     >
                       Commit
                     </QRButton>

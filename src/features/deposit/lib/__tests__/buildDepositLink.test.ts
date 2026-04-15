@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { buildDepositLink } from "../buildDepositLink";
-import { today, MIN_TERM_DAYS, MAX_TERM_DAYS } from "../constants";
+import { getToday, MIN_TERM_DAYS, MAX_TERM_DAYS } from "../constants";
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -16,7 +16,7 @@ const defaults = {
 };
 
 function unlockDateFromDays(days: number): Date {
-  const d = new Date(today);
+  const d = new Date(getToday());
   d.setDate(d.getDate() + days);
   return d;
 }

@@ -13,6 +13,7 @@ import { Route as LeaderboardRouteImport } from './pages/leaderboard'
 import { Route as GovernanceRouteImport } from './pages/governance'
 import { Route as FaqRouteImport } from './pages/faq'
 import { Route as IndexRouteImport } from './pages/index'
+import { Route as UserAddressRouteImport } from './pages/user.$address'
 
 const LeaderboardRoute = LeaderboardRouteImport.update({
   id: '/leaderboard',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserAddressRoute = UserAddressRouteImport.update({
+  id: '/user/$address',
+  path: '/user/$address',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
   '/governance': typeof GovernanceRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/user/$address': typeof UserAddressRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/faq': typeof FaqRoute
   '/governance': typeof GovernanceRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/user/$address': typeof UserAddressRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/governance': typeof GovernanceRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/user/$address': typeof UserAddressRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/faq' | '/governance' | '/leaderboard'
+  fullPaths: '/' | '/faq' | '/governance' | '/leaderboard' | '/user/$address'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/faq' | '/governance' | '/leaderboard'
-  id: '__root__' | '/' | '/faq' | '/governance' | '/leaderboard'
+  to: '/' | '/faq' | '/governance' | '/leaderboard' | '/user/$address'
+  id:
+    | '__root__'
+    | '/'
+    | '/faq'
+    | '/governance'
+    | '/leaderboard'
+    | '/user/$address'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   GovernanceRoute: typeof GovernanceRoute
   LeaderboardRoute: typeof LeaderboardRoute
+  UserAddressRoute: typeof UserAddressRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/$address': {
+      id: '/user/$address'
+      path: '/user/$address'
+      fullPath: '/user/$address'
+      preLoaderRoute: typeof UserAddressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   GovernanceRoute: GovernanceRoute,
   LeaderboardRoute: LeaderboardRoute,
+  UserAddressRoute: UserAddressRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

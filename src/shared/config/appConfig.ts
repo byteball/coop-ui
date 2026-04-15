@@ -1,3 +1,5 @@
+import { env } from "./env";
+
 export const defaultParams = {
   daily_locked_reward: 0.01,
   daily_liquid_reward: 0.001,
@@ -97,3 +99,25 @@ export const attestationLinks = {
   realName:
     "obyte:AsYnI7C8WuXqb2aLMSr0nfpLC+u3FRSLWwkp1e9ib15Z@obyte.org/bb#0000",
 } as const;
+
+const attestorsByNetwork = {
+  livenet: {
+    telegramAttestors: ["JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS"],
+    discordAttestors: ["5KM36CFPBD2QJLVD65PHZG34WEM4RPY2"],
+    realNameAttestors: ["JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P"],
+  },
+  testnet: {
+    telegramAttestors: [
+      "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N",
+      "JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS",
+    ],
+    discordAttestors: [
+      "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N",
+      "5KM36CFPBD2QJLVD65PHZG34WEM4RPY2",
+    ],
+    realNameAttestors: ["JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P"],
+  },
+} as const;
+
+export const attestors =
+  attestorsByNetwork[env.VITE_TESTNET ? "testnet" : "livenet"];

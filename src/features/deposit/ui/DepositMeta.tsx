@@ -5,6 +5,8 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
 import { getLocale } from "#/shared/i18n";
 
+import * as m from "#/paraglide/messages";
+
 function Skeleton({ className = "w-16" }: { className?: string }) {
   return (
     <span
@@ -45,7 +47,7 @@ export function DepositMeta({
   return (
     <div className="mt-3 flex flex-col gap-2">
       <div className="flex justify-between text-sm text-muted-foreground">
-        <span>Locked until</span>
+        <span>{m.deposit_meta_locked_until()}</span>
         <span className="font-medium text-foreground">
           {unlockDate.toLocaleDateString(getLocale(), {
             year: "numeric",
@@ -56,7 +58,7 @@ export function DepositMeta({
       </div>
       {coopEquivalent !== null && (
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{coopSymbol} equivalent</span>
+          <span>{m.deposit_meta_equivalent({ symbol: coopSymbol })}</span>
           <span className="font-medium text-foreground">
             ≈ {toLocalString(coopEquivalent)} {coopSymbol}
           </span>
@@ -65,7 +67,7 @@ export function DepositMeta({
       {address && (
         <>
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Total {isLoaded ? coopSymbol : "COOP"} balance</span>
+            <span>{m.deposit_meta_total_coop({ symbol: isLoaded ? coopSymbol : "COOP" })}</span>
             <span className="font-medium text-foreground">
               {isLoaded ? (
                 <>
@@ -77,7 +79,7 @@ export function DepositMeta({
             </span>
           </div>
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Total GBYTE balance</span>
+            <span>{m.deposit_meta_total_gbyte({ symbol: "GBYTE" })}</span>
             <span className="font-medium text-foreground">
               {isLoaded ? (
                 <>{toLocalString(newBytesBalance)} GBYTE</>
@@ -90,7 +92,7 @@ export function DepositMeta({
       )}
       {referrer && (
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>Referrer</span>
+          <span>{m.deposit_meta_referrer()}</span>
           <a
             href={getExplorerUrl(referrer, "address")}
             target="_blank"

@@ -4,10 +4,7 @@ import * as m from "#/paraglide/messages";
 import { useWallet } from "#/entities/user";
 import { useCoopState, useAllUsers } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
-import {
-  LeaderboardTable,
-  LeaderboardSkeleton,
-} from "#/features/leaderboard";
+import { LeaderboardTable, LeaderboardSkeleton } from "#/features/leaderboard";
 
 export const Route = createFileRoute("/leaderboard")({
   component: Leaderboard,

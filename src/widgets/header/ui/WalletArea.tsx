@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { Button } from "#/shared/ui/button";
 import { useWallet, clearWalletAddress } from "#/entities/user";
@@ -13,9 +14,13 @@ export function WalletArea() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground">
+      <Link
+        to="/user/$address"
+        params={{ address: address! }}
+        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+      >
         {address!.slice(0, 6)}...{address!.slice(-6)}
-      </span>
+      </Link>
       <Button variant="ghost" size="xs" onClick={clearWalletAddress}>
         <X className="size-3" />
       </Button>

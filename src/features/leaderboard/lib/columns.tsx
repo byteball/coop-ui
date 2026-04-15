@@ -1,10 +1,18 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, ArrowUp, ArrowDown, Info } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import {
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  ExternalLink,
+  Info,
+} from "lucide-react";
 import * as m from "#/paraglide/messages";
 
 import { toLocalString } from "#/shared/lib/toLocalString";
 import { toOrdinal } from "#/shared/lib/toOrdinal";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
+import { useAttestations } from "#/entities/attestation";
 import {
   Tooltip,
   TooltipContent,
@@ -18,6 +26,40 @@ interface GetColumnsOptions {
   gbyteDecimals: number;
   coopSymbol: string;
   connectedAddress?: string;
+}
+
+function AddressCell({ address, isYou }: { address: string; isYou: boolean }) {
+  const { data: attestations } = useAttestations(address);
+  const displayName = attestations?.displayName;
+
+  return (
+    <span className="flex items-center gap-1.5">
+      <Link
+        to="/user/$address"
+        params={{ address }}
+        className="underline-offset-4 hover:underline"
+      >
+        {displayName ?? (
+          <span className="font-mono">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </span>
+        )}
+      </Link>
+      <a
+        href={getExplorerUrl(address, "address")}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-muted-foreground hover:text-foreground"
+      >
+        <ExternalLink className="size-3.5" />
+      </a>
+      {isYou && (
+        <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
+          {m.leaderboard_you()}
+        </span>
+      )}
+    </span>
+  );
 }
 
 function SortIcon({ isSorted }: { isSorted: false | "asc" | "desc" }) {
@@ -39,39 +81,28 @@ export function getColumns({
     {
       id: "rank",
       header: () => m.leaderboard_col_rank(),
-      cell: ({ row }) => (
-        <span className="text-muted-foreground">
-          {toOrdinal(row.index + 1)}
-        </span>
-      ),
+      cell: ({ table, row }) => {
+        const sortedIndex = table
+          .getRowModel()
+          .rows.findIndex((r) => r.id === row.id);
+        return (
+          <span className="text-muted-foreground">
+            {toOrdinal(sortedIndex + 1)}
+          </span>
+        );
+      },
       enableSorting: false,
     },
     {
       id: "address",
       accessorKey: "address",
       header: () => m.leaderboard_col_address(),
-      cell: ({ row }) => {
-        const address = row.original.address;
-        const isYou = connectedAddress === address;
-
-        return (
-          <span className="flex items-center gap-1.5">
-            <a
-              href={getExplorerUrl(address, "address")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono underline-offset-4 hover:underline"
-            >
-              {address.slice(0, 6)}...{address.slice(-4)}
-            </a>
-            {isYou && (
-              <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
-                {m.leaderboard_you()}
-              </span>
-            )}
-          </span>
-        );
-      },
+      cell: ({ row }) => (
+        <AddressCell
+          address={row.original.address}
+          isYou={connectedAddress === row.original.address}
+        />
+      ),
       enableSorting: false,
     },
     {

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import * as m from "#/paraglide/messages";
 
 import { Card } from "#/shared/ui/card";
 import { KitIllustration } from "#/shared/ui/illustrations/kit-illustration";
@@ -30,7 +31,7 @@ function HeroSection() {
             </p>
           </div>
           <div className="ring-foreground/10 rounded-2xl border border-border/50 bg-card/50 p-6 shadow-xl shadow-black/10 ring-1 backdrop-blur">
-            <h2 className="mb-4 text-lg font-semibold">Deposit</h2>
+            <h2 className="mb-4 text-lg font-semibold">{m.deposit_title()}</h2>
             <DepositForm />
           </div>
         </div>
