@@ -51,7 +51,7 @@
   "profile_ineligible_both": "Не может голосовать: нет баланса и срок блокировки слишком мал",
   "vote_button": "Голосовать",
   "vote_button_voted": "Голос ({strength})",
-  "vote_strength_title": "Сила голоса",
+  "vote_strength_title": "Голосовать с силой голоса:",
   "vote_strength_1": "Слабый (1)",
   "vote_strength_2": "Средний (2)",
   "vote_strength_3": "Сильный (3)",

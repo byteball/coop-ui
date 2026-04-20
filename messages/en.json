@@ -51,7 +51,7 @@
   "profile_ineligible_both": "Cannot vote: no locked balance and unlock date is too soon",
   "vote_button": "Vote",
   "vote_button_voted": "Voted ({strength})",
-  "vote_strength_title": "Vote strength",
+  "vote_strength_title": "Vote with vote strength:",
   "vote_strength_1": "Weak (1)",
   "vote_strength_2": "Medium (2)",
   "vote_strength_3": "Strong (3)",

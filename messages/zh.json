@@ -51,7 +51,7 @@
   "profile_ineligible_both": "无法投票：没有锁定余额且锁定期限过短",
   "vote_button": "投票",
   "vote_button_voted": "已投票 ({strength})",
-  "vote_strength_title": "投票强度",
+  "vote_strength_title": "以投票强度投票：",
   "vote_strength_1": "弱 (1)",
   "vote_strength_2": "中 (2)",
   "vote_strength_3": "强 (3)",

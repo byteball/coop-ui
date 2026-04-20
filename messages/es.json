@@ -51,7 +51,7 @@
   "profile_ineligible_both": "No puede votar: sin saldo bloqueado y el periodo de bloqueo es muy corto",
   "vote_button": "Votar",
   "vote_button_voted": "Votado ({strength})",
-  "vote_strength_title": "Fuerza del voto",
+  "vote_strength_title": "Votar con fuerza del voto:",
   "vote_strength_1": "Débil (1)",
   "vote_strength_2": "Medio (2)",
   "vote_strength_3": "Fuerte (3)",
