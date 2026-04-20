@@ -1,6 +1,11 @@
 import { useState } from "react";
 
 import { Button } from "#/shared/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "#/shared/ui/popover";
 import { getLocale, setLocale, locales } from "#/shared/i18n";
 
 const localeFlags: Record<string, string> = {
@@ -24,38 +29,41 @@ export function LocaleSwitcher() {
   const current = getLocale();
 
   return (
-    <div className="relative">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="gap-1.5 text-xs text-muted-foreground"
-        onClick={() => setOpen((v) => !v)}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5 text-xs text-muted-foreground"
+        >
+          <span className="text-base leading-none">{localeFlags[current]}</span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        sideOffset={4}
+        className="min-w-32 w-auto rounded-md border border-border/50 bg-background/90 p-1 shadow-lg backdrop-blur"
       >
-        <span className="text-base leading-none">{localeFlags[current]}</span>
-      </Button>
-      {open && (
-        <div className="absolute right-0 top-full mt-1 z-50 min-w-32 rounded-md border border-border/50 bg-background/90 p-1 shadow-lg backdrop-blur">
-          {locales.map((locale) => (
-            <button
-              key={locale}
-              onClick={() => {
-                setLocale(locale);
-                setOpen(false);
-              }}
-              className={`flex w-full items-center gap-2 rounded px-3 py-1.5 text-left text-xs transition-colors hover:bg-foreground/10 ${
-                locale === current
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground"
-              }`}
-            >
-              <span className="text-base leading-none">
-                {localeFlags[locale]}
-              </span>
-              {localeNames[locale]}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+        {locales.map((locale) => (
+          <button
+            key={locale}
+            onClick={() => {
+              setLocale(locale);
+              setOpen(false);
+            }}
+            className={`flex w-full cursor-pointer items-center gap-2 rounded px-3 py-1.5 text-left text-xs transition-colors hover:bg-foreground/10 ${
+              locale === current
+                ? "text-foreground font-medium"
+                : "text-muted-foreground"
+            }`}
+          >
+            <span className="text-base leading-none">
+              {localeFlags[locale]}
+            </span>
+            {localeNames[locale]}
+          </button>
+        ))}
+      </PopoverContent>
+    </Popover>
   );
 }
