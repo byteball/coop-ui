@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import * as m from "#/paraglide/messages";
 
 import {
   Popover,
@@ -34,10 +35,7 @@ export function WalletProtocolPopover({
             <PopoverTrigger asChild>{children}</PopoverTrigger>
           </TooltipTrigger>
           <TooltipContent className="max-w-[250px]">
-            <p>
-              This will open your Obyte wallet installed on this device to
-              complete the transaction.
-            </p>
+            <p>{m.wallet_popover_tooltip()}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -46,17 +44,30 @@ export function WalletProtocolPopover({
         className="border-white bg-white text-sm text-black shadow-lg"
       >
         <PopoverArrow className="fill-white" />
-        <div>This {triggerType} opens Obyte wallet.</div>
         <div>
-          Not installed? Download it from{" "}
-          <a
-            href="https://obyte.org/#download"
-            target="_blank"
-            rel="noopener"
-            className="text-blue-600 underline underline-offset-4"
-          >
-            obyte.org
-          </a>
+          {triggerType === "link"
+            ? m.wallet_popover_opens_link()
+            : m.wallet_popover_opens_button()}
+        </div>
+        <div>
+          {m
+            .wallet_popover_not_installed({ link: "[LINK]" })
+            .split("[LINK]")
+            .map((part, i) => (
+              <span key={i}>
+                {i > 0 && (
+                  <a
+                    href="https://obyte.org/#download"
+                    target="_blank"
+                    rel="noopener"
+                    className="text-blue-600 underline underline-offset-4"
+                  >
+                    obyte.org
+                  </a>
+                )}
+                {part}
+              </span>
+            ))}
         </div>
       </PopoverContent>
     </Popover>

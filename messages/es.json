@@ -135,5 +135,9 @@
   "governance_desc_real_name_attestors": "Lista de direcciones de atestadores separadas por dos puntos para verificación de nombre real.",
   "qr_tooltip": "Envía la transacción desde tu teléfono móvil",
   "qr_dialog_title": "Escanea este código QR con tu teléfono móvil",
-  "qr_install_prompt": "Instala la billetera Obyte para {ios} o {android} si aún no la tienes"
+  "qr_install_prompt": "Instala la billetera Obyte para {ios} o {android} si aún no la tienes",
+  "wallet_popover_tooltip": "Esto abrirá tu billetera Obyte instalada en este dispositivo para completar la transacción.",
+  "wallet_popover_opens_button": "Este botón abre la billetera Obyte.",
+  "wallet_popover_opens_link": "Este enlace abre la billetera Obyte.",
+  "wallet_popover_not_installed": "¿No está instalada? Descárgala desde {link}"
 }

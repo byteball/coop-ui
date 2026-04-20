@@ -135,5 +135,9 @@
   "governance_desc_real_name_attestors": "用于实名验证的证明人地址列表（冒号分隔）。",
   "qr_tooltip": "从您的手机发送交易",
   "qr_dialog_title": "用您的手机扫描此二维码",
-  "qr_install_prompt": "如果您还没有 Obyte 钱包，请为 {ios} 或 {android} 安装"
+  "qr_install_prompt": "如果您还没有 Obyte 钱包，请为 {ios} 或 {android} 安装",
+  "wallet_popover_tooltip": "这将打开在此设备上安装的 Obyte 钱包以完成交易。",
+  "wallet_popover_opens_button": "此按钮打开 Obyte 钱包。",
+  "wallet_popover_opens_link": "此链接打开 Obyte 钱包。",
+  "wallet_popover_not_installed": "未安装？从 {link} 下载"
 }

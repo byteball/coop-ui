@@ -135,5 +135,9 @@
   "governance_desc_real_name_attestors": "Colon-separated list of attestor addresses for real-name verification.",
   "qr_tooltip": "Send the transaction from your mobile phone",
   "qr_dialog_title": "Scan this QR code with your mobile phone",
-  "qr_install_prompt": "Install Obyte wallet for {ios} or {android} if you don't have one yet"
+  "qr_install_prompt": "Install Obyte wallet for {ios} or {android} if you don't have one yet",
+  "wallet_popover_tooltip": "This will open your Obyte wallet installed on this device to complete the transaction.",
+  "wallet_popover_opens_button": "This button opens Obyte wallet.",
+  "wallet_popover_opens_link": "This link opens Obyte wallet.",
+  "wallet_popover_not_installed": "Not installed? Download it from {link}"
 }

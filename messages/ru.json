@@ -135,5 +135,9 @@
   "governance_desc_real_name_attestors": "Список адресов аттестаторов для верификации реального имени, разделённых двоеточием.",
   "qr_tooltip": "Отправьте транзакцию с мобильного телефона",
   "qr_dialog_title": "Отсканируйте этот QR-код мобильным телефоном",
-  "qr_install_prompt": "Установите кошелёк Obyte для {ios} или {android}, если у вас его ещё нет"
+  "qr_install_prompt": "Установите кошелёк Obyte для {ios} или {android}, если у вас его ещё нет",
+  "wallet_popover_tooltip": "Это откроет кошелёк Obyte, установленный на этом устройстве, для завершения транзакции.",
+  "wallet_popover_opens_button": "Эта кнопка открывает кошелёк Obyte.",
+  "wallet_popover_opens_link": "Эта ссылка открывает кошелёк Obyte.",
+  "wallet_popover_not_installed": "Не установлен? Скачайте с {link}"
 }
