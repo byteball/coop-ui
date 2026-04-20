@@ -10,24 +10,32 @@ import { DepositForm } from "#/features/deposit";
 export const Route = createFileRoute("/")({ component: App });
 
 function HeroSection() {
+  const titleParts = m
+    .hero_title({ contributing: "[CONTRIB]" })
+    .split("[CONTRIB]");
+
   return (
     <section className="py-12 md:py-20">
       <div className="mx-auto max-w-5xl px-6">
         <div className="grid items-start gap-12 md:grid-cols-2">
           <div>
             <span className="text-primary font-mono text-sm uppercase">
-              Cooperative Community
+              {m.hero_label()}
             </span>
             <h1 className="mt-6 text-4xl font-semibold md:text-5xl">
-              Earn rewards for{" "}
-              <span className="bg-linear-to-b from-foreground/50 to-foreground/95 bg-clip-text text-transparent [-webkit-text-stroke:0.5px_var(--color-foreground)]">
-                contributing
-              </span>{" "}
-              to the community
+              {titleParts.map((part, i) => (
+                <span key={i}>
+                  {i > 0 && (
+                    <span className="bg-linear-to-b from-foreground/50 to-foreground/95 bg-clip-text text-transparent [-webkit-text-stroke:0.5px_var(--color-foreground)]">
+                      {m.hero_contributing()}
+                    </span>
+                  )}
+                  {part}
+                </span>
+              ))}
             </h1>
             <p className="text-muted-foreground mt-6 text-balance text-lg">
-              Lock tokens, vote for contributors, and receive daily emission
-              rewards. All governed by the community.
+              {m.hero_subtitle()}
             </p>
           </div>
           <div className="ring-foreground/10 rounded-2xl border border-border/50 bg-card/50 p-6 shadow-xl shadow-black/10 ring-1 backdrop-blur">

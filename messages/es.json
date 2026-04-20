@@ -92,5 +92,9 @@
   "how_it_works_emission_desc": "Se emiten nuevos COOP diariamente — las recompensas bloqueadas aumentan tu saldo, las líquidas se pueden reclamar.",
   "how_it_works_vote_title": "Votar y ganar",
   "how_it_works_vote_desc": "Vota por contribuidores útiles. Más bloqueo — voto más fuerte. Los votos expiran en 3 meses.",
-  "footer_built_on": "Construido en {obyte}"
+  "footer_built_on": "Construido en {obyte}",
+  "hero_label": "Comunidad Cooperativa",
+  "hero_title": "Gana recompensas por {contributing} a la comunidad",
+  "hero_contributing": "contribuir",
+  "hero_subtitle": "Bloquea tokens, vota por contribuidores y recibe recompensas diarias de emisión. Todo gobernado por la comunidad."
 }

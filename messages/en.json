@@ -92,5 +92,9 @@
   "how_it_works_emission_desc": "New COOP is minted daily — locked rewards grow your balance, liquid rewards are claimable.",
   "how_it_works_vote_title": "Vote & Earn",
   "how_it_works_vote_desc": "Vote for useful contributors. Bigger lock — stronger vote. Votes expire in 3 months.",
-  "footer_built_on": "Built on {obyte}"
+  "footer_built_on": "Built on {obyte}",
+  "hero_label": "Cooperative Community",
+  "hero_title": "Earn rewards for {contributing} to the community",
+  "hero_contributing": "contributing",
+  "hero_subtitle": "Lock tokens, vote for contributors, and receive daily emission rewards. All governed by the community."
 }
