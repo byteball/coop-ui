@@ -132,5 +132,8 @@
   "governance_desc_referral_reward": "Recompensa fija en COOP (en unidades mínimas) para el referente y el referido en el primer depósito.",
   "governance_desc_min_balance_instead_of_real_name": "Saldo mínimo de COOP (en unidades mínimas) que exime al usuario de la atestación de nombre real.",
   "governance_desc_messaging_attestors": "Lista de direcciones de atestadores separadas por dos puntos para verificación de Telegram/Discord.",
-  "governance_desc_real_name_attestors": "Lista de direcciones de atestadores separadas por dos puntos para verificación de nombre real."
+  "governance_desc_real_name_attestors": "Lista de direcciones de atestadores separadas por dos puntos para verificación de nombre real.",
+  "qr_tooltip": "Envía la transacción desde tu teléfono móvil",
+  "qr_dialog_title": "Escanea este código QR con tu teléfono móvil",
+  "qr_install_prompt": "Instala la billetera Obyte para {ios} o {android} si aún no la tienes"
 }

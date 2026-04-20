@@ -1,6 +1,7 @@
 import { QrCode } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { forwardRef, useCallback, useState } from "react";
+import * as m from "#/paraglide/messages";
 
 import { openCustomProtocol } from "#/shared/lib/openCustomProtocol";
 import { cn } from "#/shared/lib/utils";
@@ -63,7 +64,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
                 </DialogTrigger>
               </TooltipTrigger>
               <TooltipContent className="max-w-[250px]">
-                <p>Send the transaction from your mobile phone</p>
+                <p>{m.qr_tooltip()}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -71,7 +72,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
           <DialogContent className="sm:max-w-[360px]">
             <DialogHeader className="mb-4 w-full text-center">
               <DialogTitle className="mx-auto max-w-[200px] text-center leading-snug">
-                Scan this QR code <br /> with your mobile phone
+                {m.qr_dialog_title()}
               </DialogTitle>
             </DialogHeader>
             <div className="mx-auto">
@@ -85,25 +86,38 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
               </a>
             </div>
             <div className="mx-auto max-w-[220px] text-center text-xs text-foreground">
-              Install Obyte wallet for{" "}
-              <a
-                className="underline underline-offset-4"
-                rel="noopener"
-                target="_blank"
-                href="https://itunes.apple.com/us/app/byteball/id1147137332?ls=1&mt=8"
-              >
-                iOS
-              </a>{" "}
-              or{" "}
-              <a
-                className="underline underline-offset-4"
-                rel="noopener"
-                target="_blank"
-                href="https://play.google.com/store/apps/details?id=org.byteball.wallet"
-              >
-                Android
-              </a>{" "}
-              if you don't have one yet
+              {m
+                .qr_install_prompt({ ios: "[IOS]", android: "[ANDROID]" })
+                .split(/(\[IOS\]|\[ANDROID\])/)
+                .map((part, i) => {
+                  if (part === "[IOS]") {
+                    return (
+                      <a
+                        key={i}
+                        className="underline underline-offset-4"
+                        rel="noopener"
+                        target="_blank"
+                        href="https://itunes.apple.com/us/app/byteball/id1147137332?ls=1&mt=8"
+                      >
+                        iOS
+                      </a>
+                    );
+                  }
+                  if (part === "[ANDROID]") {
+                    return (
+                      <a
+                        key={i}
+                        className="underline underline-offset-4"
+                        rel="noopener"
+                        target="_blank"
+                        href="https://play.google.com/store/apps/details?id=org.byteball.wallet"
+                      >
+                        Android
+                      </a>
+                    );
+                  }
+                  return <span key={i}>{part}</span>;
+                })}
             </div>
           </DialogContent>
         </Dialog>

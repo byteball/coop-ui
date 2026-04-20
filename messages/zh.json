@@ -132,5 +132,8 @@
   "governance_desc_referral_reward": "首次存款时给推荐人和被推荐人的固定 COOP 奖励（以最小单位计）。",
   "governance_desc_min_balance_instead_of_real_name": "免除用户实名认证的最小 COOP 余额（以最小单位计）。",
   "governance_desc_messaging_attestors": "用于 Telegram/Discord 验证的证明人地址列表（冒号分隔）。",
-  "governance_desc_real_name_attestors": "用于实名验证的证明人地址列表（冒号分隔）。"
+  "governance_desc_real_name_attestors": "用于实名验证的证明人地址列表（冒号分隔）。",
+  "qr_tooltip": "从您的手机发送交易",
+  "qr_dialog_title": "用您的手机扫描此二维码",
+  "qr_install_prompt": "如果您还没有 Obyte 钱包，请为 {ios} 或 {android} 安装"
 }
