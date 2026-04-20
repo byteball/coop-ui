@@ -65,6 +65,8 @@
   "deposit_button_with_amount": "Depositar {amount} {symbol}",
   "deposit_error_positive": "Introduce una cantidad positiva",
   "deposit_error_decimals": "Máximo {decimals} decimales",
+  "deposit_error_invalid_value": "Valor no válido",
+  "deposit_error_max_amount": "La cantidad máxima es {max}",
   "deposit_error_unlock_date": "La fecha de desbloqueo debe ser entre 1 y 5 años desde ahora",
   "deposit_desc_attest": "Antes de depositar, debes estar atestado en {telegram} y/o {discord}. Esto es importante para notificarte sobre recompensas futuras.",
   "deposit_desc_real_name": "Si depositas menos de {minBalance}, debes estar {realName}. Esta medida ayuda a prevenir múltiples cuentas del mismo usuario.",
@@ -75,5 +77,11 @@
   "deposit_meta_equivalent": "Equivalente en {symbol}",
   "deposit_meta_total_coop": "Balance total de {symbol}",
   "deposit_meta_total_gbyte": "Balance total de {symbol}",
-  "deposit_meta_referrer": "Referente"
+  "deposit_meta_referrer": "Referente",
+  "deposit_banner_title": "Aún no puedes votar ni recibir distribuciones",
+  "deposit_banner_no_balance": "Deposita y bloquea tokens para ser elegible.",
+  "deposit_banner_short_lock": "Extiende tu periodo de bloqueo a al menos 1 año para ser elegible.",
+  "deposit_banner_both": "Deposita tokens y bloquéalos por al menos 1 año para ser elegible.",
+  "deposit_banner_cta": "Hacer un depósito",
+  "deposit_dialog_title": "Depósito"
 }

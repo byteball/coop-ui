@@ -65,6 +65,8 @@
   "deposit_button_with_amount": "Депозит {amount} {symbol}",
   "deposit_error_positive": "Введіть додатну суму",
   "deposit_error_decimals": "Максимум {decimals} знаків після коми",
+  "deposit_error_invalid_value": "Некоректне значення",
+  "deposit_error_max_amount": "Максимальна сума — {max}",
   "deposit_error_unlock_date": "Дата розблокування має бути від 1 до 5 років від зараз",
   "deposit_desc_attest": "Перед депозитом необхідно пройти атестацію в {telegram} та/або {discord}. Це важливо для отримання сповіщень про майбутні нагороди.",
   "deposit_desc_real_name": "Якщо ви депонуєте менше {minBalance}, необхідно пройти {realName}. Це допомагає запобігти створенню кількох акаунтів одним користувачем.",
@@ -75,5 +77,11 @@
   "deposit_meta_equivalent": "Еквівалент {symbol}",
   "deposit_meta_total_coop": "Загальний баланс {symbol}",
   "deposit_meta_total_gbyte": "Загальний баланс {symbol}",
-  "deposit_meta_referrer": "Реферер"
+  "deposit_meta_referrer": "Реферер",
+  "deposit_banner_title": "Ви поки не можете голосувати та отримувати розподіли",
+  "deposit_banner_no_balance": "Внесіть депозит та заблокуйте токени, щоб стати учасником.",
+  "deposit_banner_short_lock": "Продовжте термін блокування мінімум до 1 року, щоб стати учасником.",
+  "deposit_banner_both": "Внесіть токени та заблокуйте їх мінімум на 1 рік, щоб стати учасником.",
+  "deposit_banner_cta": "Зробити депозит",
+  "deposit_dialog_title": "Депозит"
 }

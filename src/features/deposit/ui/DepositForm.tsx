@@ -28,6 +28,7 @@ import { buildDepositLink } from "../lib/buildDepositLink";
 import {
   MIN_TERM_DAYS,
   MAX_TERM_DAYS,
+  MAX_AMOUNT,
   getToday,
   getMinDate,
   getMaxDate,
@@ -88,13 +89,26 @@ export function DepositForm() {
     },
     validators: {
       onSubmit: z.object({
-        amount: z.string().refine(
-          (v) => {
-            const n = Number(v);
-            return v !== "" && !isNaN(n) && n > 0;
-          },
-          { message: "Enter a positive amount" },
-        ),
+        amount: z
+          .string()
+          .refine(
+            (v) => {
+              const n = Number(v);
+              return v !== "" && !isNaN(n) && n > 0;
+            },
+            { message: "Enter a positive amount" },
+          )
+          .refine(
+            (v) => {
+              const n = Number(v);
+              return isNaN(n) || n <= MAX_AMOUNT;
+            },
+            {
+              message: m.deposit_error_max_amount({
+                max: String(MAX_AMOUNT),
+              }),
+            },
+          ),
         asset: z.enum(["coop", "gbyte"]),
         unlockDate: z.date().refine(
           (d) => {
@@ -154,6 +168,11 @@ export function DepositForm() {
               const n = Number(value);
               if (isNaN(n) || n <= 0) {
                 return m.deposit_error_positive();
+              }
+              if (n > MAX_AMOUNT) {
+                return m.deposit_error_max_amount({
+                  max: String(MAX_AMOUNT),
+                });
               }
               return undefined;
             },
@@ -271,7 +290,7 @@ export function DepositForm() {
             const num = Number(values.amount);
             const symbol = values.asset === "coop" ? coopSymbol : "GBYTE";
             const label =
-              values.amount && !isNaN(num) && num > 0
+              isValid && values.amount && !isNaN(num) && num > 0
                 ? m.deposit_button_with_amount({
                     amount: values.amount,
                     symbol,

@@ -14,6 +14,7 @@ import {
   ProfileSkeleton,
 } from "#/features/profile";
 import { VoteButton } from "#/features/voting";
+import { DepositBanner } from "#/features/deposit";
 
 export const Route = createFileRoute("/user/$address")({
   component: UserProfile,
@@ -57,6 +58,7 @@ function UserProfile() {
 
   return (
     <div className="space-y-10">
+      <DepositBanner user={user} address={address} />
       <div className="flex items-start justify-between gap-4">
         <ProfileHeader address={address} user={user} />
         <VoteButton address={address} />

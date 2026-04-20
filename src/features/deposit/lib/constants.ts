@@ -1,6 +1,7 @@
 export const MIN_TERM_DAYS = 365;
 export const MAX_TERM_DAYS = 5 * 365;
 export const BOUNCE_FEE = 10000;
+export const MAX_AMOUNT = 999999;
 
 export function getToday(): Date {
   const d = new Date();

@@ -65,6 +65,8 @@
   "deposit_button_with_amount": "存款 {amount} {symbol}",
   "deposit_error_positive": "请输入正数金额",
   "deposit_error_decimals": "最多 {decimals} 位小数",
+  "deposit_error_invalid_value": "无效值",
+  "deposit_error_max_amount": "最大金额为 {max}",
   "deposit_error_unlock_date": "解锁日期必须在1到5年之间",
   "deposit_desc_attest": "存款前，您必须在 {telegram} 和/或 {discord} 上完成认证。这对于通知您未来的奖励非常重要。",
   "deposit_desc_real_name": "如果您存款少于 {minBalance}，您必须进行{realName}。此措施有助于防止同一用户创建多个账户。",
@@ -75,5 +77,11 @@
   "deposit_meta_equivalent": "{symbol} 等值",
   "deposit_meta_total_coop": "{symbol} 总余额",
   "deposit_meta_total_gbyte": "{symbol} 总余额",
-  "deposit_meta_referrer": "推荐人"
+  "deposit_meta_referrer": "推荐人",
+  "deposit_banner_title": "您尚不具备投票和获得分配的资格",
+  "deposit_banner_no_balance": "存入并锁定代币以成为合格参与者。",
+  "deposit_banner_short_lock": "将锁定期限延长至至少1年以成为合格参与者。",
+  "deposit_banner_both": "存入代币并锁定至少1年以成为合格参与者。",
+  "deposit_banner_cta": "进行存款",
+  "deposit_dialog_title": "存款"
 }

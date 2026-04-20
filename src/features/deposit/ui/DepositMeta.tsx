@@ -69,22 +69,26 @@ export function DepositMeta({
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>{m.deposit_meta_total_coop({ symbol: isLoaded ? coopSymbol : "COOP" })}</span>
             <span className="font-medium text-foreground">
-              {isLoaded ? (
+              {!isLoaded ? (
+                <Skeleton className="w-20" />
+              ) : !isValid ? (
+                m.deposit_error_invalid_value()
+              ) : (
                 <>
                   {toLocalString(newCoopBalance)} {coopSymbol}
                 </>
-              ) : (
-                <Skeleton className="w-20" />
               )}
             </span>
           </div>
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>{m.deposit_meta_total_gbyte({ symbol: "GBYTE" })}</span>
             <span className="font-medium text-foreground">
-              {isLoaded ? (
-                <>{toLocalString(newBytesBalance)} GBYTE</>
-              ) : (
+              {!isLoaded ? (
                 <Skeleton className="w-20" />
+              ) : !isValid ? (
+                m.deposit_error_invalid_value()
+              ) : (
+                <>{toLocalString(newBytesBalance)} GBYTE</>
               )}
             </span>
           </div>
