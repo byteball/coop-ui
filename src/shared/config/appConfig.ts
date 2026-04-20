@@ -50,6 +50,11 @@ export const attestationLinks = {
     "obyte:AsYnI7C8WuXqb2aLMSr0nfpLC+u3FRSLWwkp1e9ib15Z@obyte.org/bb#0000",
 } as const;
 
+export const obyteServiceUrls = {
+  city: (address: string) => `https://city.obyte.org/user/${address}`,
+  friends: (address: string) => `https://friends.obyte.org/${address}`,
+} as const;
+
 const attestorsByNetwork = {
   livenet: {
     telegramAttestors: ["JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS"],
