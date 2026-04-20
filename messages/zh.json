@@ -68,7 +68,7 @@
   "deposit_error_invalid_value": "无效值",
   "deposit_error_max_amount": "最大金额为 {max}",
   "deposit_error_unlock_date": "解锁日期必须在1到5年之间",
-  "deposit_desc_attest": "存款前，您必须在 {telegram} 和/或 {discord} 上完成认证。这对于通知您未来的奖励非常重要。",
+  "deposit_desc_attest": "存款前，您必须在 {telegram} 和/或 {discord} 上完成认证。",
   "deposit_desc_real_name": "如果您存款少于 {minBalance}，您必须进行{realName}。此措施有助于防止同一用户创建多个账户。",
   "deposit_desc_telegram": "Telegram",
   "deposit_desc_discord": "Discord",

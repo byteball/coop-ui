@@ -68,7 +68,7 @@
   "deposit_error_invalid_value": "Некоректне значення",
   "deposit_error_max_amount": "Максимальна сума — {max}",
   "deposit_error_unlock_date": "Дата розблокування має бути від 1 до 5 років від зараз",
-  "deposit_desc_attest": "Перед депозитом необхідно пройти атестацію в {telegram} та/або {discord}. Це важливо для отримання сповіщень про майбутні нагороди.",
+  "deposit_desc_attest": "Перед депозитом необхідно пройти атестацію в {telegram} та/або {discord}.",
   "deposit_desc_real_name": "Якщо ви депонуєте менше {minBalance}, необхідно пройти {realName}. Це допомагає запобігти створенню кількох акаунтів одним користувачем.",
   "deposit_desc_telegram": "Telegram",
   "deposit_desc_discord": "Discord",

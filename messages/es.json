@@ -68,7 +68,7 @@
   "deposit_error_invalid_value": "Valor no válido",
   "deposit_error_max_amount": "La cantidad máxima es {max}",
   "deposit_error_unlock_date": "La fecha de desbloqueo debe ser entre 1 y 5 años desde ahora",
-  "deposit_desc_attest": "Antes de depositar, debes estar atestado en {telegram} y/o {discord}. Esto es importante para notificarte sobre recompensas futuras.",
+  "deposit_desc_attest": "Antes de depositar, debes estar atestado en {telegram} y/o {discord}.",
   "deposit_desc_real_name": "Si depositas menos de {minBalance}, debes estar {realName}. Esta medida ayuda a prevenir múltiples cuentas del mismo usuario.",
   "deposit_desc_telegram": "Telegram",
   "deposit_desc_discord": "Discord",
