@@ -1,17 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  ExternalLink,
-  Info,
-} from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, Info } from "lucide-react";
 import * as m from "#/paraglide/messages";
 
 import { toLocalString } from "#/shared/lib/toLocalString";
 import { toOrdinal } from "#/shared/lib/toOrdinal";
-import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
 import { useAttestations } from "#/entities/attestation";
 import {
   Tooltip,
@@ -45,14 +38,6 @@ function AddressCell({ address, isYou }: { address: string; isYou: boolean }) {
           </span>
         )}
       </Link>
-      <a
-        href={getExplorerUrl(address, "address")}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-muted-foreground hover:text-foreground"
-      >
-        <ExternalLink className="size-3.5" />
-      </a>
       {isYou && (
         <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
           {m.leaderboard_you()}
