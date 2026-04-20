@@ -65,7 +65,7 @@
   "vote_unvote": "取消投票",
   "vote_self": "自我投票是自动的",
   "vote_connect_wallet": "添加钱包以投票",
-  "profile_votes_list_title": "投票者",
+  "profile_votes_list_title": "为 {name} 投票的人",
   "deposit_amount_label": "金额",
   "deposit_lock_period_label": "锁定期限",
   "deposit_lock_days": "{days} 天",

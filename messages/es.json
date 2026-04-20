@@ -65,7 +65,7 @@
   "vote_unvote": "Eliminar voto",
   "vote_self": "El voto propio es automático",
   "vote_connect_wallet": "Añade tu billetera para votar",
-  "profile_votes_list_title": "Votantes",
+  "profile_votes_list_title": "Votantes por {name}",
   "deposit_amount_label": "Cantidad",
   "deposit_lock_period_label": "Periodo de bloqueo",
   "deposit_lock_days": "{days} días",

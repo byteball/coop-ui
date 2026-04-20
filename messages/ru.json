@@ -65,7 +65,7 @@
   "vote_unvote": "Убрать голос",
   "vote_self": "Голос за себя добавляется автоматически",
   "vote_connect_wallet": "Добавьте кошелёк для голосования",
-  "profile_votes_list_title": "Голосовавшие",
+  "profile_votes_list_title": "Голосовавшие за {name}",
   "deposit_amount_label": "Сумма",
   "deposit_lock_period_label": "Срок блокировки",
   "deposit_lock_days": "{days} дней",
