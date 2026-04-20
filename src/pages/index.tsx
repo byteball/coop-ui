@@ -50,14 +50,14 @@ function FeaturesSection() {
               How it works
             </span>
             <h2 className="text-foreground mt-4 text-3xl font-semibold md:text-4xl">
-              Deposit, vote, earn
+              Lock, vote, earn
             </h2>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             <Card className="grid grid-rows-[auto_1fr] gap-6 rounded-2xl border border-border/50 p-6 shadow-lg shadow-black/10">
               <div className="text-balance">
                 <h3 className="text-foreground font-semibold">
-                  Deposit & Lock
+                  Lock tokens
                 </h3>
                 <p className="text-muted-foreground mt-2 text-sm">
                   Lock COOP or GBYTE for 1+ year to earn voting power and

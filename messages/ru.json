@@ -3,7 +3,7 @@
   "nav_leaderboard": "Рейтинг",
   "nav_governance": "Управление",
   "nav_faq": "Вопросы",
-  "deposit_title": "Депозит",
+  "deposit_title": "Заблокировать токены",
   "home_page": "Главная",
   "language_label": "Язык",
   "current_locale": "Текущий язык: {locale}",
@@ -61,8 +61,8 @@
   "profile_votes_list_title": "Голосовавшие",
   "deposit_amount_label": "Сумма",
   "deposit_lock_period_label": "Срок блокировки",
-  "deposit_button": "Депозит",
-  "deposit_button_with_amount": "Депозит {amount} {symbol}",
+  "deposit_button": "Заблокировать токены",
+  "deposit_button_with_amount": "Заблокировать {amount} {symbol}",
   "deposit_error_positive": "Введите положительную сумму",
   "deposit_error_decimals": "Максимум {decimals} знаков после запятой",
   "deposit_error_invalid_value": "Некорректное значение",
@@ -82,6 +82,6 @@
   "deposit_banner_no_balance": "Внесите депозит и заблокируйте токены, чтобы стать участником.",
   "deposit_banner_short_lock": "Продлите срок блокировки минимум до 1 года, чтобы стать участником.",
   "deposit_banner_both": "Внесите токены и заблокируйте их минимум на 1 год, чтобы стать участником.",
-  "deposit_banner_cta": "Сделать депозит",
-  "deposit_dialog_title": "Депозит"
+  "deposit_banner_cta": "Заблокировать токены",
+  "deposit_dialog_title": "Заблокировать токены"
 }

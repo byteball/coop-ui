@@ -3,7 +3,7 @@
   "nav_leaderboard": "Clasificación",
   "nav_governance": "Gobernanza",
   "nav_faq": "Preguntas frecuentes",
-  "deposit_title": "Depósito",
+  "deposit_title": "Bloquear tokens",
   "home_page": "Página principal",
   "language_label": "Idioma",
   "current_locale": "Idioma actual: {locale}",
@@ -61,8 +61,8 @@
   "profile_votes_list_title": "Votantes",
   "deposit_amount_label": "Cantidad",
   "deposit_lock_period_label": "Periodo de bloqueo",
-  "deposit_button": "Depositar",
-  "deposit_button_with_amount": "Depositar {amount} {symbol}",
+  "deposit_button": "Bloquear tokens",
+  "deposit_button_with_amount": "Bloquear {amount} {symbol}",
   "deposit_error_positive": "Introduce una cantidad positiva",
   "deposit_error_decimals": "Máximo {decimals} decimales",
   "deposit_error_invalid_value": "Valor no válido",
@@ -82,6 +82,6 @@
   "deposit_banner_no_balance": "Deposita y bloquea tokens para ser elegible.",
   "deposit_banner_short_lock": "Extiende tu periodo de bloqueo a al menos 1 año para ser elegible.",
   "deposit_banner_both": "Deposita tokens y bloquéalos por al menos 1 año para ser elegible.",
-  "deposit_banner_cta": "Hacer un depósito",
-  "deposit_dialog_title": "Depósito"
+  "deposit_banner_cta": "Bloquear tokens",
+  "deposit_dialog_title": "Bloquear tokens"
 }

@@ -3,7 +3,7 @@
   "nav_leaderboard": "排行榜",
   "nav_governance": "治理",
   "nav_faq": "常见问题",
-  "deposit_title": "存款",
+  "deposit_title": "锁定代币",
   "home_page": "首页",
   "language_label": "语言",
   "current_locale": "当前语言: {locale}",
@@ -61,8 +61,8 @@
   "profile_votes_list_title": "投票者",
   "deposit_amount_label": "金额",
   "deposit_lock_period_label": "锁定期限",
-  "deposit_button": "存款",
-  "deposit_button_with_amount": "存款 {amount} {symbol}",
+  "deposit_button": "锁定代币",
+  "deposit_button_with_amount": "锁定 {amount} {symbol}",
   "deposit_error_positive": "请输入正数金额",
   "deposit_error_decimals": "最多 {decimals} 位小数",
   "deposit_error_invalid_value": "无效值",
@@ -82,6 +82,6 @@
   "deposit_banner_no_balance": "存入并锁定代币以成为合格参与者。",
   "deposit_banner_short_lock": "将锁定期限延长至至少1年以成为合格参与者。",
   "deposit_banner_both": "存入代币并锁定至少1年以成为合格参与者。",
-  "deposit_banner_cta": "进行存款",
-  "deposit_dialog_title": "存款"
+  "deposit_banner_cta": "锁定代币",
+  "deposit_dialog_title": "锁定代币"
 }

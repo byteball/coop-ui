@@ -3,7 +3,7 @@
   "nav_leaderboard": "Leaderboard",
   "nav_governance": "Governance",
   "nav_faq": "F.A.Q.",
-  "deposit_title": "Deposit",
+  "deposit_title": "Lock tokens",
   "home_page": "Home page",
   "language_label": "Language",
   "current_locale": "Current locale: {locale}",
@@ -61,8 +61,8 @@
   "profile_votes_list_title": "Voters",
   "deposit_amount_label": "Amount",
   "deposit_lock_period_label": "Lock period",
-  "deposit_button": "Deposit",
-  "deposit_button_with_amount": "Deposit {amount} {symbol}",
+  "deposit_button": "Lock tokens",
+  "deposit_button_with_amount": "Lock {amount} {symbol}",
   "deposit_error_positive": "Enter a positive amount",
   "deposit_error_decimals": "Maximum {decimals} decimal places",
   "deposit_error_invalid_value": "Invalid value",
@@ -82,6 +82,6 @@
   "deposit_banner_no_balance": "Deposit and lock tokens to become eligible.",
   "deposit_banner_short_lock": "Extend your lock period to at least 1 year to become eligible.",
   "deposit_banner_both": "Deposit tokens and lock them for at least 1 year to become eligible.",
-  "deposit_banner_cta": "Make a deposit",
-  "deposit_dialog_title": "Deposit"
+  "deposit_banner_cta": "Lock tokens",
+  "deposit_dialog_title": "Lock tokens"
 }
