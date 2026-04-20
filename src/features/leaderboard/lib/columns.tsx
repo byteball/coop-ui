@@ -4,7 +4,6 @@ import { ArrowUpDown, ArrowUp, ArrowDown, Info } from "lucide-react";
 import * as m from "#/paraglide/messages";
 
 import { toLocalString } from "#/shared/lib/toLocalString";
-import { toOrdinal } from "#/shared/lib/toOrdinal";
 import { useAttestations } from "#/entities/attestation";
 import {
   Tooltip,
@@ -71,9 +70,7 @@ export function getColumns({
           .getRowModel()
           .rows.findIndex((r) => r.id === row.id);
         return (
-          <span className="text-muted-foreground">
-            {toOrdinal(sortedIndex + 1)}
-          </span>
+          <span className="text-muted-foreground">{sortedIndex + 1}</span>
         );
       },
       enableSorting: false,
