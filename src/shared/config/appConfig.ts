@@ -55,6 +55,11 @@ export const obyteServiceUrls = {
   friends: (address: string) => `https://friends.obyte.org/${address}`,
 } as const;
 
+export const obyteCommunityUrls = {
+  telegram: "https://t.me/obyteorg",
+  discord: "https://discord.obyte.org/",
+} as const;
+
 const attestorsByNetwork = {
   livenet: {
     telegramAttestors: ["JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS"],

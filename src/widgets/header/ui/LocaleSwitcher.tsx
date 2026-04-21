@@ -51,7 +51,7 @@ export function LocaleSwitcher() {
               setLocale(locale);
               setOpen(false);
             }}
-            className={`flex w-full cursor-pointer items-center gap-2 rounded px-3 py-1.5 text-left text-xs transition-colors hover:bg-foreground/10 ${
+            className={`flex w-full cursor-pointer items-center gap-2 rounded px-3 py-1.5 text-left text-xs transition-colors hover:bg-foreground/10 focus:outline-none focus-visible:outline-none ${
               locale === current
                 ? "text-foreground font-medium"
                 : "text-muted-foreground"

@@ -168,7 +168,7 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-52 p-1" align="start">
-        <PopoverTitle className="px-2 py-1.5 text-sm">
+        <PopoverTitle className="px-2 py-1.5 text-sm text-muted-foreground">
           {m.vote_strength_title()}
         </PopoverTitle>
         <div className="mt-1 grid">
@@ -178,7 +178,7 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
               <button
                 key={strength}
                 onClick={() => handleVote(strength)}
-                className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
+                className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:outline-none focus-visible:outline-none"
               >
                 <span>{label()}</span>
                 {isCurrent && <Check className="size-4" />}
@@ -190,7 +190,7 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
         <button
           onClick={() => handleVote(0)}
           disabled={!hasVoted}
-          className="flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent disabled:pointer-events-none disabled:opacity-50"
+          className="flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent focus:outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {m.vote_unvote()}
         </button>
