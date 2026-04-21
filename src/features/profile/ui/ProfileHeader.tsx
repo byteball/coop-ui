@@ -245,6 +245,31 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
         )}
       </div>
 
+      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+        <a
+          href={obyteServiceUrls.city(address)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-x-2 underline-offset-4 hover:underline"
+        >
+          <Building2
+            className="size-4 text-muted-foreground"
+            strokeWidth={1.5}
+          />
+          <span>{m.profile_badge_city()}</span>
+        </a>
+
+        <a
+          href={obyteServiceUrls.friends(address)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-x-2 underline-offset-4 hover:underline"
+        >
+          <Users className="size-4 text-muted-foreground" strokeWidth={1.5} />
+          <span>{m.profile_badge_friends()}</span>
+        </a>
+      </div>
+
       {(() => {
         if (isYou) {
           const items: ReactNode[] = [];
@@ -322,31 +347,6 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
 
         return <p className="text-sm text-muted-foreground">{sentence}</p>;
       })()}
-
-      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
-        <a
-          href={obyteServiceUrls.city(address)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-x-2 underline-offset-4 hover:underline"
-        >
-          <Building2
-            className="size-4 text-muted-foreground"
-            strokeWidth={1.5}
-          />
-          <span>{m.profile_badge_city()}</span>
-        </a>
-
-        <a
-          href={obyteServiceUrls.friends(address)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-x-2 underline-offset-4 hover:underline"
-        >
-          <Users className="size-4 text-muted-foreground" strokeWidth={1.5} />
-          <span>{m.profile_badge_friends()}</span>
-        </a>
-      </div>
     </div>
   );
 };
