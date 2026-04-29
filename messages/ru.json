@@ -63,7 +63,7 @@
   "vote_strength_2": "Средний (2)",
   "vote_strength_3": "Сильный (3)",
   "vote_unvote": "Убрать голос",
-  "vote_self": "Голос за себя добавляется автоматически",
+  "vote_self": "Голос за себя добавляется автоматически, когда вы голосуете за других",
   "vote_connect_wallet": "Добавьте кошелёк для голосования",
   "profile_votes_list_title": "Голоса за {name}",
   "profile_votes_given_title": "Голоса {name}",

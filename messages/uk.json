@@ -63,7 +63,7 @@
   "vote_strength_2": "Середній (2)",
   "vote_strength_3": "Сильний (3)",
   "vote_unvote": "Видалити голос",
-  "vote_self": "Голос за себе додається автоматично",
+  "vote_self": "Голос за себе додається автоматично, коли ви голосуєте за інших",
   "vote_connect_wallet": "Додайте гаманець для голосування",
   "profile_votes_list_title": "Голоси за {name}",
   "profile_votes_given_title": "Голоси {name}",

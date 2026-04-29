@@ -63,7 +63,7 @@
   "vote_strength_2": "Medio (2)",
   "vote_strength_3": "Fuerte (3)",
   "vote_unvote": "Eliminar voto",
-  "vote_self": "El voto propio es automático",
+  "vote_self": "El voto propio es automático cuando votas por otros",
   "vote_connect_wallet": "Añade tu billetera para votar",
   "profile_votes_list_title": "Votos por {name}",
   "profile_votes_given_title": "Votos de {name}",
