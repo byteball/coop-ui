@@ -3,13 +3,24 @@ import type { FC } from "react";
 import { Card, CardContent, CardHeader } from "#/shared/ui/card";
 import { Skeleton } from "#/shared/ui/skeleton";
 
-export const ProfileSkeleton: FC = () => (
+interface ProfileSkeletonProps {
+  isYou?: boolean;
+}
+
+export const ProfileSkeleton: FC<ProfileSkeletonProps> = ({ isYou = false }) => (
   <div className="space-y-10">
-    <div className="flex items-center gap-4">
-      <Skeleton className="size-16 rounded-full md:size-20" />
-      <div className="flex flex-col gap-2">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-4 w-64" />
+    <div className="flex flex-col gap-3">
+      <div className="mb-3 flex items-center gap-4">
+        <Skeleton className="size-16 rounded-full md:size-20" />
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-4 w-72" />
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-x-4 gap-y-2">
+        <Skeleton className="h-5 w-20" />
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-5 w-16" />
       </div>
     </div>
 
@@ -34,9 +45,35 @@ export const ProfileSkeleton: FC = () => (
         </CardContent>
       </Card>
 
+      {isYou && (
+        <Card className="col-span-6">
+          <CardContent>
+            <Skeleton className="h-5 w-32" />
+            <div className="mt-4 grid gap-4">
+              <Skeleton className="h-9 w-full" />
+              <Skeleton className="h-9 w-full" />
+              <Skeleton className="h-2 w-full" />
+              <Skeleton className="h-9 w-1/3" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <Card className="col-span-6 lg:col-span-3">
         <CardHeader>
-          <Skeleton className="h-5 w-20" />
+          <Skeleton className="h-5 w-32" />
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="col-span-6 lg:col-span-3">
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
         </CardHeader>
         <CardContent>
           <div className="grid gap-3">

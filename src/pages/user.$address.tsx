@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import obyte from "obyte";
 import * as m from "#/paraglide/messages";
 
+import { Card, CardContent, CardTitle } from "#/shared/ui/card";
+import { useWallet } from "#/entities/user";
 import { useCoopState } from "#/entities/coop";
 import type { CoopUser } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
@@ -15,7 +17,7 @@ import {
   ProfileSkeleton,
 } from "#/features/profile";
 import { VoteButton } from "#/features/voting";
-import { DepositBanner } from "#/features/deposit";
+import { DepositBanner, DepositForm } from "#/features/deposit";
 
 export const Route = createFileRoute("/user/$address")({
   component: UserProfile,
@@ -23,14 +25,16 @@ export const Route = createFileRoute("/user/$address")({
 
 function UserProfile() {
   const { address } = Route.useParams();
+  const { address: connectedAddress } = useWallet();
   const { status, constants, getUser } = useCoopState();
+  const isYou = connectedAddress === address;
   const { coopDecimals, gbyteDecimals, coopSymbol, gbyteSymbol } = useAssetInfo(
     constants?.asset,
   );
   const isLoaded = status === "loaded";
   const isValidAddress = obyte.utils.isValidAddress(address);
 
-  if (!isLoaded) return <ProfileSkeleton />;
+  if (!isLoaded) return <ProfileSkeleton isYou={isYou} />;
 
   if (!isValidAddress) {
     return (
@@ -85,6 +89,19 @@ function UserProfile() {
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <VotesCard totalVotes={user.votes ?? 0} />
         </div>
+
+        {isYou && (
+          <div className="col-span-6">
+            <Card>
+              <CardContent>
+                <CardTitle>{m.deposit_title()}</CardTitle>
+                <div className="mt-4">
+                  <DepositForm />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <div className="col-span-6 lg:col-span-3">
           <VotesList address={address} />
