@@ -156,9 +156,11 @@ export const BalanceCard: FC<BalanceCardProps> = ({
             {m.profile_unlock_date()}
           </span>
           <span>
-            {user.unlock_date
-              ? formatDateShort(new Date(user.unlock_date))
-              : m.profile_unlocked()}
+            {user.total_balance === 0
+              ? m.profile_not_locked_yet()
+              : user.unlock_date
+                ? formatDateShort(new Date(user.unlock_date))
+                : m.profile_unlocked()}
           </span>
         </div>
       </CardContent>
