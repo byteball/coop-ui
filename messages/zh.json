@@ -26,7 +26,7 @@
   "profile_not_found_description": "该地址没有 COOP 账户。",
   "profile_balance_title": "总余额",
   "profile_rewards_title": "奖励",
-  "profile_votes_title": "投票",
+  "profile_votes_title": "收到的投票",
   "profile_coop_balance": "COOP 余额",
   "profile_gbyte_balance": "GBYTE 余额",
   "profile_liquid_balance": "流动余额",

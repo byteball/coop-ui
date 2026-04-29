@@ -26,7 +26,7 @@
   "profile_not_found_description": "This address has no COOP account.",
   "profile_balance_title": "Total Balance",
   "profile_rewards_title": "Total Rewards",
-  "profile_votes_title": "Votes",
+  "profile_votes_title": "Votes received",
   "profile_coop_balance": "COOP Balance",
   "profile_gbyte_balance": "GBYTE Balance",
   "profile_liquid_balance": "Liquid Balance",
