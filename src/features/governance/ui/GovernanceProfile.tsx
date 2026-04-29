@@ -58,10 +58,7 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
         <div className="flex items-center gap-6 text-sm">
           <div className="flex items-center gap-1">
             <span className="text-muted-foreground">
-              {m.governance_profile_balance()}{" "}
-            </span>
-            <span className="font-medium">
-              {toLocalString(totalBalance / 1e9)} {coopSymbol}
+              {m.governance_profile_balance()}
             </span>
             <TooltipProvider>
               <Tooltip>
@@ -75,12 +72,14 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            <span className="font-medium">
+              {toLocalString(totalBalance / 1e9)} {coopSymbol}
+            </span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-muted-foreground">
-              {m.governance_profile_voting_power()}{" "}
+              {m.governance_profile_voting_power()}
             </span>
-            <span className="font-medium">{toLocalString(votingPower)}</span>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -93,6 +92,7 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+            <span className="font-medium">{toLocalString(votingPower)}</span>
           </div>
         </div>
       </CardContent>
