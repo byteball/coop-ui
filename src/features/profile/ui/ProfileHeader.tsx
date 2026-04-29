@@ -34,11 +34,21 @@ interface ProfileHeaderProps {
 function getEligibilityTooltip(
   hasBalance: boolean,
   hasLockPeriod: boolean,
+  isYou: boolean,
+  name: string,
 ): string {
   if (hasBalance && hasLockPeriod) return m.profile_eligible_tooltip();
-  if (!hasBalance && !hasLockPeriod) return m.profile_ineligible_both();
-  if (!hasBalance) return m.profile_ineligible_no_balance();
-  return m.profile_ineligible_short_lock();
+  if (!hasBalance && !hasLockPeriod)
+    return isYou
+      ? m.profile_ineligible_both_self()
+      : m.profile_ineligible_both({ name });
+  if (!hasBalance)
+    return isYou
+      ? m.profile_ineligible_no_balance_self()
+      : m.profile_ineligible_no_balance({ name });
+  return isYou
+    ? m.profile_ineligible_short_lock_self()
+    : m.profile_ineligible_short_lock({ name });
 }
 
 const linkClass =
@@ -134,7 +144,12 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  {getEligibilityTooltip(hasBalance, hasLockPeriod)}
+                  {getEligibilityTooltip(
+                    hasBalance,
+                    hasLockPeriod,
+                    isYou,
+                    displayName,
+                  )}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

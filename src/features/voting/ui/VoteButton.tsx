@@ -21,6 +21,7 @@ import { openCustomProtocol } from "#/shared/lib/openCustomProtocol";
 
 import { useWallet } from "#/entities/user";
 import { useCoopState, getEligibility } from "#/entities/coop";
+import { useDisplayName } from "#/entities/attestation";
 
 import { buildVoteLink } from "../lib/buildVoteLink";
 
@@ -45,13 +46,23 @@ function getCurrentStrength(
   return strength >= 1 && strength <= 3 ? strength : null;
 }
 
-function getIneligibleTooltip(
+function getRecipientIneligibleTooltip(
+  hasBalance: boolean,
+  hasLockPeriod: boolean,
+  name: string,
+): string {
+  if (!hasBalance && !hasLockPeriod) return m.vote_disabled_both({ name });
+  if (!hasBalance) return m.vote_disabled_no_balance({ name });
+  return m.vote_disabled_short_lock({ name });
+}
+
+function getVoterIneligibleTooltip(
   hasBalance: boolean,
   hasLockPeriod: boolean,
 ): string {
-  if (!hasBalance && !hasLockPeriod) return m.profile_ineligible_both();
-  if (!hasBalance) return m.profile_ineligible_no_balance();
-  return m.profile_ineligible_short_lock();
+  if (!hasBalance && !hasLockPeriod) return m.profile_ineligible_both_self();
+  if (!hasBalance) return m.profile_ineligible_no_balance_self();
+  return m.profile_ineligible_short_lock_self();
 }
 
 export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
@@ -63,6 +74,10 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
 
   const recipientUser = getUser(address);
   const { isEligible: recipientEligible, hasBalance: recipientHasBalance, hasLockPeriod: recipientHasLockPeriod } = getEligibility(recipientUser);
+  const recipientName = useDisplayName(address);
+
+  const voterUser = connectedAddress ? getUser(connectedAddress) : undefined;
+  const { isEligible: voterEligible, hasBalance: voterHasBalance, hasLockPeriod: voterHasLockPeriod } = getEligibility(voterUser);
 
   const voteKey = connectedAddress
     ? `vote_${connectedAddress}_${address}`
@@ -133,6 +148,26 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
     );
   }
 
+  if (!voterEligible) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span>
+              <Button variant="outline" disabled>
+                {m.vote_button()}
+                <ChevronDown className="ml-1 size-4" />
+              </Button>
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            {getVoterIneligibleTooltip(voterHasBalance, voterHasLockPeriod)}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
   if (!recipientEligible) {
     return (
       <TooltipProvider>
@@ -146,7 +181,11 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
             </span>
           </TooltipTrigger>
           <TooltipContent>
-            {getIneligibleTooltip(recipientHasBalance, recipientHasLockPeriod)}
+            {getRecipientIneligibleTooltip(
+              recipientHasBalance,
+              recipientHasLockPeriod,
+              recipientName,
+            )}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

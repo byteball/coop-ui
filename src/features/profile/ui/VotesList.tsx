@@ -6,7 +6,7 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 
 import { useVotesReceived } from "#/entities/coop";
-import { useAttestations } from "#/entities/attestation";
+import { useDisplayName } from "#/entities/attestation";
 
 import { UserDisplayName } from "./UserDisplayName";
 
@@ -18,10 +18,7 @@ interface VotesListProps {
 
 export const VotesList: FC<VotesListProps> = ({ address }) => {
   const voteRecords = useVotesReceived(address);
-  const { data: attestations } = useAttestations(address);
-  const rawName =
-    attestations?.displayName ??
-    `${address.slice(0, 6)}...${address.slice(-4)}`;
+  const rawName = useDisplayName(address);
   const name = rawName.charAt(0).toUpperCase() + rawName.slice(1);
 
   return (
