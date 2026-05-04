@@ -1,6 +1,6 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useState } from "react";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
 import {
@@ -17,11 +17,11 @@ import {
 } from "#/shared/ui/tooltip";
 
 import { toLocalString } from "#/shared/lib/toLocalString";
+import { formatRounded } from "#/shared/lib/formatRounded";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
-import { DepositDialog } from "#/features/deposit";
 
 import * as m from "#/paraglide/messages";
 
@@ -31,14 +31,12 @@ interface BalanceCardProps {
   gbyteDecimals: number;
   coopSymbol: string;
   gbyteSymbol: string;
-  isYou?: boolean;
-}
-
-function formatRounded(value: number, decimals: number): string {
-  return value.toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimals,
-  });
+  /**
+   * Optional slot rendered next to the unlock-date row. The page composes the
+   * actual deposit-dialog trigger here, so this card stays free of any
+   * cross-feature imports.
+   */
+  action?: ReactNode;
 }
 
 export const BalanceCard: FC<BalanceCardProps> = ({
@@ -47,7 +45,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   gbyteDecimals,
   coopSymbol,
   gbyteSymbol,
-  isYou = false,
+  action,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -165,24 +163,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                   : m.profile_unlocked()}
             </span>
           </span>
-          {isYou && (
-            <TooltipProvider>
-              <Tooltip>
-                <DepositDialog>
-                  <TooltipTrigger asChild>
-                    <button
-                      type="button"
-                      aria-label={m.profile_lock_more()}
-                      className="flex cursor-pointer items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                    >
-                      <Plus className="size-4" />
-                    </button>
-                  </TooltipTrigger>
-                </DepositDialog>
-                <TooltipContent>{m.profile_lock_more()}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
+          {action}
         </div>
       </CardContent>
     </Card>

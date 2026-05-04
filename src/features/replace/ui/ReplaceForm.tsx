@@ -7,6 +7,7 @@ import { QRButton } from "#/shared/ui/qr-button";
 
 import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
 import { toLocalString } from "#/shared/lib/toLocalString";
+import { formatRounded } from "#/shared/lib/formatRounded";
 
 import type { CoopUser } from "#/entities/coop";
 import { useCoopState } from "#/entities/coop";
@@ -18,13 +19,6 @@ import * as m from "#/paraglide/messages";
 
 interface ReplaceFormProps {
   user: CoopUser;
-}
-
-function formatRounded(value: number, decimals: number): string {
-  return value.toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimals,
-  });
 }
 
 export function ReplaceForm({ user }: ReplaceFormProps) {

@@ -39,7 +39,14 @@ export const governanceParams: GovernanceParamDef[] = [
 ];
 
 export const CHALLENGING_PERIOD = 259200; // 3 days in seconds
-export const GOVERNANCE_BOUNCE_FEE = 10000; // 10000 bytes
+
+/**
+ * Minimum bytes amount we attach to any AA-bound transaction so it can either
+ * pay for itself or bounce back if rejected. Same value is reused for governance
+ * and main-AA actions; kept in one place so it can't drift.
+ */
+export const BOUNCE_FEE = 10000;
+export const GOVERNANCE_BOUNCE_FEE = BOUNCE_FEE;
 
 export const attestationLinks = {
   telegram:

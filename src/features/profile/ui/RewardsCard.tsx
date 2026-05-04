@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
@@ -18,6 +18,7 @@ import {
 } from "#/shared/ui/tooltip";
 
 import { toLocalString } from "#/shared/lib/toLocalString";
+import { formatRounded } from "#/shared/lib/formatRounded";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
@@ -28,19 +29,19 @@ interface RewardsCardProps {
   user: CoopUser;
   coopDecimals: number;
   coopSymbol: string;
-}
-
-function formatRounded(value: number, decimals: number): string {
-  return value.toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimals,
-  });
+  /**
+   * Optional slot rendered at the bottom-right of the card. The page composes
+   * the actual claim-rewards-dialog trigger here, so this card stays free of
+   * any cross-feature imports.
+   */
+  action?: ReactNode;
 }
 
 export const RewardsCard: FC<RewardsCardProps> = ({
   user,
   coopDecimals,
   coopSymbol,
+  action,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -180,6 +181,8 @@ export const RewardsCard: FC<RewardsCardProps> = ({
             )}
           </CollapsibleContent>
         </Collapsible>
+
+        {action && <div className="mt-3 flex justify-end">{action}</div>}
       </CardContent>
     </Card>
   );

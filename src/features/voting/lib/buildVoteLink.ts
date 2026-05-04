@@ -1,6 +1,5 @@
 import { generateLink } from "#/shared/lib/generateLink";
-
-const BOUNCE_FEE = 10000;
+import { BOUNCE_FEE } from "#/shared/config/appConfig";
 
 export function buildVoteLink({
   aa,

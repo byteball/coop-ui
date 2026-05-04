@@ -1,6 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import obyte from "obyte";
+import { HandCoins, Plus } from "lucide-react";
 import * as m from "#/paraglide/messages";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "#/shared/ui/tooltip";
 
 import { useWallet } from "#/entities/user";
 import { useCoopState } from "#/entities/coop";
@@ -16,8 +24,9 @@ import {
   ProfileSkeleton,
 } from "#/features/profile";
 import { VoteButton } from "#/features/voting";
-import { DepositBanner } from "#/features/deposit";
+import { DepositBanner, DepositDialog } from "#/features/deposit";
 import { ReplaceForm } from "#/features/replace";
+import { ClaimRewardsDialog } from "#/features/claim-rewards";
 
 export const Route = createFileRoute("/user/$address")({
   component: UserProfile,
@@ -63,6 +72,49 @@ function UserProfile() {
 
   const user = getUser(address) ?? defaultUser;
 
+  const liquidRewards = user.liquid_rewards ?? 0;
+
+  const lockMoreAction = isYou ? (
+    <TooltipProvider>
+      <Tooltip>
+        <DepositDialog>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              aria-label={m.profile_lock_more()}
+              className="flex cursor-pointer items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              <Plus className="size-4" />
+            </button>
+          </TooltipTrigger>
+        </DepositDialog>
+        <TooltipContent>{m.profile_lock_more()}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ) : null;
+
+  const claimRewardsAction =
+    isYou && liquidRewards > 0 ? (
+      <TooltipProvider>
+        <Tooltip>
+          <ClaimRewardsDialog user={user}>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                aria-label={m.profile_claim_rewards_tooltip()}
+                className="flex cursor-pointer items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                <HandCoins className="size-4" />
+              </button>
+            </TooltipTrigger>
+          </ClaimRewardsDialog>
+          <TooltipContent>
+            {m.profile_claim_rewards_tooltip()}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ) : null;
+
   return (
     <div className="space-y-10">
       <DepositBanner user={user} address={address} />
@@ -79,7 +131,7 @@ function UserProfile() {
             gbyteDecimals={gbyteDecimals}
             coopSymbol={coopSymbol}
             gbyteSymbol={gbyteSymbol}
-            isYou={isYou}
+            action={lockMoreAction}
           />
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
@@ -87,6 +139,7 @@ function UserProfile() {
             user={user}
             coopDecimals={coopDecimals}
             coopSymbol={coopSymbol}
+            action={claimRewardsAction}
           />
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
