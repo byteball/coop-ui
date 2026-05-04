@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import obyte from "obyte";
 import * as m from "#/paraglide/messages";
 
-import { Card, CardContent, CardTitle } from "#/shared/ui/card";
 import { useWallet } from "#/entities/user";
 import { useCoopState } from "#/entities/coop";
 import type { CoopUser } from "#/entities/coop";
@@ -17,7 +16,7 @@ import {
   ProfileSkeleton,
 } from "#/features/profile";
 import { VoteButton } from "#/features/voting";
-import { DepositBanner, DepositForm } from "#/features/deposit";
+import { DepositBanner } from "#/features/deposit";
 import { ReplaceForm } from "#/features/replace";
 
 export const Route = createFileRoute("/user/$address")({
@@ -80,6 +79,7 @@ function UserProfile() {
             gbyteDecimals={gbyteDecimals}
             coopSymbol={coopSymbol}
             gbyteSymbol={gbyteSymbol}
+            isYou={isYou}
           />
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
@@ -92,19 +92,6 @@ function UserProfile() {
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <VotesCard totalVotes={user.votes ?? 0} />
         </div>
-
-        {isYou && (
-          <div className="col-span-6 md:col-span-3">
-            <Card>
-              <CardContent>
-                <CardTitle>{m.deposit_title()}</CardTitle>
-                <div className="mt-4">
-                  <DepositForm />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
 
         {isYou && user.bytes_balance > 0 && (
           <div className="col-span-6 md:col-span-3">

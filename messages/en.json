@@ -33,6 +33,7 @@
   "profile_unlock_date": "Unlock Date",
   "profile_reg_date": "Registered",
   "profile_unlocked": "Unlocked",
+  "profile_lock_more": "Lock more",
   "profile_not_locked_yet": "Not locked yet",
   "profile_locked_rewards_detail": "including {amount} {symbol} locked",
   "profile_liquid_rewards_detail": "including {amount} {symbol} liquid",

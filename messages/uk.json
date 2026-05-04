@@ -33,6 +33,7 @@
   "profile_unlock_date": "Дата розблокування",
   "profile_reg_date": "Реєстрація",
   "profile_unlocked": "Розблоковано",
+  "profile_lock_more": "Заблокувати ще",
   "profile_not_locked_yet": "Ще не заблоковано",
   "profile_locked_rewards_detail": "з них {amount} {symbol} заблоковано",
   "profile_liquid_rewards_detail": "з них {amount} {symbol} ліквідно",

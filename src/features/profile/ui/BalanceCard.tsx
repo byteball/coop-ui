@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
 import {
@@ -21,6 +21,7 @@ import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
+import { DepositDialog } from "#/features/deposit";
 
 import * as m from "#/paraglide/messages";
 
@@ -30,6 +31,7 @@ interface BalanceCardProps {
   gbyteDecimals: number;
   coopSymbol: string;
   gbyteSymbol: string;
+  isYou?: boolean;
 }
 
 function formatRounded(value: number, decimals: number): string {
@@ -45,6 +47,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   gbyteDecimals,
   coopSymbol,
   gbyteSymbol,
+  isYou = false,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -151,17 +154,35 @@ export const BalanceCard: FC<BalanceCardProps> = ({
           </CollapsibleContent>
         </Collapsible>
 
-        <div className="mt-3 flex justify-between text-sm">
+        <div className="mt-3 flex items-center justify-between gap-2 text-sm">
           <span className="text-muted-foreground">
-            {m.profile_unlock_date()}
+            {m.profile_unlock_date()}:{" "}
+            <span className="text-foreground">
+              {user.total_balance === 0
+                ? m.profile_not_locked_yet()
+                : user.unlock_date
+                  ? formatDateShort(new Date(user.unlock_date))
+                  : m.profile_unlocked()}
+            </span>
           </span>
-          <span>
-            {user.total_balance === 0
-              ? m.profile_not_locked_yet()
-              : user.unlock_date
-                ? formatDateShort(new Date(user.unlock_date))
-                : m.profile_unlocked()}
-          </span>
+          {isYou && (
+            <DepositDialog>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label={m.profile_lock_more()}
+                      className="flex cursor-pointer items-center justify-center rounded-full p-1 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                    >
+                      <Plus className="size-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>{m.profile_lock_more()}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </DepositDialog>
+          )}
         </div>
       </CardContent>
     </Card>
