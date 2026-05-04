@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
 import { Button } from "#/shared/ui/button";
@@ -99,6 +99,8 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
       ? currentVote.strength
       : getCurrentStrength(currentVote?.votes, voterData?.total_balance);
   const hasVoted = !!currentVote && currentVote.votes > 0;
+  const defaultStrength = currentStrength ?? 1;
+  const defaultButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleVote = useCallback(
     (strength: number) => {
@@ -208,18 +210,27 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
           <ChevronDown className="ml-1 size-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-52 p-1" align="start">
+      <PopoverContent
+        className="w-52 p-1"
+        align="start"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          defaultButtonRef.current?.focus();
+        }}
+      >
         <PopoverTitle className="px-2 py-1.5 text-sm text-muted-foreground">
           {m.vote_strength_title()}
         </PopoverTitle>
         <div className="mt-1 grid">
           {STRENGTH_OPTIONS.map(({ strength, label }) => {
             const isCurrent = currentStrength === strength;
+            const isDefault = defaultStrength === strength;
             return (
               <button
                 key={strength}
+                ref={isDefault ? defaultButtonRef : undefined}
                 onClick={() => handleVote(strength)}
-                className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:outline-none focus-visible:outline-none"
+                className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:bg-accent focus:outline-none focus-visible:outline-none"
               >
                 <span>{label()}</span>
                 {isCurrent && <Check className="size-4" />}
