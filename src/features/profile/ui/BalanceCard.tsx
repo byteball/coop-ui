@@ -166,9 +166,9 @@ export const BalanceCard: FC<BalanceCardProps> = ({
             </span>
           </span>
           {isYou && (
-            <DepositDialog>
-              <TooltipProvider>
-                <Tooltip>
+            <TooltipProvider>
+              <Tooltip>
+                <DepositDialog>
                   <TooltipTrigger asChild>
                     <button
                       type="button"
@@ -178,10 +178,10 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                       <Plus className="size-4" />
                     </button>
                   </TooltipTrigger>
-                  <TooltipContent>{m.profile_lock_more()}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </DepositDialog>
+                </DepositDialog>
+                <TooltipContent>{m.profile_lock_more()}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </div>
       </CardContent>
