@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from "#/shared/ui/tooltip";
 import { env } from "#/shared/config/env";
+import { cn } from "#/shared/lib/utils";
 import { openCustomProtocol } from "#/shared/lib/openCustomProtocol";
 
 import { useWallet } from "#/entities/user";
@@ -230,7 +231,10 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
                 key={strength}
                 ref={isDefault ? defaultButtonRef : undefined}
                 onClick={() => handleVote(strength)}
-                className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent focus:bg-accent focus:outline-none focus-visible:outline-none"
+                className={cn(
+                  "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent/20 focus:bg-accent/20 focus:outline-none focus-visible:outline-none",
+                  isCurrent && "bg-accent hover:bg-accent focus:bg-accent",
+                )}
               >
                 <span>{label()}</span>
                 {isCurrent && <Check className="size-4" />}
@@ -242,7 +246,7 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
         <button
           onClick={() => handleVote(0)}
           disabled={!hasVoted}
-          className="flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent focus:outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+          className="flex w-full cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent/20 focus:bg-accent/20 focus:outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {m.vote_unvote()}
         </button>
