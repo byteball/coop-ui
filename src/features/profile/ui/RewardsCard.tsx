@@ -67,8 +67,8 @@ export const RewardsCard: FC<RewardsCardProps> = ({
       <CardContent>
         <CardTitle>{m.profile_rewards_title()}</CardTitle>
         <Collapsible
-          open={!collapsed}
-          onOpenChange={() => setCollapsed(!collapsed)}
+          open={hasDetails && !collapsed}
+          onOpenChange={() => hasDetails && setCollapsed(!collapsed)}
         >
           <CollapsibleTrigger asChild className="mt-2 text-lg lg:text-xl">
             <div className={cn(hasDetails ? "cursor-pointer select-none" : "")}>
