@@ -44,6 +44,11 @@ export const VotesGivenList: FC<VotesGivenListProps> = ({
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
+                    {record.toAddress === address && (
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                        {m.vote_list_self()}
+                      </span>
+                    )}
                     {typeof record.strength === "number" && (
                       <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                         {m.vote_list_strength({

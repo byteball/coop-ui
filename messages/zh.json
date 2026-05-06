@@ -81,6 +81,7 @@
   "vote_strength_2": "中 (2)",
   "vote_strength_3": "强 (3)",
   "vote_list_strength": "×{n}",
+  "vote_list_self": "自我投票",
   "vote_unvote": "取消投票",
   "vote_self": "当您为他人投票时，自我投票会自动添加",
   "vote_connect_wallet": "添加钱包以投票",

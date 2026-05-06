@@ -81,6 +81,7 @@
   "vote_strength_2": "Medio (2)",
   "vote_strength_3": "Fuerte (3)",
   "vote_list_strength": "×{n}",
+  "vote_list_self": "Voto propio",
   "vote_unvote": "Eliminar voto",
   "vote_self": "El voto propio es automático cuando votas por otros",
   "vote_connect_wallet": "Añade tu billetera para votar",
