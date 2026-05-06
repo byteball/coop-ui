@@ -39,6 +39,8 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
     return maxAtomic / 10 ** coopDecimals;
   }, [user.bytes_balance, ceilingPrice, coopDecimals]);
 
+  const maxCoopDisplay = Math.floor(maxCoop * 10000) / 10000;
+
   const num = Number(amount);
   const validNum = !isNaN(num) && num > 0 ? num : 0;
   const hasDecimalsIssue = amount ? tooManyDecimals(amount, coopDecimals) : false;
@@ -65,11 +67,8 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
     : null;
 
   const setMax = () => {
-    if (maxCoop <= 0) return;
-    // Truncate to coop decimals to avoid tooManyDecimals.
-    const factor = 10 ** coopDecimals;
-    const truncated = Math.floor(maxCoop * factor) / factor;
-    setAmount(String(truncated));
+    if (maxCoopDisplay <= 0) return;
+    setAmount(String(maxCoopDisplay));
     setTouched(true);
   };
 
@@ -89,10 +88,10 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
             <button
               type="button"
               onClick={setMax}
-              disabled={!isLoaded || maxCoop <= 0}
+              disabled={!isLoaded || maxCoopDisplay <= 0}
               className="cursor-pointer text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline disabled:cursor-not-allowed disabled:opacity-50 disabled:no-underline"
             >
-              {m.replace_max()}: {formatRounded(maxCoop, coopDecimals)}{" "}
+              {m.replace_max()}: {formatRounded(maxCoopDisplay, 4)}{" "}
               {coopSymbol}
             </button>
           </div>
