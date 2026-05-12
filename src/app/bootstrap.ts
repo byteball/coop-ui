@@ -1,6 +1,12 @@
 import client from "#/shared/api/obyte";
 import { env } from "#/shared/config/env";
-import { setCoopLoading, setCoopVars, updateCoopVars } from "#/entities/coop";
+import {
+  setCoopLoading,
+  setCoopVars,
+  updateCoopVars,
+  coopConstantsSchema,
+  aaResponseMessageSchema,
+} from "#/entities/coop";
 import {
   setGovernanceLoading,
   setGovernanceVars,
@@ -26,14 +32,15 @@ export const bootstrap = async () => {
 
     console.info("log: coop vars loaded", Object.keys(vars).length);
 
-    const constants = vars.constants as
-      | { governance_aa: string; asset: string; launch_ts: number }
-      | undefined;
-
-    if (!constants) {
-      console.error("bootstrap: constants not found in AA state vars");
+    const constantsResult = coopConstantsSchema.safeParse(vars.constants);
+    if (!constantsResult.success) {
+      console.error(
+        "bootstrap: invalid or missing AA constants",
+        constantsResult.error,
+      );
       return;
     }
+    const constants = constantsResult.data;
 
     setCoopVars(vars);
 
@@ -78,27 +85,14 @@ export const bootstrap = async () => {
     const governanceAa = constants.governance_aa;
 
     client.subscribe((_err: unknown, message: unknown) => {
-      const [, payload] = message as [
-        string,
-        { subject?: string; body?: Record<string, unknown> },
-      ];
-
+      const parsed = aaResponseMessageSchema.safeParse(message);
+      if (!parsed.success) return;
+      const [, payload] = parsed.data;
       if (payload.subject !== "light/aa_response") return;
+      const updatedStateVars = payload.body?.updatedStateVars;
+      if (!updatedStateVars) return;
 
-      const body = payload.body as
-        | {
-            updatedStateVars?: Record<
-              string,
-              Record<string, { value: unknown }>
-            >;
-          }
-        | undefined;
-
-      if (!body?.updatedStateVars) return;
-
-      for (const [address, stateVars] of Object.entries(
-        body.updatedStateVars,
-      )) {
+      for (const [address, stateVars] of Object.entries(updatedStateVars)) {
         const updates: Record<string, unknown> = {};
         for (const [key, entry] of Object.entries(stateVars)) {
           updates[key] = entry.value;
