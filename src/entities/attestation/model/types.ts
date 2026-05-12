@@ -2,6 +2,7 @@ export interface AttestationProfile {
   username?: string;
   userId?: string;
   user_id?: string;
+  [key: string]: unknown;
 }
 
 export interface RawAttestation {

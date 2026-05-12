@@ -1,31 +1,36 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
+import { z } from "zod";
 
 import client from "#/shared/api/obyte";
-import { attestors } from "#/shared/config/appConfig";
 import { storageKey } from "#/shared/lib/storageKey";
 
-import type { ParsedAttestations, RawAttestation } from "./types";
+import {
+  emptyAttestations,
+  parseAttestations,
+  parseRawAttestations,
+  parsedAttestationsSchema,
+} from "../lib/parseAttestations";
+import type { ParsedAttestations } from "./types";
 
-const tgSet = new Set(attestors.telegramAttestors);
-const discordSet = new Set(attestors.discordAttestors);
-const realNameSet = new Set(attestors.realNameAttestors);
+const cacheEntrySchema = z.object({
+  data: parsedAttestationsSchema,
+  ts: z.number(),
+});
 
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
 
 function getCacheKey(address: string): string {
-  return storageKey("attestations_" + address);
+  return storageKey("attestations_v2_" + address);
 }
 
 function readCache(address: string): ParsedAttestations | null {
   try {
     const raw = localStorage.getItem(getCacheKey(address));
     if (!raw) return null;
-    const { data, ts } = JSON.parse(raw) as {
-      data: ParsedAttestations;
-      ts: number;
-    };
-    if (Date.now() - ts > CACHE_TTL) return null;
-    return data;
+    const parsed = cacheEntrySchema.safeParse(JSON.parse(raw));
+    if (!parsed.success) return null;
+    if (Date.now() - parsed.data.ts > CACHE_TTL) return null;
+    return parsed.data.data;
   } catch {
     return null;
   }
@@ -40,39 +45,19 @@ function writeCache(address: string, data: ParsedAttestations): void {
   } catch {}
 }
 
-function parseAttestations(raw: RawAttestation[]): ParsedAttestations {
-  let telegram: ParsedAttestations["telegram"] = null;
-  let discord: ParsedAttestations["discord"] = null;
-  let realName: ParsedAttestations["realName"] = null;
-
-  for (const att of raw) {
-    if (!telegram && tgSet.has(att.attestor_address)) {
-      telegram = att.profile;
-    } else if (!discord && discordSet.has(att.attestor_address)) {
-      discord = att.profile;
-    } else if (!realName && realNameSet.has(att.attestor_address)) {
-      realName = att.profile;
-    }
-  }
-
-  const displayName =
-    telegram?.username ?? discord?.username ?? realName?.username ?? null;
-
-  return { telegram, discord, realName, displayName };
-}
-
 export function attestationsQueryOptions(address: string | undefined) {
   return queryOptions({
     queryKey: ["attestations", address] as const,
     queryFn: async (): Promise<ParsedAttestations> => {
-      const cached = readCache(address!);
+      if (!address) return emptyAttestations();
+      const cached = readCache(address);
       if (cached) return cached;
 
-      const raw: RawAttestation[] = await client.api
+      const raw = await client.api
         .getAttestations({ address })
-        .catch(() => []);
-      const parsed = parseAttestations(raw);
-      writeCache(address!, parsed);
+        .catch(() => [] as unknown);
+      const parsed = parseAttestations(parseRawAttestations(raw));
+      writeCache(address, parsed);
       return parsed;
     },
     enabled: !!address,
