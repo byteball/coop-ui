@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-import type { CoopUser } from "#/entities/coop/model/types";
+import type { CoopUser } from "#/entities/coop";
 
 import { resolveEffectiveReferrer } from "../resolveEffectiveReferrer";
 

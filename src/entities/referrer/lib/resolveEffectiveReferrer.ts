@@ -1,4 +1,4 @@
-import type { CoopUser } from "#/entities/coop/model/types";
+import type { CoopUser } from "#/entities/coop";
 
 export function resolveEffectiveReferrer(
   stored: string | null | undefined,
