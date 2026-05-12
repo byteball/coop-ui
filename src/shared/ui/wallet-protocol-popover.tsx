@@ -59,7 +59,7 @@ export function WalletProtocolPopover({
                   <a
                     href="https://obyte.org/#download"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                     className="text-blue-600 underline underline-offset-4"
                   >
                     obyte.org
