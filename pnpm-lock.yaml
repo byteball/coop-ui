@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@inlang/paraglide-js-react':
+        specifier: ^1.0.1
+        version: 1.0.1(@inlang/paraglide-js@2.15.1)(react@19.2.4)
       '@radix-ui/react-navigation-menu':
         specifier: ^1.2.14
         version: 1.2.14(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -566,6 +569,12 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@inlang/paraglide-js-react@1.0.1':
+    resolution: {integrity: sha512-Qh3mAR0xUeqJXbukeU/j9PSlsoyOQgvlXvLVU+bAxyQrXVzyXvuC1cw2d4imXFg9EKVe3mctnTFZaARiar0Nag==}
+    peerDependencies:
+      '@inlang/paraglide-js': '>=2.11.0 <3'
+      react: ^18.0.0 || ^19.0.0
 
   '@inlang/paraglide-js@2.15.1':
     resolution: {integrity: sha512-7wWKbLWwLx1dkkYz55TnVp+39atKXf7rnlHnL8adSmM73UaAdB9fXDzo24GHSY/6FPGFKSkgHdT2qyJv2whWsA==}
@@ -4025,6 +4034,11 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@inlang/paraglide-js-react@1.0.1(@inlang/paraglide-js@2.15.1)(react@19.2.4)':
+    dependencies:
+      '@inlang/paraglide-js': 2.15.1
+      react: 19.2.4
 
   '@inlang/paraglide-js@2.15.1':
     dependencies:
