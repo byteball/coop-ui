@@ -4,6 +4,7 @@ import * as m from "#/paraglide/messages";
 import { useWallet } from "#/entities/user";
 import { useCoopState, useAllUsers } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
+import { ogImageMeta } from "#/shared/lib/ogImage";
 import { LeaderboardTable, LeaderboardSkeleton } from "#/features/leaderboard";
 
 const LEADERBOARD_TITLE = "Leaderboard — Obyte COOP";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/leaderboard")({
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: LEADERBOARD_TITLE },
       { name: "twitter:description", content: LEADERBOARD_DESCRIPTION },
+      ...ogImageMeta("/og/leaderboard.png"),
     ],
   }),
   component: Leaderboard,

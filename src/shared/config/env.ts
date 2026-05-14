@@ -11,6 +11,7 @@ export const env = createEnv({
       .enum(["true", "false"])
       .optional()
       .transform((v) => v === "true"),
+    VITE_OG_URL: z.url().optional(),
   },
 
   /**

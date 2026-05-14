@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import * as m from "#/paraglide/messages";
 
 import { Card } from "#/shared/ui/card";
+import { ogImageMeta } from "#/shared/lib/ogImage";
 import {
   KitIllustration,
   VisualizationIllustration,
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: INDEX_TITLE },
       { name: "twitter:description", content: INDEX_DESCRIPTION },
+      ...ogImageMeta("/og/home.png"),
     ],
   }),
   component: App,

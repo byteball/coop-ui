@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import * as m from "#/paraglide/messages";
 
+import { ogImageMeta } from "#/shared/lib/ogImage";
+
 const FAQ_TITLE = "F.A.Q. — Obyte COOP";
 const FAQ_DESCRIPTION =
   "Frequently asked questions about the COOP token: deposits, voting, emissions, governance, and referrals.";
@@ -15,6 +17,7 @@ export const Route = createFileRoute("/faq")({
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: FAQ_TITLE },
       { name: "twitter:description", content: FAQ_DESCRIPTION },
+      ...ogImageMeta("/og/faq.png"),
     ],
   }),
   component: Faq,

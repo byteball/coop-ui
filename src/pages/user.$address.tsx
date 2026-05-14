@@ -15,6 +15,7 @@ import { useCoopState } from "#/entities/coop";
 import type { CoopUser } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { attestationsQueryOptions } from "#/entities/attestation";
+import { ogImageMeta } from "#/shared/lib/ogImage";
 import {
   ProfileHeader,
   BalanceCard,
@@ -52,6 +53,7 @@ export const Route = createFileRoute("/user/$address")({
         { property: "og:type", content: "profile" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
+        ...ogImageMeta(`/og/user/${a}.png`),
       ],
     };
   },

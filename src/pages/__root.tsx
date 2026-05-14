@@ -12,6 +12,7 @@ import { AppLayout } from "#/widgets/layout";
 import TanStackQueryDevtools from "#/app/providers/query-devtools";
 
 import { getLocale } from "#/paraglide/runtime";
+import { ogImageMeta } from "#/shared/lib/ogImage";
 import { useTrackReferrer } from "#/features/referrals";
 
 import type { QueryClient } from "@tanstack/react-query";
@@ -32,9 +33,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       { property: "og:type", content: "website" },
       { property: "og:title", content: "Obyte COOP" },
       { property: "og:description", content: BASE_DESCRIPTION },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Obyte COOP" },
       { name: "twitter:description", content: BASE_DESCRIPTION },
+      ...ogImageMeta("/og/home.png"),
     ],
   }),
   beforeLoad: async () => {

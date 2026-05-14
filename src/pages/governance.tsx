@@ -5,6 +5,7 @@ import { useWallet } from "#/entities/user";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useGovernanceState } from "#/entities/governance";
+import { ogImageMeta } from "#/shared/lib/ogImage";
 import { ConnectWalletDialog } from "#/features/connect-wallet";
 import {
   GovernanceProfile,
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/governance")({
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: GOVERNANCE_TITLE },
       { name: "twitter:description", content: GOVERNANCE_DESCRIPTION },
+      ...ogImageMeta("/og/governance.png"),
     ],
   }),
   component: Governance,
