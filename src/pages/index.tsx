@@ -43,7 +43,7 @@ function HeroSection() {
             <span className="text-primary font-mono text-sm uppercase">
               {m.hero_label()}
             </span>
-            <h1 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
+            <h1 className="mt-6 text-4xl font-semibold tracking-tighter md:text-5xl">
               {titleParts.map((part, i) => (
                 <span key={i}>
                   {i > 0 && (
