@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from "react";
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Info } from "lucide-react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
 import {
@@ -22,6 +22,7 @@ import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
+import { useCoopState } from "#/entities/coop";
 
 import * as m from "#/paraglide/messages";
 
@@ -76,9 +77,16 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   action,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const { getParam, getCeilingPrice } = useCoopState();
 
   const coopDivisor = 10 ** coopDecimals;
   const gbyteDivisor = 10 ** gbyteDecimals;
+
+  const bytesReducer = getParam("bytes_reducer");
+  const ceilingPrice = getCeilingPrice();
+  const gbyteShare = formatRounded(bytesReducer * 100, 2);
+  const ceilingPriceFormatted =
+    ceilingPrice !== undefined ? formatRounded(ceilingPrice, 4) : null;
 
   const totalBalanceRaw = user.total_balance / coopDivisor;
   const coopBalanceRaw = user.balance / coopDivisor;
@@ -89,7 +97,26 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   return (
     <Card>
       <CardContent>
-        <CardTitle>{m.profile_balance_title()}</CardTitle>
+        <CardTitle className="flex items-center gap-1.5">
+          {m.profile_balance_title()}
+          {ceilingPriceFormatted !== null && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="size-3.5 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  {m.profile_balance_title_tooltip({
+                    coopSymbol,
+                    gbyteSymbol,
+                    gbyteShare,
+                    ceilingPrice: ceilingPriceFormatted,
+                  })}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </CardTitle>
         <Collapsible
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}

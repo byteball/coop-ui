@@ -22,6 +22,7 @@
   "profile_not_found": "未找到用户",
   "profile_not_found_description": "该地址没有 COOP 账户。",
   "profile_balance_title": "总余额",
+  "profile_balance_title_tooltip": "100% 的 {coopSymbol} 余额 + {gbyteShare}% 的 {gbyteSymbol} 余额，汇率为 1 {coopSymbol} = {ceilingPrice} {gbyteSymbol}",
   "profile_rewards_title": "奖励",
   "profile_votes_title": "收到的投票",
   "profile_coop_balance": "COOP 余额",

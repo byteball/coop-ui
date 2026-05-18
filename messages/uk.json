@@ -22,6 +22,7 @@
   "profile_not_found": "Користувача не знайдено",
   "profile_not_found_description": "Ця адреса не має акаунту COOP.",
   "profile_balance_title": "Загальний баланс",
+  "profile_balance_title_tooltip": "100% балансу {coopSymbol} + {gbyteShare}% балансу {gbyteSymbol} за курсом 1 {coopSymbol} = {ceilingPrice} {gbyteSymbol}",
   "profile_rewards_title": "Нагороди",
   "profile_votes_title": "Отримані голоси",
   "profile_coop_balance": "Баланс COOP",

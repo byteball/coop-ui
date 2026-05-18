@@ -22,6 +22,7 @@
   "profile_not_found": "User not found",
   "profile_not_found_description": "This address has no COOP account.",
   "profile_balance_title": "Total Balance",
+  "profile_balance_title_tooltip": "100% of {coopSymbol} balance + {gbyteShare}% of {gbyteSymbol} balance at 1 {coopSymbol} = {ceilingPrice} {gbyteSymbol}",
   "profile_rewards_title": "Total Rewards",
   "profile_votes_title": "Votes received",
   "profile_coop_balance": "COOP Balance",
