@@ -4,10 +4,12 @@ import { BOUNCE_FEE } from "#/shared/config/appConfig";
 
 interface BuildClaimRewardsLinkParams {
   restakePercent: number;
+  fromAddress?: string;
 }
 
 export function buildClaimRewardsLink({
   restakePercent,
+  fromAddress,
 }: BuildClaimRewardsLinkParams): string | null {
   if (!Number.isInteger(restakePercent)) return null;
   if (restakePercent < 0 || restakePercent > 100) return null;
@@ -22,5 +24,6 @@ export function buildClaimRewardsLink({
     aa: env.VITE_AA_ADDRESS,
     asset: "base",
     data,
+    from_address: fromAddress,
   });
 }

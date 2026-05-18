@@ -6,12 +6,14 @@ interface BuildReplaceLinkParams {
   amount: string;
   coopAsset: string | undefined;
   coopDecimals: number;
+  fromAddress?: string;
 }
 
 export function buildReplaceLink({
   amount,
   coopAsset,
   coopDecimals,
+  fromAddress,
 }: BuildReplaceLinkParams): string | null {
   if (!coopAsset) return null;
   const num = Number(amount);
@@ -26,5 +28,6 @@ export function buildReplaceLink({
     aa: env.VITE_AA_ADDRESS,
     asset: coopAsset,
     data: { replace: 1 },
+    from_address: fromAddress,
   });
 }

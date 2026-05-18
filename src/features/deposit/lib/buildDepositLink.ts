@@ -18,6 +18,7 @@ interface BuildDepositLinkParams {
   coopDecimals: number;
   gbyteDecimals: number;
   referrer: string | undefined;
+  fromAddress?: string;
 }
 
 export function buildDepositLink({
@@ -28,6 +29,7 @@ export function buildDepositLink({
   coopDecimals,
   gbyteDecimals,
   referrer,
+  fromAddress,
 }: BuildDepositLinkParams): string | null {
   const num = Number(amount);
   if (!amount || isNaN(num) || num <= 0) return null;
@@ -55,5 +57,6 @@ export function buildDepositLink({
     aa: env.VITE_AA_ADDRESS,
     asset: isCoop ? coopAsset : "base",
     data,
+    from_address: fromAddress,
   });
 }

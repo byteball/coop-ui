@@ -12,6 +12,7 @@ import { formatRounded } from "#/shared/lib/formatRounded";
 import type { CoopUser } from "#/entities/coop";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
+import { useWallet } from "#/entities/user";
 
 import { buildReplaceLink } from "../lib/buildReplaceLink";
 
@@ -23,6 +24,7 @@ interface ReplaceFormProps {
 
 export function ReplaceForm({ user }: ReplaceFormProps) {
   const qrButtonRef = useRef<HTMLButtonElement>(null);
+  const { address } = useWallet();
   const { status, constants, getCeilingPrice } = useCoopState();
   const { coopAsset, coopDecimals, gbyteDecimals, coopSymbol, gbyteSymbol } =
     useAssetInfo(constants?.asset);
@@ -63,7 +65,12 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
   const isValid = !!amount && error === null && isLoaded;
 
   const href = isValid
-    ? buildReplaceLink({ amount, coopAsset, coopDecimals })
+    ? buildReplaceLink({
+        amount,
+        coopAsset,
+        coopDecimals,
+        fromAddress: address ?? undefined,
+      })
     : null;
 
   const setMax = () => {

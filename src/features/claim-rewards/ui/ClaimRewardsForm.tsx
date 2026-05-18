@@ -17,6 +17,7 @@ import { formatDateShort } from "#/shared/lib/formatDateShort";
 import type { CoopUser } from "#/entities/coop";
 import { useCoopState, getNewUnlockDate } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
+import { useWallet } from "#/entities/user";
 
 import { buildClaimRewardsLink } from "../lib/buildClaimRewardsLink";
 
@@ -28,6 +29,7 @@ interface ClaimRewardsFormProps {
 
 export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
   const qrButtonRef = useRef<HTMLButtonElement>(null);
+  const { address } = useWallet();
   const { constants } = useCoopState();
   const { coopDecimals, coopSymbol } = useAssetInfo(constants?.asset);
 
@@ -48,7 +50,10 @@ export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
     ? getNewUnlockDate(user.unlock_date)
     : null;
 
-  const href = buildClaimRewardsLink({ restakePercent: restake ? 100 : 0 });
+  const href = buildClaimRewardsLink({
+    restakePercent: restake ? 100 : 0,
+    fromAddress: address ?? undefined,
+  });
 
   return (
     <div className="flex flex-col gap-4">

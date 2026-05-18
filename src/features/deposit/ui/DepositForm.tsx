@@ -293,6 +293,7 @@ export function DepositForm() {
                     coopDecimals,
                     gbyteDecimals,
                     referrer,
+                    fromAddress: address ?? undefined,
                   })
                 : null;
 
