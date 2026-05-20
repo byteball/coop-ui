@@ -15,14 +15,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "#/shared/ui/tooltip";
+import { Amount } from "#/shared/ui/amount";
 
-import { toLocalString } from "#/shared/lib/toLocalString";
 import { formatRounded } from "#/shared/lib/formatRounded";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
-import { useCoopState } from "#/entities/coop";
+import { useCoopState, useLiveUserBalances } from "#/entities/coop";
 
 import * as m from "#/paraglide/messages";
 
@@ -33,40 +33,12 @@ interface BalanceCardProps {
   coopSymbol: string;
   gbyteSymbol: string;
   /**
-   * Optional slot rendered next to the unlock-date row. The page composes the
-   * actual deposit-dialog trigger here, so this card stays free of any
-   * cross-feature imports.
+   * Optional slot rendered in the top-right corner of the card next to the
+   * title. The page composes the actual deposit-dialog trigger here so this
+   * card stays free of any cross-feature imports.
    */
   action?: ReactNode;
 }
-
-interface AmountProps {
-  value: number;
-  decimals: number;
-  symbol: string;
-}
-
-const Amount: FC<AmountProps> = ({ value, decimals, symbol }) => {
-  const rounded = formatRounded(value, decimals);
-  const exact = toLocalString(value);
-
-  if (rounded === exact) {
-    return <span>{rounded}</span>;
-  }
-
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span>{rounded}</span>
-        </TooltipTrigger>
-        <TooltipContent>
-          {exact} {symbol}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};
 
 export const BalanceCard: FC<BalanceCardProps> = ({
   user,
@@ -78,6 +50,8 @@ export const BalanceCard: FC<BalanceCardProps> = ({
 }) => {
   const [collapsed, setCollapsed] = useState(true);
   const { getParam, getCeilingPrice } = useCoopState();
+  const { liveBalance, liveTotalBalance, liveLiquidBalance } =
+    useLiveUserBalances(user);
 
   const coopDivisor = 10 ** coopDecimals;
   const gbyteDivisor = 10 ** gbyteDecimals;
@@ -88,35 +62,38 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   const ceilingPriceFormatted =
     ceilingPrice !== undefined ? formatRounded(ceilingPrice, 4) : null;
 
-  const totalBalanceRaw = user.total_balance / coopDivisor;
-  const coopBalanceRaw = user.balance / coopDivisor;
+  const totalBalanceRaw = liveTotalBalance / coopDivisor;
+  const coopBalanceRaw = liveBalance / coopDivisor;
   const gbyteBalanceRaw = user.bytes_balance / gbyteDivisor;
-  const liquidBalanceRaw = (user.liquid_balance ?? 0) / coopDivisor;
+  const liquidBalanceRaw = liveLiquidBalance / coopDivisor;
   const hasDetails = user.balance > 0 || user.bytes_balance > 0;
 
   return (
     <Card>
       <CardContent>
-        <CardTitle className="flex items-center gap-1.5">
-          {m.profile_balance_title()}
-          {ceilingPriceFormatted !== null && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="size-3.5 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  {m.profile_balance_title_tooltip({
-                    coopSymbol,
-                    gbyteSymbol,
-                    gbyteShare,
-                    ceilingPrice: ceilingPriceFormatted,
-                  })}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </CardTitle>
+        <div className="-mr-3 flex items-start justify-between gap-2">
+          <CardTitle className="flex items-center gap-1.5">
+            {m.profile_balance_title()}
+            {ceilingPriceFormatted !== null && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="size-3.5 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {m.profile_balance_title_tooltip({
+                      coopSymbol,
+                      gbyteSymbol,
+                      gbyteShare,
+                      ceilingPrice: ceilingPriceFormatted,
+                    })}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </CardTitle>
+          {action && <div className="-mt-2">{action}</div>}
+        </div>
         <Collapsible
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}
@@ -188,7 +165,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
           </CollapsibleContent>
         </Collapsible>
 
-        <div className="mt-3 flex items-center justify-between gap-2 text-sm">
+        <div className="mt-3 text-sm">
           <span className="text-muted-foreground">
             {m.profile_unlock_date()}:{" "}
             <span className="text-foreground">
@@ -199,7 +176,6 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                   : m.profile_unlocked()}
             </span>
           </span>
-          {action}
         </div>
       </CardContent>
     </Card>

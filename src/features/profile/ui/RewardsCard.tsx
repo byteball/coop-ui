@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 
@@ -10,19 +10,12 @@ import {
   CollapsibleTrigger,
 } from "#/shared/ui/collapsible";
 import { Separator } from "#/shared/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "#/shared/ui/tooltip";
+import { Amount } from "#/shared/ui/amount";
 
-import { toLocalString } from "#/shared/lib/toLocalString";
-import { formatRounded } from "#/shared/lib/formatRounded";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
-import { computePendingEmissions, useCoopState } from "#/entities/coop";
+import { useLiveUserBalances } from "#/entities/coop";
 
 import * as m from "#/paraglide/messages";
 
@@ -31,9 +24,9 @@ interface RewardsCardProps {
   coopDecimals: number;
   coopSymbol: string;
   /**
-   * Optional slot rendered at the bottom-right of the card. The page composes
-   * the actual claim-rewards-dialog trigger here, so this card stays free of
-   * any cross-feature imports.
+   * Optional slot rendered in the top-right corner of the card next to the
+   * title. The page composes the actual claim-rewards-dialog trigger here so
+   * this card stays free of any cross-feature imports.
    */
   action?: ReactNode;
 }
@@ -45,41 +38,19 @@ export const RewardsCard: FC<RewardsCardProps> = ({
   action,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
-  const { getAaState, getParam, getCeilingPrice } = useCoopState();
-
-  // Re-render once a minute so the pending-emissions delta keeps ticking even
-  // when no AA response arrives. Same cadence as governance Countdown.
-  const [, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 60_000);
-    return () => clearInterval(id);
-  }, []);
+  const { pendingLocked, pendingLiquid } = useLiveUserBalances(user);
 
   const coopDivisor = 10 ** coopDecimals;
 
-  const aaState = getAaState();
-  const ceilingPrice = getCeilingPrice();
-  const pending =
-    aaState && ceilingPrice !== undefined
-      ? computePendingEmissions(
-          user,
-          aaState,
-          {
-            daily_locked_reward: getParam("daily_locked_reward"),
-            daily_liquid_reward: getParam("daily_liquid_reward"),
-            bytes_reducer: getParam("bytes_reducer"),
-            by_votes_share: getParam("by_votes_share"),
-          },
-          ceilingPrice,
-        )
-      : { pendingLocked: 0, pendingLiquid: 0 };
-
-  const lockedRewards = (user.locked_rewards ?? 0) + pending.pendingLocked;
-  const liquidRewards = (user.liquid_rewards ?? 0) + pending.pendingLiquid;
+  const lockedRewards = (user.locked_rewards ?? 0) + pendingLocked;
+  const liquidRewards = (user.liquid_rewards ?? 0) + pendingLiquid;
   const totalRewards = lockedRewards + liquidRewards;
   const totalRewardsRaw = totalRewards / coopDivisor;
+  const lockedRewardsRaw = lockedRewards / coopDivisor;
+  const liquidRewardsRaw = liquidRewards / coopDivisor;
 
   const referralRewards = user.referral_rewards ?? 0;
+  const referralRewardsRaw = referralRewards / coopDivisor;
   const referredUsers = user.referred_users ?? 0;
 
   const hasDetails =
@@ -92,23 +63,21 @@ export const RewardsCard: FC<RewardsCardProps> = ({
   return (
     <Card>
       <CardContent>
-        <CardTitle>{m.profile_rewards_title()}</CardTitle>
+        <div className="-mr-3 flex items-start justify-between gap-2">
+          <CardTitle>{m.profile_rewards_title()}</CardTitle>
+          {action && <div className="-mt-2">{action}</div>}
+        </div>
         <Collapsible
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}
         >
           <CollapsibleTrigger asChild className="mt-2 text-lg lg:text-xl">
             <div className={cn(hasDetails ? "cursor-pointer select-none" : "")}>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span>{formatRounded(totalRewardsRaw, coopDecimals)}</span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {toLocalString(totalRewardsRaw)} {coopSymbol}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>{" "}
+              <Amount
+                value={totalRewardsRaw}
+                decimals={coopDecimals}
+                symbol={coopSymbol}
+              />{" "}
               <small>{coopSymbol}</small>
               {hasDetails && (
                 <ChevronDown
@@ -126,77 +95,67 @@ export const RewardsCard: FC<RewardsCardProps> = ({
             <Separator />
 
             {lockedRewards > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="text-muted-foreground">
-                      {m.profile_locked_rewards_detail({
-                        amount: formatRounded(
-                          lockedRewards / coopDivisor,
-                          coopDecimals,
-                        ),
-                        symbol: coopSymbol,
-                      })}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {toLocalString(lockedRewards / coopDivisor)} {coopSymbol}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  {m.profile_locked_rewards_detail()}
+                </span>
+                <span>
+                  <Amount
+                    value={lockedRewardsRaw}
+                    decimals={coopDecimals}
+                    symbol={coopSymbol}
+                  />{" "}
+                  {coopSymbol}
+                </span>
+              </div>
             )}
 
             {liquidRewards > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="text-muted-foreground">
-                      {m.profile_liquid_rewards_detail({
-                        amount: formatRounded(
-                          liquidRewards / coopDivisor,
-                          coopDecimals,
-                        ),
-                        symbol: coopSymbol,
-                      })}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {toLocalString(liquidRewards / coopDivisor)} {coopSymbol}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  {m.profile_liquid_rewards_detail()}
+                </span>
+                <span>
+                  <Amount
+                    value={liquidRewardsRaw}
+                    decimals={coopDecimals}
+                    symbol={coopSymbol}
+                  />{" "}
+                  {coopSymbol}
+                </span>
+              </div>
             )}
 
             {referralRewards > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="text-muted-foreground">
-                      {m.profile_referral_rewards_detail({
-                        amount: formatRounded(
-                          referralRewards / coopDivisor,
-                          coopDecimals,
-                        ),
-                        symbol: coopSymbol,
-                      })}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {toLocalString(referralRewards / coopDivisor)} {coopSymbol}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  {m.profile_referral_rewards_detail()}
+                </span>
+                <span>
+                  <Amount
+                    value={referralRewardsRaw}
+                    decimals={coopDecimals}
+                    symbol={coopSymbol}
+                  />{" "}
+                  {coopSymbol}
+                </span>
+              </div>
             )}
 
             {referredUsers > 0 && (
-              <div className="text-muted-foreground">
-                {m.profile_referred_users_detail({ count: referredUsers })}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  {m.profile_referred_users_detail()}
+                </span>
+                <span>{referredUsers}</span>
               </div>
             )}
 
             {user.ref && (
-              <div className="text-muted-foreground">
-                {m.profile_referrer()}:{" "}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  {m.profile_referrer()}
+                </span>
                 <Link
                   to="/user/$address"
                   params={{ address: user.ref }}
@@ -208,8 +167,6 @@ export const RewardsCard: FC<RewardsCardProps> = ({
             )}
           </CollapsibleContent>
         </Collapsible>
-
-        {action && <div className="mt-3 flex justify-end">{action}</div>}
       </CardContent>
     </Card>
   );

@@ -5,6 +5,8 @@ export {
   updateCoopVars,
 } from "./model/store";
 export { useCoopState } from "./model/useCoopState";
+export { useLiveUserBalances } from "./model/useLiveUserBalances";
+export type { LiveUserBalances } from "./model/useLiveUserBalances";
 export { useAllUsers, extractTopUsers } from "./model/useAllUsers";
 export type { CoopConstants, CoopUser } from "./model/schemas";
 export type { LeaderboardUser } from "./model/useAllUsers";
@@ -13,7 +15,6 @@ export type { Eligibility } from "./lib/getEligibility";
 export { getCeilingPrice } from "./lib/getCeilingPrice";
 export { getNewUnlockDate } from "./lib/getNewUnlockDate";
 export { getVotesDivisor } from "./lib/votesScale";
-export { computeLiveLiquidBalance } from "./lib/computeLiveLiquidBalance";
 export { computePendingEmissions } from "./lib/computePendingEmissions";
 export { emptyCoopUser } from "./lib/emptyCoopUser";
 export type {

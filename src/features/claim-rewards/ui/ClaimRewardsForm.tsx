@@ -15,7 +15,11 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { formatRounded } from "#/shared/lib/formatRounded";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import type { CoopUser } from "#/entities/coop";
-import { useCoopState, getNewUnlockDate } from "#/entities/coop";
+import {
+  useCoopState,
+  getNewUnlockDate,
+  useLiveUserBalances,
+} from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useWallet } from "#/entities/user";
 
@@ -35,7 +39,7 @@ export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
 
   const [restake, setRestake] = useState(false);
 
-  const liquidAtomic = user.liquid_balance ?? 0;
+  const { liveLiquidBalance: liquidAtomic } = useLiveUserBalances(user);
   const liquid = liquidAtomic / 10 ** coopDecimals;
 
   if (liquidAtomic <= 0) {

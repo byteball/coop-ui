@@ -11,7 +11,11 @@ import {
 } from "#/shared/ui/tooltip";
 
 import { useWallet } from "#/entities/user";
-import { useCoopState, emptyCoopUser } from "#/entities/coop";
+import {
+  useCoopState,
+  emptyCoopUser,
+  useLiveUserBalances,
+} from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { attestationsQueryOptions } from "#/entities/attestation";
 import { ogImageMeta } from "#/shared/lib/ogImage";
@@ -67,6 +71,8 @@ function UserProfile() {
   const { coopDecimals, gbyteDecimals, coopSymbol, gbyteSymbol } = useAssetInfo(
     constants?.asset,
   );
+  const user = getUser(address) ?? emptyCoopUser();
+  const { liveLiquidBalance: liquidClaimable } = useLiveUserBalances(user);
   const isLoaded = status === "loaded";
   const isValidAddress = obyte.utils.isValidAddress(address);
 
@@ -82,10 +88,6 @@ function UserProfile() {
       </div>
     );
   }
-
-  const user = getUser(address) ?? emptyCoopUser();
-
-  const liquidRewards = user.liquid_rewards ?? 0;
 
   const lockMoreAction = isYou ? (
     <TooltipProvider>
@@ -107,7 +109,7 @@ function UserProfile() {
   ) : null;
 
   const claimRewardsAction =
-    isYou && liquidRewards > 0 ? (
+    isYou && liquidClaimable > 0 ? (
       <TooltipProvider>
         <Tooltip>
           <ClaimRewardsDialog user={user}>
