@@ -1,7 +1,7 @@
 export function getContactUrl(
-  username: string | undefined,
+  username: string | null | undefined,
   resource: "telegram" | "discord",
-  userId?: string,
+  userId?: string | null,
 ): string {
   if (!username) return "";
 

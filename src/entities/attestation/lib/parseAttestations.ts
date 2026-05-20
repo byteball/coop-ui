@@ -1,22 +1,7 @@
-import { z } from "zod";
-
 import { attestors } from "#/shared/config/appConfig";
 
-import type { ParsedAttestations, RawAttestation } from "../model/types";
-
-export const profileSchema = z.record(z.string(), z.unknown());
-
-export const rawAttestationSchema = z.object({
-  attestor_address: z.string(),
-  profile: profileSchema,
-});
-
-export const parsedAttestationsSchema = z.object({
-  telegram: profileSchema.nullable(),
-  discord: profileSchema.nullable(),
-  realName: profileSchema.nullable(),
-  displayName: z.string().nullable(),
-});
+import { rawAttestationSchema } from "../model/schemas";
+import type { ParsedAttestations, RawAttestation } from "../model/schemas";
 
 const tgSet = new Set<string>(attestors.telegramAttestors);
 const discordSet = new Set<string>(attestors.discordAttestors);
@@ -41,7 +26,7 @@ export function parseRawAttestations(value: unknown): RawAttestation[] {
     if (parsed.success) {
       out.push({
         attestor_address: parsed.data.attestor_address,
-        profile: parsed.data.profile as RawAttestation["profile"],
+        profile: parsed.data.profile,
       });
     }
   }
@@ -50,7 +35,7 @@ export function parseRawAttestations(value: unknown): RawAttestation[] {
 
 function pickUsername(profile: RawAttestation["profile"] | null): string | null {
   if (!profile) return null;
-  const username = (profile as Record<string, unknown>).username;
+  const username = profile.username;
   return typeof username === "string" && username.length > 0 ? username : null;
 }
 

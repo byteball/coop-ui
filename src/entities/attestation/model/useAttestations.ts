@@ -8,9 +8,9 @@ import {
   emptyAttestations,
   parseAttestations,
   parseRawAttestations,
-  parsedAttestationsSchema,
 } from "../lib/parseAttestations";
-import type { ParsedAttestations } from "./types";
+import { parsedAttestationsSchema } from "./schemas";
+import type { ParsedAttestations } from "./schemas";
 
 const cacheEntrySchema = z.object({
   data: parsedAttestationsSchema,

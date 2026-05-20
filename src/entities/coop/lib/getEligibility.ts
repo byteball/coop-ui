@@ -1,4 +1,4 @@
-import type { CoopUser } from "../model/types";
+import type { CoopUser } from "../model/schemas";
 
 export interface Eligibility {
   isEligible: boolean;

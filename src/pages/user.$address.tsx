@@ -11,8 +11,7 @@ import {
 } from "#/shared/ui/tooltip";
 
 import { useWallet } from "#/entities/user";
-import { useCoopState } from "#/entities/coop";
-import type { CoopUser } from "#/entities/coop";
+import { useCoopState, emptyCoopUser } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { attestationsQueryOptions } from "#/entities/attestation";
 import { ogImageMeta } from "#/shared/lib/ogImage";
@@ -84,21 +83,7 @@ function UserProfile() {
     );
   }
 
-  const defaultUser: CoopUser = {
-    balance: 0,
-    bytes_balance: 0,
-    total_balance: 0,
-    unlock_date: false,
-    reg_date: "",
-    reg_ts: 0,
-    last_ts: 0,
-    last_locked_emissions_per_vote: 0,
-    last_liquid_emissions_per_vote: 0,
-    last_locked_emissions_per_vb: 0,
-    last_liquid_emissions_per_vb: 0,
-  };
-
-  const user = getUser(address) ?? defaultUser;
+  const user = getUser(address) ?? emptyCoopUser();
 
   const liquidRewards = user.liquid_rewards ?? 0;
 

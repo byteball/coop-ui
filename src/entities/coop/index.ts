@@ -6,20 +6,30 @@ export {
 } from "./model/store";
 export { useCoopState } from "./model/useCoopState";
 export { useAllUsers, extractTopUsers } from "./model/useAllUsers";
-export type { CoopConstants, CoopUser } from "./model/types";
+export type { CoopConstants, CoopUser } from "./model/schemas";
 export type { LeaderboardUser } from "./model/useAllUsers";
 export { getEligibility } from "./lib/getEligibility";
 export type { Eligibility } from "./lib/getEligibility";
 export { getCeilingPrice } from "./lib/getCeilingPrice";
 export { getNewUnlockDate } from "./lib/getNewUnlockDate";
 export { getVotesDivisor } from "./lib/votesScale";
+export { computeLiveLiquidBalance } from "./lib/computeLiveLiquidBalance";
+export { computePendingEmissions } from "./lib/computePendingEmissions";
+export { emptyCoopUser } from "./lib/emptyCoopUser";
+export type {
+  EmissionParams,
+  PendingEmissions,
+} from "./lib/computePendingEmissions";
 export {
   coopConstantsSchema,
   coopUserSchema,
+  coopStateSchema,
   aaResponseBodySchema,
   aaResponseMessageSchema,
   parseCoopUser,
+  parseCoopState,
 } from "./model/schemas";
+export type { CoopAaState } from "./model/schemas";
 export { useVotesReceived } from "./model/useVotesReceived";
 export type { VoteRecord } from "./model/useVotesReceived";
 export { useVotesGiven } from "./model/useVotesGiven";

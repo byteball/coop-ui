@@ -53,7 +53,7 @@ COOP is a dapp on Obyte that encourages cooperative community engagement. The go
 
 ## AA Actions Reference
 
-Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
+Smart contracts are in `coop-aa/coop.oscript` and `coop-aa/governance.oscript`.
 
 ### coop.oscript — 7 actions
 
@@ -124,7 +124,7 @@ Smart contracts are in `aa/coop.oscript` and `aa/governance.oscript`.
 
 ## Commands
 
-- `pnpm dev` — dev server on port 3000
+- `pnpm dev` — dev server on port 4000
 - `pnpm build` — production build
 - `pnpm test` — run tests (vitest)
 - `pnpm lint` — eslint check
@@ -139,9 +139,9 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 
 - **`app/`** — global setup: entry point (`main.tsx`), router, providers (`providers/`), bootstrap, styles.
 - **`pages/`** — TanStack Router file-based routes. Root layout in `__root.tsx`. Route tree auto-generated in `src/routeTree.gen.ts`.
-- **`widgets/`** — composed UI blocks: `header/`, `footer/`, `layout/`.
-- **`features/`** — user interactions: `deposit/`, `connect-wallet/`, `voting/`, `governance/`, `referrals/`.
-- **`entities/`** — business domain: `user/`, `coop/`, `token/`, `governance/`, `emission/`.
+- **`widgets/`** — composed UI blocks: `header/`, `footer/`, `layout/`, `faq/`, `hero-illustrations/`.
+- **`features/`** — user interactions: `deposit/`, `connect-wallet/`, `voting/`, `governance/`, `referrals/`, `claim-rewards/`, `leaderboard/`, `profile/`, `replace/`.
+- **`entities/`** — business domain: `user/`, `coop/`, `token/`, `governance/`, `attestation/`, `referrer/`.
 - **`shared/`** — reusable infrastructure:
   - `config/` — env vars (`env.ts` via T3 Env) and app config (`appConfig.ts`).
   - `ui/` — Shadcn components (new-york style, zinc base) and illustrations.
@@ -183,3 +183,9 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 - **`openCustomProtocol({href, onProtocolMissing, ...})`** — Opens an `obyte:` deep-link with wallet detection. Special handling for Mobile Safari.
 - **`toLocalString(value)`** — Formats a number with locale-aware separators (up to 9 significant digits). Use for balances and amounts.
 - **`toOrdinal(n)`** — Appends English ordinal suffix (1st, 2nd, 3rd...). Use for leaderboard positions.
+- **`diffDays(from, to)`** — Whole-day difference between two `Date`s. Use for lock-period day counts.
+- **`formatRounded(value, decimals)`** — Locale-aware number formatting capped at N fractional digits, trailing zeroes stripped. Use for token amounts that need a decimal upper bound without padding.
+- **`tooManyDecimals(value, maxDecimals)`** — Returns true if string has more than N fractional digits. Use for input validation in deposit/replace forms.
+- **`getContactUrl(username, resource, userId?)`** — Builds `https://t.me/...` or `https://discord.com/users/...` URLs. Use when rendering user contacts.
+- **`ogImageUrl(path)` / `ogImageMeta(path)`** — Resolves an OG image URL against `VITE_OG_URL` (the coop-og service) and produces `<meta>` tags. Use in route head metadata.
+- **`storageKey(key)`** — Prefixes localStorage keys with `testnet:` / `livenet:` so testnet and livenet state don't collide. Use for any persisted client state.

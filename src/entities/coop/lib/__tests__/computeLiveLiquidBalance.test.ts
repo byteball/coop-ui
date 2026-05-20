@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import { computeLiveLiquidBalance } from "../computeLiveLiquidBalance";
-import type { CoopUser } from "../../model/types";
+import type { CoopUser } from "../../model/schemas";
 
 function makeUser(overrides: Partial<CoopUser> = {}): CoopUser {
   return {
@@ -25,8 +25,11 @@ function makeUser(overrides: Partial<CoopUser> = {}): CoopUser {
 const baseState = {
   total_locked: 0,
   total_locked_bytes: 0,
+  locked_emissions: 0,
   liquid_emissions: 0,
+  locked_emissions_per_vote: 0,
   liquid_emissions_per_vote: 0,
+  locked_emissions_per_vb: 0,
   liquid_emissions_per_vb: 0,
   total_votes: 0,
   total_votes_bal: 0,
@@ -34,6 +37,7 @@ const baseState = {
 };
 
 const params = {
+  daily_locked_reward: 0.01,
   daily_liquid_reward: 0.001,
   bytes_reducer: 0.75,
   by_votes_share: 0.5,

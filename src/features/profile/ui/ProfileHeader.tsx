@@ -18,7 +18,7 @@ import {
 } from "#/shared/ui/tooltip";
 
 import { useWallet } from "#/entities/user";
-import { useAttestations } from "#/entities/attestation";
+import { useAttestations, getProfileField } from "#/entities/attestation";
 import type { CoopUser } from "#/entities/coop";
 import { getEligibility } from "#/entities/coop";
 
@@ -77,10 +77,10 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
 
   const { isEligible, hasBalance, hasLockPeriod } = getEligibility(user);
 
-  const tgUsername = attestations?.telegram?.username;
-  const tgUserId = attestations?.telegram?.userId;
-  const discordUsername = attestations?.discord?.username;
-  const discordUserId = attestations?.discord?.userId;
+  const tgUsername = getProfileField(attestations?.telegram, "username");
+  const tgUserId = getProfileField(attestations?.telegram, "userId");
+  const discordUsername = getProfileField(attestations?.discord, "username");
+  const discordUserId = getProfileField(attestations?.discord, "userId");
   const hasRealName = !!attestations?.realName;
   const displayName =
     attestations?.displayName ??

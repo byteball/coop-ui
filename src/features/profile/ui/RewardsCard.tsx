@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 
@@ -22,6 +22,7 @@ import { formatRounded } from "#/shared/lib/formatRounded";
 import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
+import { computePendingEmissions, useCoopState } from "#/entities/coop";
 
 import * as m from "#/paraglide/messages";
 
@@ -44,11 +45,37 @@ export const RewardsCard: FC<RewardsCardProps> = ({
   action,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const { getAaState, getParam, getCeilingPrice } = useCoopState();
+
+  // Re-render once a minute so the pending-emissions delta keeps ticking even
+  // when no AA response arrives. Same cadence as governance Countdown.
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   const coopDivisor = 10 ** coopDecimals;
 
-  const lockedRewards = user.locked_rewards ?? 0;
-  const liquidRewards = user.liquid_rewards ?? 0;
+  const aaState = getAaState();
+  const ceilingPrice = getCeilingPrice();
+  const pending =
+    aaState && ceilingPrice !== undefined
+      ? computePendingEmissions(
+          user,
+          aaState,
+          {
+            daily_locked_reward: getParam("daily_locked_reward"),
+            daily_liquid_reward: getParam("daily_liquid_reward"),
+            bytes_reducer: getParam("bytes_reducer"),
+            by_votes_share: getParam("by_votes_share"),
+          },
+          ceilingPrice,
+        )
+      : { pendingLocked: 0, pendingLiquid: 0 };
+
+  const lockedRewards = (user.locked_rewards ?? 0) + pending.pendingLocked;
+  const liquidRewards = (user.liquid_rewards ?? 0) + pending.pendingLiquid;
   const totalRewards = lockedRewards + liquidRewards;
   const totalRewardsRaw = totalRewards / coopDivisor;
 

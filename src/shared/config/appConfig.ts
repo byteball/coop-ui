@@ -1,42 +1,81 @@
+import { z } from "zod";
 import { env } from "./env";
 
-export const defaultParams = {
-  daily_locked_reward: 0.01,
-  daily_liquid_reward: 0.001,
-  bytes_reducer: 0.75,
-  by_votes_share: 0.5,
-  messaging_attestors:
+export type GovernanceParamType = "number" | "integer" | "string";
+
+const num = (defaultValue: number) => ({
+  type: "number" as const,
+  default: defaultValue,
+});
+const int = (defaultValue: number) => ({
+  type: "integer" as const,
+  default: defaultValue,
+});
+const str = (defaultValue: string) => ({
+  type: "string" as const,
+  default: defaultValue,
+});
+
+/**
+ * Single source of truth for every AA-tunable parameter: name, runtime type
+ * (used by the governance UI for input validation), and default value (used
+ * when the AA hasn't set a custom value yet). `defaultParams`,
+ * `governanceParams`, and `variablesSchema` are all derived from this — add a
+ * new parameter here and the rest follows automatically.
+ */
+export const paramDefs = {
+  daily_locked_reward: num(0.01),
+  daily_liquid_reward: num(0.001),
+  bytes_reducer: num(0.75),
+  by_votes_share: num(0.5),
+  referrer_coop_deposit_reward_share: num(0.02),
+  referrer_bytes_deposit_reward_share: num(0.01),
+  referral_reward: int(10e9),
+  min_balance_instead_of_real_name: int(1e8),
+  messaging_attestors: str(
     "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N:WVO7PWJUAIEGJM7HY25SX6UPXSTCN4VH:FSJVTTCHUIWALPN7Y6GYEKZACXMEXIG3:5KM36CFPBD2QJLVD65PHZG34WEM4RPY2",
-  real_name_attestors:
+  ),
+  real_name_attestors: str(
     "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N:WVO7PWJUAIEGJM7HY25SX6UPXSTCN4VH:FSJVTTCHUIWALPN7Y6GYEKZACXMEXIG3",
-  referrer_coop_deposit_reward_share: 0.02,
-  referrer_bytes_deposit_reward_share: 0.01,
-  referral_reward: 10e9,
-  min_balance_instead_of_real_name: 1e8,
+  ),
 } as const;
 
-export type AppParams = typeof defaultParams;
-export type AppParamName = keyof AppParams;
+export type AppParamName = keyof typeof paramDefs;
+export type AppParams = {
+  [K in AppParamName]: (typeof paramDefs)[K]["default"];
+};
 
-export type GovernanceParamType = "number" | "integer" | "string";
+const paramEntries = Object.entries(paramDefs) as Array<
+  [AppParamName, (typeof paramDefs)[AppParamName]]
+>;
+
+export const defaultParams: AppParams = Object.fromEntries(
+  paramEntries.map(([name, def]) => [name, def.default]),
+) as AppParams;
 
 export interface GovernanceParamDef {
   name: AppParamName;
   type: GovernanceParamType;
 }
 
-export const governanceParams: GovernanceParamDef[] = [
-  { name: "daily_locked_reward", type: "number" },
-  { name: "daily_liquid_reward", type: "number" },
-  { name: "bytes_reducer", type: "number" },
-  { name: "by_votes_share", type: "number" },
-  { name: "referrer_coop_deposit_reward_share", type: "number" },
-  { name: "referrer_bytes_deposit_reward_share", type: "number" },
-  { name: "referral_reward", type: "integer" },
-  { name: "min_balance_instead_of_real_name", type: "integer" },
-  { name: "messaging_attestors", type: "string" },
-  { name: "real_name_attestors", type: "string" },
-];
+export const governanceParams: GovernanceParamDef[] = paramEntries.map(
+  ([name, def]) => ({ name, type: def.type }),
+);
+
+type VariablesShape = {
+  [K in AppParamName]: AppParams[K] extends string
+    ? z.ZodOptional<z.ZodString>
+    : z.ZodOptional<z.ZodNumber>;
+};
+
+const variablesShape = Object.fromEntries(
+  paramEntries.map(([name, def]) => [
+    name,
+    def.type === "string" ? z.string().optional() : z.number().optional(),
+  ]),
+) as VariablesShape;
+
+export const variablesSchema = z.object(variablesShape);
 
 export const CHALLENGING_PERIOD = 259200; // 3 days in seconds
 

@@ -1,29 +1,17 @@
 import { useCallback } from "react";
 import { useStore } from "@tanstack/react-store";
-import { z } from "zod";
 
-import { defaultParams } from "#/shared/config/appConfig";
+import { defaultParams, variablesSchema } from "#/shared/config/appConfig";
 import type { AppParamName, AppParams } from "#/shared/config/appConfig";
 import { getCeilingPrice as calcCeilingPrice } from "../lib/getCeilingPrice";
-import { coopConstantsSchema, parseCoopUser } from "./schemas";
+import {
+  coopConstantsSchema,
+  parseCoopUser,
+  parseCoopState,
+} from "./schemas";
+import type { CoopUser } from "./schemas";
 
 import { coopStore } from "./store";
-import type { CoopUser } from "./types";
-
-const variablesSchema = z
-  .object({
-    daily_locked_reward: z.number().optional(),
-    daily_liquid_reward: z.number().optional(),
-    bytes_reducer: z.number().optional(),
-    by_votes_share: z.number().optional(),
-    messaging_attestors: z.string().optional(),
-    real_name_attestors: z.string().optional(),
-    referrer_coop_deposit_reward_share: z.number().optional(),
-    referrer_bytes_deposit_reward_share: z.number().optional(),
-    referral_reward: z.number().optional(),
-    min_balance_instead_of_real_name: z.number().optional(),
-  })
-  .partial();
 
 export function useCoopState() {
   const { status, vars } = useStore(coopStore, (s) => s);
@@ -56,5 +44,15 @@ export function useCoopState() {
     [vars],
   );
 
-  return { status, vars, constants, getParam, getCeilingPrice, getUser };
+  const getAaState = useCallback(() => parseCoopState(vars.state), [vars]);
+
+  return {
+    status,
+    vars,
+    constants,
+    getParam,
+    getCeilingPrice,
+    getUser,
+    getAaState,
+  };
 }
