@@ -23,7 +23,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header
+      className="fixed inset-x-0 top-0 z-50"
+      style={{ paddingRight: "var(--removed-body-scroll-bar-size, 0px)" }}
+    >
       <div className="border-b border-border/50 bg-background/75 backdrop-blur ring-1 ring-transparent transition-all duration-300">
         <div className="mx-auto max-w-5xl px-6">
           <div className="relative flex h-14 items-center justify-between">
