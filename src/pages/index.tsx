@@ -40,7 +40,7 @@ function HeroSection() {
             <span className="text-primary font-mono text-sm uppercase">
               {m.hero_label()}
             </span>
-            <h1 className="mt-6 bg-linear-to-b from-foreground/50 to-foreground/95 bg-clip-text text-4xl font-semibold tracking-tighter text-transparent [-webkit-text-stroke:0.5px_var(--color-foreground)] md:text-5xl">
+            <h1 className="mt-6 bg-linear-to-b from-foreground to-foreground bg-clip-text text-4xl font-semibold tracking-tighter text-transparent md:text-5xl">
               {m.hero_title({ contributing: m.hero_contributing() })}
             </h1>
             <p className="text-muted-foreground mt-6 text-balance text-lg">
