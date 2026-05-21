@@ -3,16 +3,10 @@ import type { FC } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "#/shared/ui/card";
 import { Separator } from "#/shared/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "#/shared/ui/tooltip";
-import { toLocalString } from "#/shared/lib/toLocalString";
-import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { getVotesDivisor, useVotesGiven } from "#/entities/coop";
-import { useDisplayName, UserDisplayName } from "#/entities/attestation";
+import { useDisplayName } from "#/entities/attestation";
+
+import { VoteRow } from "./VoteRow";
 
 import * as m from "#/paraglide/messages";
 
@@ -37,49 +31,18 @@ export const VotesGivenList: FC<VotesGivenListProps> = ({
       </CardHeader>
       <CardContent>
         {voteRecords.length > 0 ? (
-          <div className="grid grid-cols-[1fr_auto_auto] items-center gap-x-2 gap-y-2 text-sm">
+          <div className="space-y-2 text-sm">
             {voteRecords.map((record, i) => (
               <Fragment key={record.toAddress}>
-                {i > 0 && <Separator className="col-span-full" />}
-                <div className="flex flex-col">
-                  <UserDisplayName address={record.toAddress} />
-                  <span className="text-xs text-muted-foreground">
-                    {formatDateShort(new Date(record.ts * 1000))}
-                  </span>
-                </div>
-                <div className="flex items-center justify-end gap-2">
-                  {record.toAddress === address && (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                            {m.vote_list_self()}
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>{m.vote_self()}</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                  {typeof record.strength === "number" && (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                            {m.vote_list_strength({
-                              n: String(record.strength),
-                            })}
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {m.vote_list_strength_tooltip()}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  )}
-                </div>
-                <span className="text-right tabular-nums text-muted-foreground">
-                  {toLocalString(record.votes / votesDivisor)}
-                </span>
+                {i > 0 && <Separator />}
+                <VoteRow
+                  counterpartyAddress={record.toAddress}
+                  ts={record.ts}
+                  votes={record.votes}
+                  votesDivisor={votesDivisor}
+                  strength={record.strength}
+                  isSelfVote={record.toAddress === address}
+                />
               </Fragment>
             ))}
           </div>

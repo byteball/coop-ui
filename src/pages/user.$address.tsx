@@ -132,14 +132,16 @@ function UserProfile() {
     ) : null;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 sm:space-y-10">
       <DepositBanner user={user} address={address} />
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:justify-between sm:gap-4">
         <ProfileHeader address={address} user={user} />
-        <VoteButton address={address} />
+        <div className="self-end sm:self-auto">
+          <VoteButton address={address} />
+        </div>
       </div>
 
-      <div className="grid grid-cols-6 gap-8 [&>div>*]:h-full">
+      <div className="grid grid-cols-6 gap-4 sm:gap-6 lg:gap-8 [&>div>*]:h-full">
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <BalanceCard
             user={user}

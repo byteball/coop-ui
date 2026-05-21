@@ -88,7 +88,7 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
         </p>
 
         <Field className="mt-4" data-invalid={(touched && !!error) || undefined}>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
             <FieldLabel htmlFor="replace-amount">
               {m.replace_amount_label({ symbol: coopSymbol })}
             </FieldLabel>

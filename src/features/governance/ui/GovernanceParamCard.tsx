@@ -96,15 +96,15 @@ export function GovernanceParamCard({
     <>
       <Card className="flex flex-col">
         <CardHeader className="pb-3">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5">
-              <CardTitle className="text-xl">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <CardTitle className="text-xl break-words">
                 {formatParamName(def.name)}
               </CardTitle>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="size-3.5 text-muted-foreground" />
+                    <Info className="size-3.5 shrink-0 text-muted-foreground" />
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <p className="text-xs">{getParamDescription(def.name)}</p>
@@ -196,13 +196,13 @@ export function GovernanceParamCard({
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-xs text-muted-foreground">
-                    <th className="border-b border-border px-3 py-2 text-left font-medium">
+                    <th className="border-b border-border px-2 py-2 text-left font-medium sm:px-3">
                       {m.governance_param_col_value()}
                     </th>
-                    <th className="border-b border-border px-3 py-2 text-right font-medium">
+                    <th className="border-b border-border px-2 py-2 text-right font-medium sm:px-3">
                       {m.governance_param_col_support()}
                     </th>
-                    <th className="border-b border-border px-3 py-2 text-right font-medium" />
+                    <th className="border-b border-border px-2 py-2 text-right font-medium sm:px-3" />
                   </tr>
                 </thead>
                 <tbody>
@@ -211,7 +211,7 @@ export function GovernanceParamCard({
                       key={s.valueKey}
                       className={i > 0 ? "border-t border-border" : ""}
                     >
-                      <td className="max-w-[40%] truncate px-3 py-2 font-mono text-xs">
+                      <td className="max-w-[40%] truncate px-2 py-2 font-mono text-xs sm:px-3">
                         <ParamValue
                           value={s.valueKey}
                           def={def}
@@ -219,7 +219,7 @@ export function GovernanceParamCard({
                           coopSymbol={coopSymbol}
                         />
                       </td>
-                      <td className="px-3 py-2 text-right text-xs">
+                      <td className="px-2 py-2 text-right text-xs sm:px-3">
                         <button
                           onClick={() => openSupportDialog(s.valueKey)}
                           className="cursor-pointer link"
@@ -227,7 +227,7 @@ export function GovernanceParamCard({
                           {toLocalString(s.support / votesDivisor)}
                         </button>
                       </td>
-                      <td className="px-3 py-2 text-right">
+                      <td className="px-2 py-2 text-right sm:px-3">
                         <button
                           onClick={() => openDialog(s.valueKey)}
                           disabled={!address}

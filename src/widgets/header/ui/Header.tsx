@@ -8,6 +8,7 @@ import * as m from "#/paraglide/messages";
 
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { WalletArea } from "./WalletArea";
+import { WalletMobileMenuItem } from "./WalletMobileMenuItem";
 
 const navItems = [
   { to: "/leaderboard", label: () => m.nav_leaderboard() },
@@ -94,6 +95,7 @@ export function Header() {
               {item.label()}
             </Link>
           ))}
+          <WalletMobileMenuItem onClose={() => setMobileOpen(false)} />
         </nav>
       )}
     </header>

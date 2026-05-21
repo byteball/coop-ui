@@ -122,9 +122,9 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
   );
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="mb-3 flex items-center gap-4">
-        <Avatar className="size-16 md:size-20">
+    <div className="flex w-full min-w-0 flex-col gap-3">
+      <div className="mb-3 flex items-center gap-3 sm:gap-4">
+        <Avatar className="size-14 shrink-0 sm:size-16 md:size-20">
           <AvatarImage
             key={avatarSrc ?? "no-src"}
             src={avatarSrc ?? undefined}
@@ -135,16 +135,16 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
           </AvatarFallback>
         </Avatar>
 
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl first-letter:uppercase">
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 sm:gap-x-3">
+            <h1 className="text-2xl font-semibold tracking-tight break-words sm:text-3xl md:text-5xl first-letter:uppercase">
               {displayName}
             </h1>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
                   <VerifiedIcon
-                    className={`size-8 ${isEligible ? "text-blue-500" : "text-muted-foreground"}`}
+                    className={`size-6 md:size-8 ${isEligible ? "text-blue-500" : "text-muted-foreground"}`}
                   />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -167,7 +167,7 @@ export const ProfileHeader: FC<ProfileHeaderProps> = ({ address, user }) => {
             href={getExplorerUrl(address, "address")}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-sm link"
+            className="font-mono text-xs break-all link sm:text-sm"
           >
             {address}
           </a>

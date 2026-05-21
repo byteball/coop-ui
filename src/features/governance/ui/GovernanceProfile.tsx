@@ -42,8 +42,8 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
 
   return (
     <Card>
-      <CardContent className="flex flex-wrap items-center justify-between gap-4 py-4">
-        <div className="flex items-center gap-2 text-sm">
+      <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
+        <div className="flex flex-col gap-0.5 text-sm sm:flex-row sm:items-center sm:gap-2">
           <span className="text-muted-foreground">
             {m.governance_profile_wallet()}
           </span>
@@ -56,43 +56,47 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
             {address.slice(0, 6)}...{address.slice(-6)}
           </a>
         </div>
-        <div className="flex items-center gap-6 text-sm">
-          <div className="flex items-center gap-1">
-            <span className="text-muted-foreground">
-              {m.governance_profile_balance()}
-            </span>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="size-3.5 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <p className="text-xs">
-                    {m.governance_profile_balance_tooltip()}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+        <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:gap-6">
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-1">
+            <div className="flex items-center gap-1">
+              <span className="text-muted-foreground">
+                {m.governance_profile_balance()}
+              </span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="size-3.5 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p className="text-xs">
+                      {m.governance_profile_balance_tooltip()}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <span className="font-medium">
               {toLocalString(totalBalance / coopDivisor)} {coopSymbol}
             </span>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-muted-foreground">
-              {m.governance_profile_voting_power()}
-            </span>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="size-3.5 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <p className="text-xs">
-                    {m.governance_profile_voting_power_tooltip()}
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <div className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-1">
+            <div className="flex items-center gap-1">
+              <span className="text-muted-foreground">
+                {m.governance_profile_voting_power()}
+              </span>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="size-3.5 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p className="text-xs">
+                      {m.governance_profile_voting_power_tooltip()}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <span className="font-medium">{toLocalString(votingPower)}</span>
           </div>
         </div>

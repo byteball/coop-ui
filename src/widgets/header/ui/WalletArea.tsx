@@ -9,11 +9,15 @@ export function WalletArea() {
   const { address, isConnected } = useWallet();
 
   if (!isConnected) {
-    return <ConnectWalletDialog />;
+    return (
+      <div className="hidden md:block">
+        <ConnectWalletDialog />
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="hidden items-center gap-2 md:flex">
       <Link
         to="/user/$address"
         params={{ address: address! }}
