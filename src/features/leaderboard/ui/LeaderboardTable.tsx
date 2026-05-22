@@ -75,14 +75,7 @@ export function LeaderboardTable({
       <TableBody>
         {table.getRowModel().rows.length > 0 ? (
           table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              className={
-                connectedAddress === row.original.address
-                  ? "bg-primary/5"
-                  : undefined
-              }
-            >
+            <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
