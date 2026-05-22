@@ -69,31 +69,31 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   const hasDetails = user.balance > 0 || user.bytes_balance > 0;
 
   return (
-    <Card className="relative">
-      {action && (
-        <div className="absolute right-3 top-3 z-10">{action}</div>
-      )}
+    <Card>
       <CardContent>
-        <CardTitle className="flex items-center gap-1.5">
-          {m.profile_balance_title()}
-          {ceilingPriceFormatted !== null && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="size-3.5 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  {m.profile_balance_title_tooltip({
-                    coopSymbol,
-                    gbyteSymbol,
-                    gbyteShare,
-                    ceilingPrice: ceilingPriceFormatted,
-                  })}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </CardTitle>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-1.5">
+            {m.profile_balance_title()}
+            {ceilingPriceFormatted !== null && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="size-3.5 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {m.profile_balance_title_tooltip({
+                      coopSymbol,
+                      gbyteSymbol,
+                      gbyteShare,
+                      ceilingPrice: ceilingPriceFormatted,
+                    })}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </CardTitle>
+          {action}
+        </div>
         <Collapsible
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}

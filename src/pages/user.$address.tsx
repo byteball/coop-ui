@@ -3,13 +3,6 @@ import obyte from "obyte";
 import { HandCoins, Plus } from "lucide-react";
 import * as m from "#/paraglide/messages";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "#/shared/ui/tooltip";
-
 import { useWallet } from "#/entities/user";
 import {
   useCoopState,
@@ -91,44 +84,22 @@ function UserProfile() {
   }
 
   const lockMoreAction = isYou ? (
-    <TooltipProvider>
-      <Tooltip>
-        <DepositDialog>
-          <TooltipTrigger asChild>
-            <Button
-              variant="secondary"
-              size="icon-sm"
-              aria-label={m.profile_lock_more()}
-              className="rounded-full"
-            >
-              <Plus />
-            </Button>
-          </TooltipTrigger>
-        </DepositDialog>
-        <TooltipContent>{m.profile_lock_more()}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <DepositDialog>
+      <Button variant="secondary" size="sm">
+        <Plus />
+        {m.profile_lock_more()}
+      </Button>
+    </DepositDialog>
   ) : null;
 
   const claimRewardsAction =
     isYou && liquidClaimable > 0 ? (
-      <TooltipProvider>
-        <Tooltip>
-          <ClaimRewardsDialog user={user}>
-            <TooltipTrigger asChild>
-              <Button
-                variant="secondary"
-                size="icon-sm"
-                aria-label={m.profile_claim_rewards_tooltip()}
-                className="rounded-full"
-              >
-                <HandCoins />
-              </Button>
-            </TooltipTrigger>
-          </ClaimRewardsDialog>
-          <TooltipContent>{m.profile_claim_rewards_tooltip()}</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <ClaimRewardsDialog user={user}>
+        <Button variant="secondary" size="sm">
+          <HandCoins />
+          {m.profile_claim_rewards_tooltip()}
+        </Button>
+      </ClaimRewardsDialog>
     ) : null;
 
   return (
