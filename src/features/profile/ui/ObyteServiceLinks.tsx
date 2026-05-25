@@ -28,7 +28,7 @@ export const ObyteServiceLinks: FC<ObyteServiceLinksProps> = ({
               href={obyteServiceUrls.city(address)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-x-2 font-medium text-foreground transition-opacity hover:opacity-80"
+              className="flex items-center gap-x-2 font-medium text-foreground underline-offset-4 transition-opacity hover:underline hover:opacity-80"
             >
               <img src="/city-logo.svg" alt="" className="size-4" />
               <span>{m.profile_badge_city()}</span>
@@ -47,7 +47,7 @@ export const ObyteServiceLinks: FC<ObyteServiceLinksProps> = ({
               href={obyteServiceUrls.friends(address)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-x-2 font-medium text-foreground transition-opacity hover:opacity-80"
+              className="flex items-center gap-x-2 font-medium text-foreground underline-offset-4 transition-opacity hover:underline hover:opacity-80"
             >
               <img src="/friends-logo.svg" alt="" className="size-4" />
               <span>{m.profile_badge_friends()}</span>

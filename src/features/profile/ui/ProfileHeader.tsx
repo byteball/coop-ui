@@ -54,7 +54,7 @@ function getEligibilityTooltip(
 }
 
 const linkClass =
-  "font-medium text-foreground transition-opacity hover:opacity-80";
+  "font-medium text-foreground underline-offset-4 transition-opacity hover:underline hover:opacity-80";
 
 const communityLinkClass = "font-medium link";
 
