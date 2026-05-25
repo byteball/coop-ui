@@ -32,7 +32,7 @@ export const VoteRow: FC<VoteRowProps> = ({
   const hasBadges = isSelfVote || typeof strength === "number";
 
   return (
-    <div className="grid grid-cols-[1fr_auto] items-center gap-x-2 gap-y-1 sm:grid-cols-[1fr_auto_auto] sm:gap-y-2">
+    <div className="grid grid-cols-[1fr_7rem] items-center gap-x-2 gap-y-1 sm:grid-cols-[1fr_auto_7rem] sm:gap-y-2">
       <div className="flex min-w-0 flex-col">
         <UserDisplayName address={counterpartyAddress} />
         <span className="text-xs text-muted-foreground">
