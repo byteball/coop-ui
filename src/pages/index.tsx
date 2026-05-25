@@ -107,29 +107,6 @@ function FeaturesSection() {
               </div>
             </Card>
 
-            <Card className="relative overflow-hidden rounded-3xl border-0 bg-card p-7 md:row-span-2">
-              <div
-                aria-hidden
-                className="absolute -top-20 -left-10 size-64 rounded-full bg-indigo-500/10 blur-3xl"
-              />
-              <div className="relative flex h-full flex-col gap-6">
-                <div className="text-balance">
-                  <span className="text-indigo-300/80 font-mono text-[11px] uppercase tracking-wider">
-                    03 · Vote
-                  </span>
-                  <h3 className="text-foreground mt-2 text-2xl font-semibold tracking-tight">
-                    {m.how_it_works_vote_title()}
-                  </h3>
-                  <p className="text-muted-foreground mt-2 text-sm">
-                    {m.how_it_works_vote_desc()}
-                  </p>
-                </div>
-                <div className="flex-1">
-                  <VisualizationIllustration />
-                </div>
-              </div>
-            </Card>
-
             <Card className="relative overflow-hidden rounded-3xl border-0 bg-card p-7 md:col-span-2">
               <div
                 aria-hidden
@@ -152,6 +129,29 @@ function FeaturesSection() {
                   </p>
                 </div>
                 <ScheduleIllustation />
+              </div>
+            </Card>
+
+            <Card className="relative overflow-hidden rounded-3xl border-0 bg-card p-7 md:col-start-3 md:row-span-2 md:row-start-1">
+              <div
+                aria-hidden
+                className="absolute -top-20 -left-10 size-64 rounded-full bg-indigo-500/10 blur-3xl"
+              />
+              <div className="relative flex h-full flex-col gap-6">
+                <div className="text-balance">
+                  <span className="text-indigo-300/80 font-mono text-[11px] uppercase tracking-wider">
+                    03 · Vote
+                  </span>
+                  <h3 className="text-foreground mt-2 text-2xl font-semibold tracking-tight">
+                    {m.how_it_works_vote_title()}
+                  </h3>
+                  <p className="text-muted-foreground mt-2 text-sm">
+                    {m.how_it_works_vote_desc()}
+                  </p>
+                </div>
+                <div className="flex-1">
+                  <VisualizationIllustration />
+                </div>
               </div>
             </Card>
           </div>
