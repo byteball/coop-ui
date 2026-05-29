@@ -1,24 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { ogImageMeta } from "#/shared/lib/ogImage";
+import { ogImageUrl } from "#/shared/lib/ogImage";
+import { buildRouteMeta, seoRoutes } from "#/shared/config/seoRoutes";
 import { Faq } from "#/widgets/faq";
 
-const FAQ_TITLE = "F.A.Q. — Obyte COOP";
-const FAQ_DESCRIPTION =
-  "Frequently asked questions about the COOP token: deposits, voting, emissions, governance, and referrals.";
+const faqRoute = seoRoutes.find((r) => r.path === "/faq")!;
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
-    meta: [
-      { title: FAQ_TITLE },
-      { name: "description", content: FAQ_DESCRIPTION },
-      { property: "og:title", content: FAQ_TITLE },
-      { property: "og:description", content: FAQ_DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: FAQ_TITLE },
-      { name: "twitter:description", content: FAQ_DESCRIPTION },
-      ...ogImageMeta("/og/faq.png"),
-    ],
+    meta: buildRouteMeta(faqRoute, ogImageUrl(faqRoute.ogImagePath)),
   }),
   component: Faq,
 });

@@ -7,8 +7,11 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
+import { ogPrerender } from "./vite-og-prerender";
+
 const config = defineConfig({
   plugins: [
+    ogPrerender(),
     devtools(),
     paraglideVitePlugin({
       project: "./project.inlang",

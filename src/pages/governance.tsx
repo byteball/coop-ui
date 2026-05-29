@@ -5,7 +5,8 @@ import { useWallet } from "#/entities/user";
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useGovernanceState } from "#/entities/governance";
-import { ogImageMeta } from "#/shared/lib/ogImage";
+import { ogImageUrl } from "#/shared/lib/ogImage";
+import { buildRouteMeta, seoRoutes } from "#/shared/config/seoRoutes";
 import { ConnectWalletDialog } from "#/features/connect-wallet";
 import {
   GovernanceProfile,
@@ -14,22 +15,14 @@ import {
   GovernanceParamListSkeleton,
 } from "#/features/governance";
 
-const GOVERNANCE_TITLE = "Governance — Obyte COOP";
-const GOVERNANCE_DESCRIPTION =
-  "Vote on COOP protocol parameters: emission rates, referral rewards, attestors, and more. Quadratic voting with a 3-day challenging period.";
+const governanceRoute = seoRoutes.find((r) => r.path === "/governance")!;
 
 export const Route = createFileRoute("/governance")({
   head: () => ({
-    meta: [
-      { title: GOVERNANCE_TITLE },
-      { name: "description", content: GOVERNANCE_DESCRIPTION },
-      { property: "og:title", content: GOVERNANCE_TITLE },
-      { property: "og:description", content: GOVERNANCE_DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: GOVERNANCE_TITLE },
-      { name: "twitter:description", content: GOVERNANCE_DESCRIPTION },
-      ...ogImageMeta("/og/governance.png"),
-    ],
+    meta: buildRouteMeta(
+      governanceRoute,
+      ogImageUrl(governanceRoute.ogImagePath),
+    ),
   }),
   component: Governance,
 });

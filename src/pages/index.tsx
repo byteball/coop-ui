@@ -3,7 +3,8 @@ import { ParaglideMessage } from "@inlang/paraglide-js-react";
 import * as m from "#/paraglide/messages";
 
 import { Card } from "#/shared/ui/card";
-import { ogImageMeta } from "#/shared/lib/ogImage";
+import { ogImageUrl } from "#/shared/lib/ogImage";
+import { buildRouteMeta, seoRoutes } from "#/shared/config/seoRoutes";
 import {
   KitIllustration,
   VisualizationIllustration,
@@ -11,22 +12,11 @@ import {
 } from "#/widgets/hero-illustrations";
 import { DepositForm } from "#/features/deposit";
 
-const INDEX_TITLE = "Obyte COOP — Cooperative Token on Obyte";
-const INDEX_DESCRIPTION =
-  "Lock COOP or GBYTE to earn daily emissions, vote for contributors, and participate in governance of the Obyte cooperative.";
+const indexRoute = seoRoutes.find((r) => r.path === "/")!;
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: INDEX_TITLE },
-      { name: "description", content: INDEX_DESCRIPTION },
-      { property: "og:title", content: INDEX_TITLE },
-      { property: "og:description", content: INDEX_DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:title", content: INDEX_TITLE },
-      { name: "twitter:description", content: INDEX_DESCRIPTION },
-      ...ogImageMeta("/og/home.png"),
-    ],
+    meta: buildRouteMeta(indexRoute, ogImageUrl(indexRoute.ogImagePath)),
   }),
   component: App,
 });
