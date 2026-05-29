@@ -18,31 +18,40 @@ const escapeHtml = (s: string): string =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+/**
+ * Marker attribute placed on every prerender-emitted head tag. The client-side
+ * head manager (`src/app/main.tsx`) removes elements carrying this attribute
+ * on hydration so TanStack Router's `<HeadContent />` can render its own copy
+ * without duplicates — same contract react-helmet uses with `data-rh`.
+ */
+const PRERENDER_ATTR = "data-prerender";
+
 const buildHeadBlock = (route: SeoRoute, ogBase: string | undefined): string => {
   const ogUrl = ogBase
     ? new URL(route.ogImagePath, ogBase).toString()
     : null;
+  const a = PRERENDER_ATTR;
   const tags: string[] = [
-    `<title>${escapeHtml(route.title)}</title>`,
-    `<meta name="description" content="${escapeHtml(route.description)}" />`,
-    `<meta property="og:site_name" content="${escapeHtml(SITE_NAME)}" />`,
-    `<meta property="og:type" content="website" />`,
-    `<meta property="og:title" content="${escapeHtml(route.title)}" />`,
-    `<meta property="og:description" content="${escapeHtml(route.description)}" />`,
-    `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:title" content="${escapeHtml(route.title)}" />`,
-    `<meta name="twitter:description" content="${escapeHtml(route.description)}" />`,
+    `<title ${a}>${escapeHtml(route.title)}</title>`,
+    `<meta ${a} name="description" content="${escapeHtml(route.description)}" />`,
+    `<meta ${a} property="og:site_name" content="${escapeHtml(SITE_NAME)}" />`,
+    `<meta ${a} property="og:type" content="website" />`,
+    `<meta ${a} property="og:title" content="${escapeHtml(route.title)}" />`,
+    `<meta ${a} property="og:description" content="${escapeHtml(route.description)}" />`,
+    `<meta ${a} name="twitter:card" content="summary_large_image" />`,
+    `<meta ${a} name="twitter:title" content="${escapeHtml(route.title)}" />`,
+    `<meta ${a} name="twitter:description" content="${escapeHtml(route.description)}" />`,
   ];
   if (ogUrl) {
     tags.push(
-      `<meta property="og:image" content="${escapeHtml(ogUrl)}" />`,
-      `<meta name="twitter:image" content="${escapeHtml(ogUrl)}" />`,
+      `<meta ${a} property="og:image" content="${escapeHtml(ogUrl)}" />`,
+      `<meta ${a} name="twitter:image" content="${escapeHtml(ogUrl)}" />`,
     );
   }
   return tags.join("\n    ");
 };
 
-const TITLE_RE = /<title>[^<]*<\/title>/;
+const TITLE_RE = /<title[^>]*>[\s\S]*?<\/title>/i;
 
 export const ogPrerender = (): Plugin => {
   let ogBase: string | undefined;
