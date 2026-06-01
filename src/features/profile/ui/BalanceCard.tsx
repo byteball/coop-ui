@@ -38,6 +38,12 @@ interface BalanceCardProps {
    * card stays free of any cross-feature imports.
    */
   action?: ReactNode;
+  /**
+   * Optional withdraw trigger. When provided (lock period has ended and the
+   * user has a balance), it is rendered in place of the unlock-date line.
+   * Composed by the page so this card stays free of cross-feature imports.
+   */
+  withdrawAction?: ReactNode;
 }
 
 export const BalanceCard: FC<BalanceCardProps> = ({
@@ -47,6 +53,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
   coopSymbol,
   gbyteSymbol,
   action,
+  withdrawAction,
 }) => {
   const [collapsed, setCollapsed] = useState(true);
   const { getParam, getCeilingPrice } = useCoopState();
@@ -166,16 +173,18 @@ export const BalanceCard: FC<BalanceCardProps> = ({
         </Collapsible>
 
         <div className="mt-3 text-sm">
-          <span className="text-muted-foreground">
-            {m.profile_unlock_date()}:{" "}
-            <span className="text-foreground">
-              {user.total_balance === 0
-                ? m.profile_not_locked_yet()
-                : user.unlock_date
-                  ? formatDateShort(new Date(user.unlock_date))
-                  : m.profile_unlocked()}
+          {withdrawAction ?? (
+            <span className="text-muted-foreground">
+              {m.profile_unlock_date()}:{" "}
+              <span className="text-foreground">
+                {user.total_balance === 0
+                  ? m.profile_not_locked_yet()
+                  : user.unlock_date
+                    ? formatDateShort(new Date(user.unlock_date))
+                    : m.profile_unlocked()}
+              </span>
             </span>
-          </span>
+          )}
         </div>
       </CardContent>
     </Card>

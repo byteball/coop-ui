@@ -26,6 +26,7 @@ import { VoteButton } from "#/features/voting";
 import { DepositBanner, DepositDialog } from "#/features/deposit";
 import { ReplaceForm } from "#/features/replace";
 import { ClaimRewardsDialog } from "#/features/claim-rewards";
+import { WithdrawDialog, isUnlockDatePassed } from "#/features/withdraw";
 import { ReferralLinkCard } from "#/features/referrals";
 
 export const Route = createFileRoute("/user/$address")({
@@ -92,6 +93,19 @@ function UserProfile() {
     </DepositDialog>
   ) : null;
 
+  const canWithdraw =
+    isYou &&
+    isUnlockDatePassed(user.unlock_date) &&
+    (user.balance > 0 || user.bytes_balance > 0);
+
+  const withdrawAction = canWithdraw ? (
+    <WithdrawDialog user={user}>
+      <Button variant="link" className="h-auto gap-0 p-0 text-sm">
+        {m.profile_withdraw()}
+      </Button>
+    </WithdrawDialog>
+  ) : null;
+
   const claimRewardsAction =
     isYou && liquidClaimable > 0 ? (
       <ClaimRewardsDialog user={user}>
@@ -121,6 +135,7 @@ function UserProfile() {
             coopSymbol={coopSymbol}
             gbyteSymbol={gbyteSymbol}
             action={lockMoreAction}
+            withdrawAction={withdrawAction}
           />
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
