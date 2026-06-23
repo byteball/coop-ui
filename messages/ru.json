@@ -88,6 +88,8 @@
   "vote_list_strength": "×{n}",
   "vote_list_strength_tooltip": "Сила голоса",
   "vote_list_self": "Голос за себя",
+  "vote_list_expires_in": "истекает через {period}",
+  "vote_list_expired": "истёк",
   "vote_unvote": "Убрать голос",
   "vote_self": "Голос за себя добавляется автоматически, когда вы голосуете за других",
   "vote_connect_wallet": "Добавьте кошелёк для голосования",

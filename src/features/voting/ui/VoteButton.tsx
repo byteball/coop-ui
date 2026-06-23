@@ -25,6 +25,7 @@ import { useCoopState, getEligibility } from "#/entities/coop";
 import { useDisplayName } from "#/entities/attestation";
 
 import { buildVoteLink } from "../lib/buildVoteLink";
+import { buildDeleteExpiredVotes } from "../lib/buildDeleteExpiredVotes";
 
 import * as m from "#/paraglide/messages";
 
@@ -74,11 +75,19 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
   const mainAa = env.VITE_AA_ADDRESS;
 
   const recipientUser = getUser(address);
-  const { isEligible: recipientEligible, hasBalance: recipientHasBalance, hasLockPeriod: recipientHasLockPeriod } = getEligibility(recipientUser);
+  const {
+    isEligible: recipientEligible,
+    hasBalance: recipientHasBalance,
+    hasLockPeriod: recipientHasLockPeriod,
+  } = getEligibility(recipientUser);
   const recipientName = useDisplayName(address);
 
   const voterUser = connectedAddress ? getUser(connectedAddress) : undefined;
-  const { isEligible: voterEligible, hasBalance: voterHasBalance, hasLockPeriod: voterHasLockPeriod } = getEligibility(voterUser);
+  const {
+    isEligible: voterEligible,
+    hasBalance: voterHasBalance,
+    hasLockPeriod: voterHasLockPeriod,
+  } = getEligibility(voterUser);
 
   const voteKey = connectedAddress
     ? `vote_${connectedAddress}_${address}`
@@ -106,15 +115,21 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
   const handleVote = useCallback(
     (strength: number) => {
       if (!connectedAddress) return;
+      const deleteExpiredVotes = buildDeleteExpiredVotes({
+        vars,
+        voterAddress: connectedAddress,
+        forAddress: address,
+      });
       const href = buildVoteLink({
         aa: mainAa,
         forAddress: address,
         strength,
         fromAddress: connectedAddress,
+        deleteExpiredVotes,
       });
       openCustomProtocol({ href, onProtocolMissing: () => {} });
     },
-    [mainAa, address, connectedAddress],
+    [mainAa, address, connectedAddress, vars],
   );
 
   if (!connectedAddress) {

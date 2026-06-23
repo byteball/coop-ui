@@ -75,4 +75,36 @@ describe("formatPeriod", () => {
     // 30 seconds remaining → 0 full minutes, but parts is empty → shows "0 minutes"
     expect(formatPeriod(NOW_SEC + 30)).toBe("0 minutes");
   });
+
+  describe("collapseDays", () => {
+    it("shows whole days only when a day or more away", () => {
+      mockNow();
+      expect(
+        formatPeriod(NOW_SEC + 3 * 86400 + 4 * 3600 + 12 * 60, {
+          collapseDays: true,
+        }),
+      ).toBe("3 days");
+    });
+
+    it("collapses 1 day + hours to a singular day", () => {
+      mockNow();
+      expect(
+        formatPeriod(NOW_SEC + 86400 + 5 * 3600, { collapseDays: true }),
+      ).toBe("1 day");
+    });
+
+    it("falls back to hours and minutes below a day", () => {
+      mockNow();
+      expect(
+        formatPeriod(NOW_SEC + 4 * 3600 + 12 * 60, { collapseDays: true }),
+      ).toBe("4h 12m");
+    });
+
+    it("shows minutes only below an hour", () => {
+      mockNow();
+      expect(formatPeriod(NOW_SEC + 5 * 60, { collapseDays: true })).toBe(
+        "5 minutes",
+      );
+    });
+  });
 });

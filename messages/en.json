@@ -88,6 +88,8 @@
   "vote_list_strength": "×{n}",
   "vote_list_strength_tooltip": "Vote strength",
   "vote_list_self": "Self-vote",
+  "vote_list_expires_in": "expires in {period}",
+  "vote_list_expired": "expired",
   "vote_unvote": "Remove vote",
   "vote_self": "Self-vote is automatic when you vote for others",
   "vote_connect_wallet": "Add wallet to vote",

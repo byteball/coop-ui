@@ -79,6 +79,9 @@ export const variablesSchema = z.object(variablesShape);
 
 export const CHALLENGING_PERIOD = 259200; // 3 days in seconds
 
+// Votes expire after 90 days. UTC unix seconds; mirrors $vote_lifetime in coop.oscript.
+export const VOTE_LIFETIME = 90 * 24 * 3600;
+
 /**
  * Minimum bytes amount we attach to any AA-bound transaction so it can either
  * pay for itself or bounce back if rejected. Same value is reused for governance

@@ -88,6 +88,8 @@
   "vote_list_strength": "×{n}",
   "vote_list_strength_tooltip": "Fuerza del voto",
   "vote_list_self": "Voto propio",
+  "vote_list_expires_in": "caduca en {period}",
+  "vote_list_expired": "caducado",
   "vote_unvote": "Eliminar voto",
   "vote_self": "El voto propio es automático cuando votas por otros",
   "vote_connect_wallet": "Añade tu billetera para votar",

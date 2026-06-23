@@ -11,8 +11,14 @@ function plural(unit: string, value: number): string {
  * into a human-readable string like "3 days 4h 12m".
  *
  * Pure arithmetic over UTC timestamps — no timezone or locale dependencies.
+ *
+ * With `collapseDays`, anything a day or more away is shown as whole days only
+ * ("3 days"); below a day it falls back to hours and minutes ("4h 12m").
  */
-export const formatPeriod = (periodEndTs: number): string => {
+export const formatPeriod = (
+  periodEndTs: number,
+  { collapseDays = false }: { collapseDays?: boolean } = {},
+): string => {
   // Both values are UTC: unix timestamp (seconds) and Date.now() (ms → seconds)
   const remainingSec = periodEndTs - Math.floor(Date.now() / 1000);
 
@@ -21,6 +27,8 @@ export const formatPeriod = (periodEndTs: number): string => {
   const days = Math.floor(remainingSec / DAY);
   const hours = Math.floor((remainingSec % DAY) / HOUR);
   const minutes = Math.floor((remainingSec % HOUR) / MINUTE);
+
+  if (collapseDays && days >= 1) return `${days} ${plural("day", days)}`;
 
   const parts: string[] = [];
   if (days) parts.push(`${days} ${plural("day", days)}`);

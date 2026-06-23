@@ -35,3 +35,8 @@ export { useVotesReceived } from "./model/useVotesReceived";
 export type { VoteRecord } from "./model/useVotesReceived";
 export { useVotesGiven } from "./model/useVotesGiven";
 export type { VoteGivenRecord } from "./model/useVotesGiven";
+export { parseAllVotes } from "./lib/parseAllVotes";
+export type { VoteEntry } from "./lib/parseAllVotes";
+export { getExpiredVotes } from "./lib/getExpiredVotes";
+export { getVoteExpiry } from "./lib/getVoteExpiry";
+export { isVoteExpired } from "./lib/isVoteExpired";
