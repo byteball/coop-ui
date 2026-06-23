@@ -148,6 +148,7 @@
   "governance_profile_voting_power_tooltip": "Raíz cuadrada de tu saldo bloqueado. Determina el peso de tus votos en la gobernanza.",
   "governance_param_current_value": "Valor actual:",
   "governance_param_your_vote": "Tu voto",
+  "governance_param_remove_vote": "eliminar voto",
   "governance_param_leader": "Líder",
   "governance_param_ready_to_commit": "Listo para aplicar",
   "governance_param_commit": "Aplicar",

@@ -20,6 +20,24 @@ export function buildVoteLink({
   });
 }
 
+export function buildRemoveVoteLink({
+  governanceAa,
+  name,
+  fromAddress,
+}: {
+  governanceAa: string;
+  name: string;
+  fromAddress?: string;
+}): string {
+  // Omitting `value` tells the governance AA to retract the user's vote.
+  return generateLink({
+    amount: GOVERNANCE_BOUNCE_FEE,
+    aa: governanceAa,
+    data: { name },
+    from_address: fromAddress,
+  });
+}
+
 export function buildCommitLink({
   governanceAa,
   name,

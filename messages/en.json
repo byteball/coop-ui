@@ -148,6 +148,7 @@
   "governance_profile_voting_power_tooltip": "Square root of your locked balance. Determines the weight of your governance votes.",
   "governance_param_current_value": "Current value:",
   "governance_param_your_vote": "Your vote",
+  "governance_param_remove_vote": "remove vote",
   "governance_param_leader": "Leader",
   "governance_param_ready_to_commit": "Ready to commit",
   "governance_param_commit": "Commit",

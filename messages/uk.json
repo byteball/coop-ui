@@ -148,6 +148,7 @@
   "governance_profile_voting_power_tooltip": "Квадратний корінь із заблокованого балансу. Визначає вагу ваших голосів в управлінні.",
   "governance_param_current_value": "Поточне значення:",
   "governance_param_your_vote": "Ваш голос",
+  "governance_param_remove_vote": "видалити голос",
   "governance_param_leader": "Лідер",
   "governance_param_ready_to_commit": "Готово до застосування",
   "governance_param_commit": "Застосувати",

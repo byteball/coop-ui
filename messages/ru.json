@@ -148,6 +148,7 @@
   "governance_profile_voting_power_tooltip": "Квадратный корень из заблокированного баланса. Определяет вес ваших голосов в управлении.",
   "governance_param_current_value": "Текущее значение:",
   "governance_param_your_vote": "Ваш голос",
+  "governance_param_remove_vote": "удалить голос",
   "governance_param_leader": "Лидер",
   "governance_param_ready_to_commit": "Готово к применению",
   "governance_param_commit": "Применить",

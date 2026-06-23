@@ -23,7 +23,7 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { getVotesDivisor } from "#/entities/coop";
 import type { ParsedGovernanceParam } from "#/entities/governance";
 
-import { buildCommitLink } from "../lib/buildGovernanceLink";
+import { buildCommitLink, buildRemoveVoteLink } from "../lib/buildGovernanceLink";
 import { Countdown } from "./Countdown";
 import { GovernanceVoteDialog } from "./GovernanceVoteDialog";
 import { ParamValue } from "./ParamValue";
@@ -92,6 +92,15 @@ export function GovernanceParamCard({
         })
       : null;
 
+  const removeVoteHref =
+    userChoice !== undefined && address
+      ? buildRemoveVoteLink({
+          governanceAa,
+          name: def.name,
+          fromAddress: address,
+        })
+      : null;
+
   return (
     <>
       <Card className="flex flex-col">
@@ -130,17 +139,28 @@ export function GovernanceParamCard({
 
         <CardContent className="flex-1 space-y-3 pb-3">
           {userChoice !== undefined && (
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between gap-2 text-sm">
               <span className="text-muted-foreground">
                 {m.governance_param_your_vote()}
               </span>
-              <span className="font-medium">
-                <ParamValue
-                  value={userChoice}
-                  def={def}
-                  coopDecimals={coopDecimals}
-                  coopSymbol={coopSymbol}
-                />
+              <span className="flex items-center gap-1.5">
+                <span className="font-medium">
+                  <ParamValue
+                    value={userChoice}
+                    def={def}
+                    coopDecimals={coopDecimals}
+                    coopSymbol={coopSymbol}
+                  />
+                </span>
+                {removeVoteHref && (
+                  <QRButton
+                    href={removeVoteHref}
+                    size="xs"
+                    variant="link"
+                  >
+                    {m.governance_param_remove_vote()}
+                  </QRButton>
+                )}
               </span>
             </div>
           )}

@@ -148,6 +148,7 @@
   "governance_profile_voting_power_tooltip": "您锁定余额的平方根。决定您治理投票的权重。",
   "governance_param_current_value": "当前值：",
   "governance_param_your_vote": "您的投票",
+  "governance_param_remove_vote": "删除投票",
   "governance_param_leader": "领先值",
   "governance_param_ready_to_commit": "可以应用",
   "governance_param_commit": "应用",
