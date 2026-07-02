@@ -15,8 +15,6 @@ import {
 import { hasAssetMetadata, setAssetMetadata } from "#/entities/token";
 import { getAllStateVarsByAddress } from "#/shared/lib/getAllStateVarsByAddress";
 
-let heartbeatInterval: ReturnType<typeof setInterval> | undefined;
-
 export const bootstrap = async () => {
   try {
     console.info("log: connected to obyte hub");
@@ -110,17 +108,4 @@ export const bootstrap = async () => {
   } catch (error) {
     console.error("bootstrap failed:", error);
   }
-
-  // heartbeat — always start, even if loading partially failed
-  heartbeatInterval = setInterval(() => {
-    client.api.heartbeat();
-  }, 10 * 1000);
-
-  // @ts-expect-error - client.client.ws is not typed
-  client.client.ws.addEventListener("close", () => {
-    if (heartbeatInterval) {
-      clearInterval(heartbeatInterval);
-      heartbeatInterval = undefined;
-    }
-  });
 };

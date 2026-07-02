@@ -9,4 +9,12 @@ const client = new obyte.Client(`wss://obyte.org/bb${testnet ? "-test" : ""}`, {
   reconnect: true,
 });
 
+setInterval(() => {
+  client.api.heartbeat();
+}, 10 * 1000);
+
+client.onError((err) => {
+  console.error("log: obyte client error", err);
+});
+
 export default client;
