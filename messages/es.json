@@ -56,6 +56,7 @@
   "withdraw_dialog_title": "Retirar fondos",
   "withdraw_description": "Tu período de bloqueo ha terminado. Retira todo tu saldo de vuelta a tu billetera.",
   "withdraw_will_receive": "Recibirás",
+  "withdraw_unclaimed_warning": "Tienes {amount} {symbol} en recompensas líquidas sin reclamar. Reclámalas antes de retirar, de lo contrario se perderán.",
   "withdraw_submit": "Retirar",
   "withdraw_nothing": "Nada que retirar",
   "profile_badge_telegram": "Telegram",

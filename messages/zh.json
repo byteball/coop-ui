@@ -56,6 +56,7 @@
   "withdraw_dialog_title": "提取资金",
   "withdraw_description": "您的锁定期已结束。将全部余额提取回您的钱包。",
   "withdraw_will_receive": "您将收到",
+  "withdraw_unclaimed_warning": "您有 {amount} {symbol} 的流动奖励尚未领取，请在提取前领取，否则这些奖励将会丢失。",
   "withdraw_submit": "提取",
   "withdraw_nothing": "无可提取",
   "profile_badge_telegram": "Telegram",

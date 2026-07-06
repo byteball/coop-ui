@@ -56,6 +56,7 @@
   "withdraw_dialog_title": "Withdraw",
   "withdraw_description": "Your lock period has ended. Withdraw your entire balance back to your wallet.",
   "withdraw_will_receive": "You will receive",
+  "withdraw_unclaimed_warning": "You have unclaimed {amount} {symbol} in liquid rewards, please claim them before withdrawing, otherwise the rewards will be lost.",
   "withdraw_submit": "Withdraw",
   "withdraw_nothing": "Nothing to withdraw",
   "profile_badge_telegram": "Telegram",

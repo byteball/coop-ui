@@ -13,7 +13,7 @@ import { toLocalString } from "#/shared/lib/toLocalString";
 import { formatRounded } from "#/shared/lib/formatRounded";
 
 import type { CoopUser } from "#/entities/coop";
-import { useCoopState } from "#/entities/coop";
+import { useCoopState, useLiveUserBalances } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useWallet } from "#/entities/user";
 
@@ -32,6 +32,7 @@ export function WithdrawForm({ user }: WithdrawFormProps) {
   const { coopDecimals, gbyteDecimals, coopSymbol, gbyteSymbol } = useAssetInfo(
     constants?.asset,
   );
+  const { liveLiquidBalance } = useLiveUserBalances(user);
 
   // The AA withdraw handler pays the stored balance verbatim — it does not
   // checkpoint emissions accrued since the user's last action — so we display
@@ -98,6 +99,18 @@ export function WithdrawForm({ user }: WithdrawFormProps) {
           </div>
         )}
       </div>
+
+      {liveLiquidBalance > 0 && (
+        <p className="text-sm text-destructive-foreground">
+          {m.withdraw_unclaimed_warning({
+            amount: formatRounded(
+              liveLiquidBalance / 10 ** coopDecimals,
+              coopDecimals,
+            ),
+            symbol: coopSymbol,
+          })}
+        </p>
+      )}
 
       <QRButton
         ref={qrButtonRef}

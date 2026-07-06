@@ -56,6 +56,7 @@
   "withdraw_dialog_title": "Вывод средств",
   "withdraw_description": "Срок блокировки закончился. Выведите весь баланс обратно в свой кошелёк.",
   "withdraw_will_receive": "Вы получите",
+  "withdraw_unclaimed_warning": "У вас есть незабранные ликвидные награды: {amount} {symbol}. Заберите их перед выводом, иначе они будут потеряны.",
   "withdraw_submit": "Вывести",
   "withdraw_nothing": "Нечего выводить",
   "profile_badge_telegram": "Telegram",
