@@ -15,7 +15,7 @@ import { Slider } from "#/shared/ui/slider";
 import { diffDays } from "#/shared/lib/diffDays";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
-import { useCoopState } from "#/entities/coop";
+import { useCoopState, getEligibility } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useWallet } from "#/entities/user";
 import { useEffectiveReferrer } from "#/entities/referrer";
@@ -64,6 +64,7 @@ export function DepositForm() {
   const referrer = useEffectiveReferrer();
 
   const user = address ? getUser(address) : undefined;
+  const hasLockedTokens = getEligibility(user).hasBalance;
   const effectiveMinDate = useMemo(() => {
     const min = getMinDate();
     if (!user?.unlock_date) return min;
@@ -128,13 +129,15 @@ export function DepositForm() {
 
   return (
     <div className="flex flex-col gap-5">
-      <DepositDescription
-        isLoaded={isLoaded}
-        minBalance={
-          getParam("min_balance_instead_of_real_name") / 10 ** coopDecimals
-        }
-        coopSymbol={coopSymbol}
-      />
+      {!hasLockedTokens && (
+        <DepositDescription
+          isLoaded={isLoaded}
+          minBalance={
+            getParam("min_balance_instead_of_real_name") / 10 ** coopDecimals
+          }
+          coopSymbol={coopSymbol}
+        />
+      )}
 
       <div
         onKeyDown={(e) => {
