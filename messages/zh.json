@@ -177,7 +177,7 @@
   "governance_dialog_add_address": "添加地址",
   "governance_error_required": "必填",
   "governance_error_number": "必须是数字",
-  "governance_error_percent_range": "必须在 0 到 100 之间",
+  "governance_error_percent_max": "必须不超过 {max}%",
   "governance_error_non_negative": "必须非负",
   "governance_error_invalid_address": "无效的 Obyte 地址",
   "governance_countdown_expired": "已过期",

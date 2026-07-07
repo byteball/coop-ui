@@ -177,7 +177,7 @@
   "governance_dialog_add_address": "Додати адресу",
   "governance_error_required": "Обов'язково",
   "governance_error_number": "Має бути числом",
-  "governance_error_percent_range": "Має бути від 0 до 100",
+  "governance_error_percent_max": "Має бути не більше {max}%",
   "governance_error_non_negative": "Має бути невід'ємним",
   "governance_error_invalid_address": "Невірна адреса Obyte",
   "governance_countdown_expired": "Минуло",

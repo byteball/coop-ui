@@ -177,7 +177,7 @@
   "governance_dialog_add_address": "Добавить адрес",
   "governance_error_required": "Обязательно",
   "governance_error_number": "Должно быть числом",
-  "governance_error_percent_range": "Должно быть от 0 до 100",
+  "governance_error_percent_max": "Должно быть не больше {max}%",
   "governance_error_non_negative": "Должно быть неотрицательным",
   "governance_error_invalid_address": "Неверный адрес Obyte",
   "governance_countdown_expired": "Истекло",

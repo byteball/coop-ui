@@ -15,7 +15,10 @@ import {
   DialogTitle,
 } from "#/shared/ui/dialog";
 import { QRButton } from "#/shared/ui/qr-button";
-import type { ParsedGovernanceParam } from "#/entities/governance";
+import type {
+  GovernanceParamDef,
+  ParsedGovernanceParam,
+} from "#/entities/governance";
 import { formatParamName, getParamDescription } from "#/entities/governance";
 
 import { buildVoteLink } from "../lib/buildGovernanceLink";
@@ -24,14 +27,22 @@ import { ParamValue } from "./ParamValue";
 
 // --- Zod schemas ---
 
-function buildSchemas() {
+function getPercentMax(def: GovernanceParamDef) {
+  if (def.type !== "number" || def.max === undefined) return 100;
+  return Number(toDisplayValue(def.max, def, 0));
+}
+
+function buildSchemas(def: GovernanceParamDef) {
+  const percentMax = getPercentMax(def);
+
   const percentSchema = z
     .string()
     .min(1, m.governance_error_required())
     .refine((v) => !isNaN(Number(v)), m.governance_error_number())
+    .refine((v) => Number(v) >= 0, m.governance_error_non_negative())
     .refine(
-      (v) => Number(v) >= 0 && Number(v) <= 100,
-      m.governance_error_percent_range(),
+      (v) => Number(v) <= percentMax,
+      m.governance_error_percent_max({ max: String(percentMax) }),
     );
 
   const amountSchema = z
@@ -251,7 +262,9 @@ export function GovernanceVoteDialog({
     }
   }, [open, initialValue, param.def, coopDecimals]);
 
-  const { percentSchema, amountSchema, addressSchema } = buildSchemas();
+  const { percentSchema, amountSchema, addressSchema } = buildSchemas(
+    param.def,
+  );
 
   // Validation — show errors only when field is non-empty
   let error: string | null = null;

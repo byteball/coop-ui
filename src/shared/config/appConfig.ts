@@ -3,9 +3,14 @@ import { env } from "./env";
 
 export type GovernanceParamType = "number" | "integer" | "string";
 
-const num = (defaultValue: number) => ({
+interface ParamOptions {
+  max?: number;
+}
+
+const num = (defaultValue: number, options: ParamOptions = {}) => ({
   type: "number" as const,
   default: defaultValue,
+  ...options,
 });
 const int = (defaultValue: number) => ({
   type: "integer" as const,
@@ -24,8 +29,8 @@ const str = (defaultValue: string) => ({
  * new parameter here and the rest follows automatically.
  */
 export const paramDefs = {
-  daily_locked_reward: num(0.01),
-  daily_liquid_reward: num(0.001),
+  daily_locked_reward: num(0.01, { max: 0.1 }),
+  daily_liquid_reward: num(0.001, { max: 0.1 }),
   bytes_reducer: num(0.75),
   by_votes_share: num(0.5),
   referrer_coop_deposit_reward_share: num(0.02),
@@ -56,10 +61,15 @@ export const defaultParams: AppParams = Object.fromEntries(
 export interface GovernanceParamDef {
   name: AppParamName;
   type: GovernanceParamType;
+  max?: number;
 }
 
 export const governanceParams: GovernanceParamDef[] = paramEntries.map(
-  ([name, def]) => ({ name, type: def.type }),
+  ([name, def]) => ({
+    name,
+    type: def.type,
+    ...("max" in def ? { max: def.max } : {}),
+  }),
 );
 
 type VariablesShape = {

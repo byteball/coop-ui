@@ -177,7 +177,7 @@
   "governance_dialog_add_address": "Añadir dirección",
   "governance_error_required": "Requerido",
   "governance_error_number": "Debe ser un número",
-  "governance_error_percent_range": "Debe estar entre 0 y 100",
+  "governance_error_percent_max": "Debe ser como máximo {max}%",
   "governance_error_non_negative": "Debe ser no negativo",
   "governance_error_invalid_address": "Dirección Obyte inválida",
   "governance_countdown_expired": "Expirado",

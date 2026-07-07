@@ -39,6 +39,19 @@ describe("paramDefs-derived exports", () => {
     expect(paramDefs.by_votes_share.type).toBe("number");
   });
 
+  it("exposes the AA max for daily reward params to the governance UI", () => {
+    expect(paramDefs.daily_locked_reward.max).toBe(0.1);
+    expect(paramDefs.daily_liquid_reward.max).toBe(0.1);
+    expect(paramDefs.by_votes_share).not.toHaveProperty("max");
+
+    expect(
+      governanceParams.find((p) => p.name === "daily_locked_reward")?.max,
+    ).toBe(0.1);
+    expect(
+      governanceParams.find((p) => p.name === "daily_liquid_reward")?.max,
+    ).toBe(0.1);
+  });
+
   it("variablesSchema accepts an empty object (all fields optional)", () => {
     expect(variablesSchema.safeParse({}).success).toBe(true);
   });
