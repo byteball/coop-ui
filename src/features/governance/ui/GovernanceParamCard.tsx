@@ -75,16 +75,15 @@ export function GovernanceParamCard({
     setSupportDialogOpen(true);
   };
 
-  const hasLeader =
-    leader !== undefined && String(leader) !== String(currentValue);
-  const leaderValue = hasLeader ? leader : currentValue;
+  const hasLeader = leader !== undefined;
+  const leaderDiffers = hasLeader && String(leader) !== String(currentValue);
 
   const now = Math.floor(Date.now() / 1000);
   const challengeExpired =
     challengingPeriodEndTs !== undefined && now >= challengingPeriodEndTs;
 
   const commitHref =
-    hasLeader && challengeExpired && address
+    leaderDiffers && challengeExpired && address
       ? buildCommitLink({
           governanceAa,
           name: def.name,
@@ -173,41 +172,43 @@ export function GovernanceParamCard({
                 </span>
                 <span className="font-medium">
                   <ParamValue
-                    value={leaderValue}
+                    value={leader}
                     def={def}
                     coopDecimals={coopDecimals}
                     coopSymbol={coopSymbol}
                   />
                 </span>
               </div>
-              <div className="mt-1 flex items-center justify-between">
-                {challengeExpired ? (
-                  <>
-                    <span className="text-xs text-muted-foreground">
-                      {m.governance_param_ready_to_commit()}
-                    </span>
-                    <QRButton
-                      href={commitHref ?? ""}
-                      disabled={!commitHref}
-                      size="xs"
-                      variant="link"
-                    >
-                      {m.governance_param_commit()}
-                    </QRButton>
-                  </>
-                ) : (
-                  challengingPeriodEndTs && (
+              {leaderDiffers && (
+                <div className="mt-1 flex items-center justify-between">
+                  {challengeExpired ? (
                     <>
                       <span className="text-xs text-muted-foreground">
-                        {m.governance_param_challenge_ends_in()}
+                        {m.governance_param_ready_to_commit()}
                       </span>
-                      <span className="text-xs font-medium">
-                        <Countdown endTs={challengingPeriodEndTs} />
-                      </span>
+                      <QRButton
+                        href={commitHref ?? ""}
+                        disabled={!commitHref}
+                        size="xs"
+                        variant="link"
+                      >
+                        {m.governance_param_commit()}
+                      </QRButton>
                     </>
-                  )
-                )}
-              </div>
+                  ) : (
+                    challengingPeriodEndTs && (
+                      <>
+                        <span className="text-xs text-muted-foreground">
+                          {m.governance_param_challenge_ends_in()}
+                        </span>
+                        <span className="text-xs font-medium">
+                          <Countdown endTs={challengingPeriodEndTs} />
+                        </span>
+                      </>
+                    )
+                  )}
+                </div>
+              )}
             </div>
           )}
 
