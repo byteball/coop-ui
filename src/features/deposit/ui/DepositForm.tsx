@@ -248,7 +248,7 @@ export function DepositForm() {
 
             return (
               <Field>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-x-4">
                   <FieldLabel>{m.deposit_lock_period_label()}</FieldLabel>
                   <span className="text-sm text-muted-foreground">
                     {m.deposit_lock_days({ days: String(currentDays) })} —{" "}

@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 
+import { DetailRow } from "#/shared/ui/detail-row";
 import { QRButton } from "#/shared/ui/qr-button";
 import { toLocalString } from "#/shared/lib/toLocalString";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
@@ -44,17 +45,23 @@ export function DepositMeta({
   return (
     <div className="mt-3 flex flex-col gap-2">
       {coopEquivalent !== null && (
-        <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{m.deposit_meta_equivalent({ symbol: coopSymbol })}</span>
+        <DetailRow
+          className="text-sm"
+          label={m.deposit_meta_equivalent({ symbol: coopSymbol })}
+        >
           <span className="font-medium text-foreground">
             ≈ {toLocalString(coopEquivalent)} {coopSymbol}
           </span>
-        </div>
+        </DetailRow>
       )}
       {address && (
         <>
-          <div className="flex justify-between text-sm text-muted-foreground">
-            <span>{m.deposit_meta_total_coop({ symbol: isLoaded ? coopSymbol : "COOP" })}</span>
+          <DetailRow
+            className="text-sm"
+            label={m.deposit_meta_total_coop({
+              symbol: isLoaded ? coopSymbol : "COOP",
+            })}
+          >
             <span className="font-medium text-foreground">
               {!isLoaded ? (
                 <Skeleton className="w-20" />
@@ -66,9 +73,11 @@ export function DepositMeta({
                 </>
               )}
             </span>
-          </div>
-          <div className="flex justify-between text-sm text-muted-foreground">
-            <span>{m.deposit_meta_total_gbyte({ symbol: "GBYTE" })}</span>
+          </DetailRow>
+          <DetailRow
+            className="text-sm"
+            label={m.deposit_meta_total_gbyte({ symbol: "GBYTE" })}
+          >
             <span className="font-medium text-foreground">
               {!isLoaded ? (
                 <Skeleton className="w-20" />
@@ -78,12 +87,11 @@ export function DepositMeta({
                 <>{toLocalString(newBytesBalance)} GBYTE</>
               )}
             </span>
-          </div>
+          </DetailRow>
         </>
       )}
       {referrer && (
-        <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{m.deposit_meta_referrer()}</span>
+        <DetailRow className="text-sm" label={m.deposit_meta_referrer()}>
           <a
             href={getExplorerUrl(referrer, "address")}
             target="_blank"
@@ -92,7 +100,7 @@ export function DepositMeta({
           >
             {referrer.slice(0, 6)}...{referrer.slice(-6)}
           </a>
-        </div>
+        </DetailRow>
       )}
       <QRButton
         ref={qrButtonRef}

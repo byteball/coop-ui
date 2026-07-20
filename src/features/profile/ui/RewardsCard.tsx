@@ -1,21 +1,17 @@
 import type { FC, ReactNode } from "react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown } from "lucide-react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "#/shared/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "#/shared/ui/collapsible";
 import { Separator } from "#/shared/ui/separator";
 import { Amount } from "#/shared/ui/amount";
-
-import { cn } from "#/shared/lib/utils";
+import { DetailRow } from "#/shared/ui/detail-row";
 
 import type { CoopUser } from "#/entities/coop";
 import { useLiveUserBalances } from "#/entities/coop";
+
+import { CollapsibleAmountHeader } from "./CollapsibleAmountHeader";
 
 import * as m from "#/paraglide/messages";
 
@@ -71,34 +67,19 @@ export const RewardsCard: FC<RewardsCardProps> = ({
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}
         >
-          <CollapsibleTrigger asChild className="mt-2 text-lg lg:text-xl">
-            <div className={cn(hasDetails ? "cursor-pointer select-none" : "")}>
-              <Amount
-                value={totalRewardsRaw}
-                decimals={coopDecimals}
-                symbol={coopSymbol}
-              />{" "}
-              <small>{coopSymbol}</small>
-              {hasDetails && (
-                <ChevronDown
-                  className={cn(
-                    "ml-2 inline-block transition-transform duration-200",
-                    collapsed ? "rotate-0" : "-rotate-180",
-                  )}
-                  size={24}
-                />
-              )}
-            </div>
-          </CollapsibleTrigger>
+          <CollapsibleAmountHeader
+            value={totalRewardsRaw}
+            decimals={coopDecimals}
+            symbol={coopSymbol}
+            hasDetails={hasDetails}
+            collapsed={collapsed}
+          />
 
           <CollapsibleContent className="mt-2 grid gap-3 text-sm">
             <Separator />
 
             {lockedRewards > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {m.profile_locked_rewards_detail()}
-                </span>
+              <DetailRow label={m.profile_locked_rewards_detail()}>
                 <span>
                   <Amount
                     value={lockedRewardsRaw}
@@ -107,14 +88,11 @@ export const RewardsCard: FC<RewardsCardProps> = ({
                   />{" "}
                   {coopSymbol}
                 </span>
-              </div>
+              </DetailRow>
             )}
 
             {liquidRewards > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {m.profile_liquid_rewards_detail()}
-                </span>
+              <DetailRow label={m.profile_liquid_rewards_detail()}>
                 <span>
                   <Amount
                     value={liquidRewardsRaw}
@@ -123,14 +101,11 @@ export const RewardsCard: FC<RewardsCardProps> = ({
                   />{" "}
                   {coopSymbol}
                 </span>
-              </div>
+              </DetailRow>
             )}
 
             {referralRewards > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {m.profile_referral_rewards_detail()}
-                </span>
+              <DetailRow label={m.profile_referral_rewards_detail()}>
                 <span>
                   <Amount
                     value={referralRewardsRaw}
@@ -139,23 +114,17 @@ export const RewardsCard: FC<RewardsCardProps> = ({
                   />{" "}
                   {coopSymbol}
                 </span>
-              </div>
+              </DetailRow>
             )}
 
             {referredUsers > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {m.profile_referred_users_detail()}
-                </span>
+              <DetailRow label={m.profile_referred_users_detail()}>
                 <span>{referredUsers}</span>
-              </div>
+              </DetailRow>
             )}
 
             {user.ref && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {m.profile_referrer()}
-                </span>
+              <DetailRow label={m.profile_referrer()}>
                 <Link
                   to="/user/$address"
                   params={{ address: user.ref }}
@@ -163,7 +132,7 @@ export const RewardsCard: FC<RewardsCardProps> = ({
                 >
                   {user.ref.slice(0, 6)}...{user.ref.slice(-4)}
                 </Link>
-              </div>
+              </DetailRow>
             )}
           </CollapsibleContent>
         </Collapsible>

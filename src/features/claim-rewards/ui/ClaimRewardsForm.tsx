@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 
+import { DetailRow } from "#/shared/ui/detail-row";
 import { Slider } from "#/shared/ui/slider";
 import { Label } from "#/shared/ui/label";
 import { Separator } from "#/shared/ui/separator";
@@ -65,10 +66,7 @@ export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid gap-2 text-sm">
-        <div className="flex justify-between">
-          <span className="text-muted-foreground">
-            {m.claim_rewards_available()}
-          </span>
+        <DetailRow label={m.claim_rewards_available()}>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -81,13 +79,13 @@ export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </div>
+        </DetailRow>
       </div>
 
       <Separator />
 
       <div className="grid gap-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-x-4">
           <Label htmlFor="claim-rewards-restake-slider">
             {m.claim_rewards_lock_instead()}
           </Label>
@@ -107,34 +105,25 @@ export function ClaimRewardsForm({ user }: ClaimRewardsFormProps) {
 
       <div className="grid gap-2 text-sm">
         {restakePercent < 100 && (
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">
-              {m.claim_rewards_will_receive()}
-            </span>
+          <DetailRow label={m.claim_rewards_will_receive()}>
             <span className="font-medium text-foreground">
               {formatRounded(claimed, coopDecimals)} {coopSymbol}
             </span>
-          </div>
+          </DetailRow>
         )}
         {restakePercent > 0 && (
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">
-              {m.claim_rewards_will_lock()}
-            </span>
+          <DetailRow label={m.claim_rewards_will_lock()}>
             <span className="font-medium text-foreground">
               {formatRounded(restaked, coopDecimals)} {coopSymbol}
             </span>
-          </div>
+          </DetailRow>
         )}
         {newUnlockDate && (
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">
-              {m.claim_rewards_new_unlock_date()}
-            </span>
+          <DetailRow label={m.claim_rewards_new_unlock_date()}>
             <span className="font-medium text-foreground">
               {formatDateShort(newUnlockDate)}
             </span>
-          </div>
+          </DetailRow>
         )}
       </div>
 

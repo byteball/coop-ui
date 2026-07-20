@@ -102,7 +102,12 @@ export function getColumns({
           {m.leaderboard_col_balance()}
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger asChild>
+              {/* The icon explains the column; its clicks must not reach the
+                  sort button, or reading the tooltip re-sorts the table. */}
+              <TooltipTrigger
+                asChild
+                onClick={(event) => event.stopPropagation()}
+              >
                 <Info className="ml-1 inline size-3.5 text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>

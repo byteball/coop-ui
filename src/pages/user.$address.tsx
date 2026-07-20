@@ -117,6 +117,14 @@ function UserProfile() {
       </ClaimRewardsDialog>
     ) : null;
 
+  const showReferral = isYou && Boolean(user.reg_ts);
+  const showReplace = isYou && user.bytes_balance > 0;
+  // A lone half-width card would break lg auto-placement around the
+  // row-spanning ContributionsCard (votes lists stack left, hole right),
+  // so a single card takes the full row instead.
+  const isYouCardClass =
+    showReferral && showReplace ? "col-span-6 md:col-span-3" : "col-span-6";
+
   return (
     <div className="space-y-6 sm:space-y-10">
       <DepositBanner user={user} address={address} />
@@ -151,22 +159,24 @@ function UserProfile() {
           <VotesCard totalVotes={user.votes ?? 0} coopDecimals={coopDecimals} />
         </div>
 
-        {isYou && Boolean(user.reg_ts) && (
-          <div className="col-span-6 md:col-span-3">
+        {showReferral && (
+          <div className={isYouCardClass}>
             <ReferralLinkCard address={address} />
           </div>
         )}
 
-        {isYou && user.bytes_balance > 0 && (
-          <div className="col-span-6 md:col-span-3">
+        {showReplace && (
+          <div className={isYouCardClass}>
             <ReplaceForm user={user} />
           </div>
         )}
 
+        {/* order-last keeps the votes lists first on mobile/md; at lg the
+            source position puts this card in the left column of both rows. */}
         <ContributionsCard
           address={address}
           isOwn={isYou}
-          className="col-span-6 lg:col-span-3 lg:row-span-2"
+          className="order-last col-span-6 lg:order-none lg:col-span-3 lg:row-span-2"
         />
         <div className="col-span-6 lg:col-span-3">
           <VotesList address={address} coopDecimals={coopDecimals} />

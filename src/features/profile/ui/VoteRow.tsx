@@ -38,58 +38,57 @@ export const VoteRow: FC<VoteRowProps> = ({
   const isExpired = isVoteExpired(ts);
 
   return (
-    <div className="grid grid-cols-[1fr_7rem] items-center gap-x-2 gap-y-1 sm:grid-cols-[1fr_auto_7rem] sm:gap-y-2">
-      <div className="flex min-w-0 flex-col">
-        <UserDisplayName address={counterpartyAddress} />
-        <span className="text-xs text-muted-foreground">
-          {formatDateShort(new Date(ts * 1000))}
-        </span>
-        <span
-          className={cn(
-            "text-xs",
-            isExpired ? "text-destructive" : "text-muted-foreground",
-          )}
-        >
-          {isExpired
-            ? m.vote_list_expired()
-            : m.vote_list_expires_in({
-                period: formatPeriod(expiresTs, { collapseDays: true }),
-              })}
+    <div className="space-y-1 sm:grid sm:grid-cols-[1fr_auto_7rem] sm:items-center sm:gap-x-2">
+      <div className="flex items-center justify-between gap-3 sm:contents">
+        <div className="min-w-0 truncate">
+          <UserDisplayName address={counterpartyAddress} />
+        </div>
+        <span className="text-right tabular-nums text-muted-foreground sm:col-start-3 sm:row-span-2 sm:row-start-1">
+          {toLocalString(votes / votesDivisor)}
         </span>
       </div>
-      <span className="col-start-2 row-start-1 text-right tabular-nums text-muted-foreground sm:col-start-3 sm:row-auto">
-        {toLocalString(votes / votesDivisor)}
-      </span>
-      {hasBadges && (
-        <div className="col-span-2 flex items-center gap-2 sm:col-span-1 sm:col-start-2 sm:row-start-1 sm:justify-end">
-          {isSelfVote && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                    {m.vote_list_self()}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>{m.vote_self()}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-          {typeof strength === "number" && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
-                    {m.vote_list_strength({ n: String(strength) })}
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  {m.vote_list_strength_tooltip()}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
+      <div className="flex items-center justify-between gap-3 sm:contents">
+        <div className="flex min-w-0 flex-col text-xs text-muted-foreground sm:row-start-2">
+          <span>{formatDateShort(new Date(ts * 1000))}</span>
+          <span className={cn(isExpired && "text-destructive")}>
+            {isExpired
+              ? m.vote_list_expired()
+              : m.vote_list_expires_in({
+                  period: formatPeriod(expiresTs, { collapseDays: true }),
+                })}
+          </span>
         </div>
-      )}
+        {hasBadges && (
+          <div className="flex shrink-0 items-center gap-2 sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:justify-self-end">
+            {isSelfVote && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                      {m.vote_list_self()}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>{m.vote_self()}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+            {typeof strength === "number" && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                      {m.vote_list_strength({ n: String(strength) })}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {m.vote_list_strength_tooltip()}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

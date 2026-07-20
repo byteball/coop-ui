@@ -1,13 +1,9 @@
 import type { FC, ReactNode } from "react";
 import { useState } from "react";
-import { ChevronDown, Info } from "lucide-react";
+import { Info } from "lucide-react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "#/shared/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "#/shared/ui/collapsible";
 import { Separator } from "#/shared/ui/separator";
 import {
   Tooltip,
@@ -16,13 +12,15 @@ import {
   TooltipTrigger,
 } from "#/shared/ui/tooltip";
 import { Amount } from "#/shared/ui/amount";
+import { DetailRow } from "#/shared/ui/detail-row";
 
 import { formatRounded } from "#/shared/lib/formatRounded";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
-import { cn } from "#/shared/lib/utils";
 
 import type { CoopUser } from "#/entities/coop";
 import { useCoopState, useLiveUserBalances } from "#/entities/coop";
+
+import { CollapsibleAmountHeader } from "./CollapsibleAmountHeader";
 
 import * as m from "#/paraglide/messages";
 
@@ -105,33 +103,18 @@ export const BalanceCard: FC<BalanceCardProps> = ({
           open={hasDetails && !collapsed}
           onOpenChange={() => hasDetails && setCollapsed(!collapsed)}
         >
-          <CollapsibleTrigger asChild className="mt-2 text-lg lg:text-xl">
-            <div className={cn(hasDetails ? "cursor-pointer select-none" : "")}>
-              <Amount
-                value={totalBalanceRaw}
-                decimals={coopDecimals}
-                symbol={coopSymbol}
-              />{" "}
-              <small>{coopSymbol}</small>
-              {hasDetails && (
-                <ChevronDown
-                  className={cn(
-                    "ml-2 inline-block transition-transform duration-200",
-                    collapsed ? "rotate-0" : "-rotate-180",
-                  )}
-                  size={24}
-                />
-              )}
-            </div>
-          </CollapsibleTrigger>
+          <CollapsibleAmountHeader
+            value={totalBalanceRaw}
+            decimals={coopDecimals}
+            symbol={coopSymbol}
+            hasDetails={hasDetails}
+            collapsed={collapsed}
+          />
 
           <CollapsibleContent className="mt-2 grid gap-3 text-sm">
             <Separator />
 
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                {m.profile_coop_balance()}
-              </span>
+            <DetailRow label={m.profile_coop_balance()}>
               <span>
                 <Amount
                   value={coopBalanceRaw}
@@ -140,12 +123,9 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                 />{" "}
                 {coopSymbol}
               </span>
-            </div>
+            </DetailRow>
 
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                {m.profile_gbyte_balance()}
-              </span>
+            <DetailRow label={m.profile_gbyte_balance()}>
               <span>
                 <Amount
                   value={gbyteBalanceRaw}
@@ -154,12 +134,9 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                 />{" "}
                 {gbyteSymbol}
               </span>
-            </div>
+            </DetailRow>
 
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                {m.profile_liquid_balance()}
-              </span>
+            <DetailRow label={m.profile_liquid_balance()}>
               <span>
                 <Amount
                   value={liquidBalanceRaw}
@@ -168,7 +145,7 @@ export const BalanceCard: FC<BalanceCardProps> = ({
                 />{" "}
                 {coopSymbol}
               </span>
-            </div>
+            </DetailRow>
           </CollapsibleContent>
         </Collapsible>
 

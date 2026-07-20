@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
+import { useControllableState } from "radix-ui/internal";
 
 import { cn } from "#/shared/lib/utils";
 
@@ -27,7 +28,7 @@ const TooltipContext = React.createContext<TooltipContextValue | null>(null);
 
 /**
  * Radix Tooltip never opens on touch pointers, so the Root is kept
- * controlled and the Trigger toggles it on tap (see TooltipTrigger).
+ * controlled and the Trigger opens it on tap (see TooltipTrigger).
  * Hover/focus behavior on desktop is unchanged.
  */
 function Tooltip({
@@ -36,20 +37,19 @@ function Tooltip({
   onOpenChange,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
-  const open = openProp ?? uncontrolledOpen;
-
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (openProp === undefined) setUncontrolledOpen(nextOpen);
-    onOpenChange?.(nextOpen);
-  };
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen,
+    onChange: onOpenChange,
+    caller: "Tooltip",
+  });
 
   return (
-    <TooltipContext.Provider value={{ open, onOpenChange: handleOpenChange }}>
+    <TooltipContext.Provider value={{ open, onOpenChange: setOpen }}>
       <TooltipPrimitive.Root
         data-slot="tooltip"
         open={open}
-        onOpenChange={handleOpenChange}
+        onOpenChange={setOpen}
         {...props}
       />
     </TooltipContext.Provider>
@@ -63,37 +63,41 @@ function TooltipTrigger({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   const context = React.useContext(TooltipContext);
-  // Open state captured before outside-pointerdown dismissal runs, so a
-  // second tap on the trigger closes instead of instantly reopening.
+  // Captured on pointerdown, before Radix's own pointerdown handler closes an
+  // open tooltip — so the tap that closed it doesn't immediately reopen it.
   const wasOpenOnPointerDownRef = React.useRef(false);
-  const touchToggledRef = React.useRef(false);
+  const touchTapPendingRef = React.useRef(false);
 
   return (
     <TooltipPrimitive.Trigger
       data-slot="tooltip-trigger"
       onPointerDown={(event) => {
         wasOpenOnPointerDownRef.current = context?.open ?? false;
-        touchToggledRef.current = false;
+        touchTapPendingRef.current = false;
         onPointerDown?.(event);
       }}
       onPointerUp={(event) => {
         onPointerUp?.(event);
         if (
-          context &&
           event.pointerType === "touch" &&
-          !event.defaultPrevented
+          !event.defaultPrevented &&
+          !wasOpenOnPointerDownRef.current
         ) {
-          touchToggledRef.current = true;
-          context.onOpenChange(!wasOpenOnPointerDownRef.current);
+          touchTapPendingRef.current = true;
         }
       }}
       onClick={(event) => {
         onClick?.(event);
-        // The tap already toggled the tooltip; preventDefault stops Radix's
-        // built-in click handler from immediately closing it again.
-        if (touchToggledRef.current) {
-          touchToggledRef.current = false;
-          event.preventDefault();
+        // Open only after the whole click dispatch has finished: by then
+        // Radix's built-in click-close ran on a still-closed tooltip (no-op)
+        // and interactive children of the trigger (dialog triggers, links,
+        // collapsible/sort buttons up the tree) received an untouched event.
+        // A scroll gesture emits no click, so dragging over a trigger does
+        // not open it.
+        if (context && touchTapPendingRef.current) {
+          touchTapPendingRef.current = false;
+          const { onOpenChange } = context;
+          queueMicrotask(() => onOpenChange(true));
         }
       }}
       {...props}

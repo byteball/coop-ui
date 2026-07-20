@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import { Card, CardContent, CardTitle } from "#/shared/ui/card";
+import { DetailRow } from "#/shared/ui/detail-row";
 import { Input } from "#/shared/ui/input";
 import { Field, FieldError, FieldLabel } from "#/shared/ui/field";
 import { QRButton } from "#/shared/ui/qr-button";
@@ -45,7 +46,9 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
 
   const num = Number(amount);
   const validNum = !isNaN(num) && num > 0 ? num : 0;
-  const hasDecimalsIssue = amount ? tooManyDecimals(amount, coopDecimals) : false;
+  const hasDecimalsIssue = amount
+    ? tooManyDecimals(amount, coopDecimals)
+    : false;
 
   const previewBytes = useMemo(() => {
     if (!ceilingPrice || validNum <= 0) return 0;
@@ -87,7 +90,10 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
           {m.replace_description()}
         </p>
 
-        <Field className="mt-4" data-invalid={(touched && !!error) || undefined}>
+        <Field
+          className="mt-4"
+          data-invalid={(touched && !!error) || undefined}
+        >
           <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
             <FieldLabel htmlFor="replace-amount">
               {m.replace_amount_label({ symbol: coopSymbol })}
@@ -98,8 +104,7 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
               disabled={!isLoaded || maxCoopDisplay <= 0}
               className="cursor-pointer text-xs font-medium link disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {m.replace_max()}: {formatRounded(maxCoopDisplay, 4)}{" "}
-              {coopSymbol}
+              {m.replace_max()}: {formatRounded(maxCoopDisplay, 4)} {coopSymbol}
             </button>
           </div>
           <Input
@@ -124,20 +129,18 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
         </Field>
 
         <div className="mt-3 grid gap-2 text-sm">
-          <div className="flex justify-between text-muted-foreground">
-            <span>{m.replace_preview_will_receive()}</span>
-            <span className="font-medium text-foreground">
+          <DetailRow label={m.replace_preview_will_receive()}>
+            <span className="font-medium">
               ≈ {formatRounded(previewBytes, gbyteDecimals)} {gbyteSymbol}
             </span>
-          </div>
-          <div className="flex justify-between text-muted-foreground">
-            <span>{m.replace_ceiling_price()}</span>
-            <span className="font-medium text-foreground">
+          </DetailRow>
+          <DetailRow label={m.replace_ceiling_price()}>
+            <span className="font-medium">
               {ceilingPrice
                 ? `${toLocalString(ceilingPrice)} ${gbyteSymbol}`
                 : "—"}
             </span>
-          </div>
+          </DetailRow>
         </div>
 
         <QRButton
