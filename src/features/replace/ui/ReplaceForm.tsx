@@ -87,7 +87,11 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
       <CardContent>
         <CardTitle>{m.replace_title()}</CardTitle>
         <p className="mt-2 text-sm text-muted-foreground">
-          {m.replace_description()}
+          {m.replace_description({
+            coopSymbol,
+            price: ceilingPrice ? toLocalString(ceilingPrice) : "—",
+            gbyteSymbol,
+          })}
         </p>
 
         <Field
@@ -132,13 +136,6 @@ export function ReplaceForm({ user }: ReplaceFormProps) {
           <DetailRow label={m.replace_preview_will_receive()}>
             <span className="font-medium">
               ≈ {formatRounded(previewBytes, gbyteDecimals)} {gbyteSymbol}
-            </span>
-          </DetailRow>
-          <DetailRow label={m.replace_ceiling_price()}>
-            <span className="font-medium">
-              {ceilingPrice
-                ? `${toLocalString(ceilingPrice)} ${gbyteSymbol}`
-                : "—"}
             </span>
           </DetailRow>
         </div>
