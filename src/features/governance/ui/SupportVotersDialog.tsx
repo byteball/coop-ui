@@ -5,7 +5,6 @@ import * as m from "#/paraglide/messages";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "#/shared/ui/dialog";
@@ -21,7 +20,7 @@ import {
 } from "#/entities/governance";
 import type { ParsedGovernanceParam, Voter } from "#/entities/governance";
 
-import { ParamValue } from "./ParamValue";
+import { formatParamValue } from "../lib/formatParamValue";
 
 interface SupportVotersDialogProps {
   open: boolean;
@@ -74,19 +73,14 @@ export function SupportVotersDialog({
           <DialogTitle>
             {m.governance_voters_dialog_title({
               name: formatParamName(param.def.name).toLowerCase(),
+              value: formatParamValue(
+                rawValue,
+                param.def,
+                coopDecimals,
+                coopSymbol,
+              ),
             })}
           </DialogTitle>
-          <DialogDescription className="break-all">
-            {m.governance_voters_supported_value()}{" "}
-            <span className="text-foreground">
-              <ParamValue
-                value={rawValue}
-                def={param.def}
-                coopDecimals={coopDecimals}
-                coopSymbol={coopSymbol}
-              />
-            </span>
-          </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
