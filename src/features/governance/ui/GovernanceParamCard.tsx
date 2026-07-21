@@ -157,7 +157,9 @@ export function GovernanceParamCard({
                   <DisabledTooltip
                     reason={walletRequiredReason}
                     as="div"
-                    className="inline-flex"
+                    // Extra room so the action does not crowd the value the
+                    // row's gap-1.5 sets for the label.
+                    className="ml-2 inline-flex"
                   >
                     <QRButton
                       href={commitHref ?? ""}
@@ -197,7 +199,12 @@ export function GovernanceParamCard({
                 />
               </span>
               {removeVoteHref && (
-                <QRButton href={removeVoteHref} size="xs" variant="link">
+                <QRButton
+                  href={removeVoteHref}
+                  size="xs"
+                  variant="link"
+                  className="ml-2"
+                >
                   {m.governance_param_remove_vote()}
                 </QRButton>
               )}

@@ -50,7 +50,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
                   disabled={disabled}
                   className={cn(
                     "rounded-br-none rounded-tr-none",
-                    variant === "link" ? "pl-1 pr-0.5" : "px-3",
+                    variant === "link" ? "pl-1 pr-0" : "px-3",
                   )}
                 >
                   <QrCode className="size-4" />
@@ -130,7 +130,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
               "cursor-pointer rounded-bl-none rounded-tl-none",
               // The link variant has no button chrome, so the icon reads as
               // part of the label — keep it tight to the text.
-              variant === "link" ? "pl-0.5" : "pl-2",
+              variant === "link" ? "pl-0" : "pl-2",
               {
                 "pointer-events-none select-none opacity-50": disabled,
               },
