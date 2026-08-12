@@ -2,7 +2,7 @@ import type { AppParamName } from "#/shared/config/appConfig";
 
 const overrides: Partial<Record<AppParamName, string>> = {
   // Add overrides here if needed, e.g.:
-  // by_votes_share: "Emission share by votes",
+  by_votes_share: "By-votes share",
   referrer_coop_deposit_reward_share: "Referrer COOP deposit reward share",
 };
 
