@@ -16,45 +16,39 @@ describe("buildDeleteExpiredVotes", () => {
       buildDeleteExpiredVotes({
         vars,
         voterAddress: "VOTER",
-        forAddress: "FOR",
         nowTs: NOW,
       }),
     ).toBeUndefined();
   });
 
-  it("excludes every vote involving the voter or the user being voted for", () => {
+  it("excludes every vote involving the voter", () => {
     const vars = {
       vote_VOTER_FOR: { votes: 5, ts: EXPIRED_TS },
       vote_VOTER_OTHER: { votes: 5, ts: EXPIRED_TS },
       vote_OTHER_VOTER: { votes: 5, ts: EXPIRED_TS },
-      vote_FOR_OTHER: { votes: 5, ts: EXPIRED_TS },
-      vote_OTHER_FOR: { votes: 5, ts: EXPIRED_TS },
     };
     expect(
       buildDeleteExpiredVotes({
         vars,
         voterAddress: "VOTER",
-        forAddress: "FOR",
         nowTs: NOW,
       }),
     ).toBeUndefined();
   });
 
-  it("includes expired votes unrelated to the voter and recipient", () => {
+  it("includes another user's expired vote for the current recipient", () => {
     const vars = {
       vote_VOTER_OTHER: { votes: 5, ts: EXPIRED_TS }, // excluded by voter
-      vote_OTHER_FOR: { votes: 5, ts: EXPIRED_TS }, // excluded by recipient
-      vote_ALICE_BOB: { votes: 5, ts: EXPIRED_TS }, // unrelated -> allowed
+      vote_ALICE_FOR: { votes: 5, ts: EXPIRED_TS }, // allowed for another user
     };
     const result = buildDeleteExpiredVotes({
       vars,
       voterAddress: "VOTER",
-      forAddress: "FOR",
       nowTs: NOW,
     })!;
-    expect(result.ALICE).toBe("BOB");
+    expect(result.ALICE).toBe("FOR");
     expect(Object.keys(result)).toEqual(["ALICE"]);
-    expect(Object.values(result)).toEqual(["BOB"]);
+    expect(Object.values(result)).toEqual(["FOR"]);
   });
 
   it("never exceeds max entries", () => {
@@ -65,7 +59,6 @@ describe("buildDeleteExpiredVotes", () => {
     const result = buildDeleteExpiredVotes({
       vars,
       voterAddress: "VOTER",
-      forAddress: "FOR",
       nowTs: NOW,
     })!;
     expect(Object.keys(result).length).toBe(5); // default max
@@ -73,26 +66,28 @@ describe("buildDeleteExpiredVotes", () => {
     const limited = buildDeleteExpiredVotes({
       vars,
       voterAddress: "VOTER",
-      forAddress: "FOR",
       nowTs: NOW,
       max: 3,
     })!;
     expect(Object.keys(limited).length).toBe(3);
   });
 
-  it("keeps at most one expired vote per from_address (map keys are unique)", () => {
+  it("keeps at most one expired vote per sender", () => {
     const vars = {
       vote_ALICE_BOB: { votes: 5, ts: EXPIRED_TS },
       vote_ALICE_CAROL: { votes: 5, ts: EXPIRED_TS },
+      vote_DAVE_BOB: { votes: 5, ts: EXPIRED_TS },
+      vote_GINA_GINA: { votes: 5, ts: EXPIRED_TS },
     };
     const result = buildDeleteExpiredVotes({
       vars,
       voterAddress: "VOTER",
-      forAddress: "FOR",
       nowTs: NOW,
     })!;
-    expect(Object.keys(result)).toEqual(["ALICE"]);
+    expect(Object.keys(result)).toHaveLength(3);
     expect(["BOB", "CAROL"]).toContain(result.ALICE);
+    expect(result.DAVE).toBe("BOB");
+    expect(result.GINA).toBe("GINA");
   });
 
   it("ignores not-yet-expired votes", () => {
@@ -103,7 +98,6 @@ describe("buildDeleteExpiredVotes", () => {
     const result = buildDeleteExpiredVotes({
       vars,
       voterAddress: "VOTER",
-      forAddress: "FOR",
       nowTs: NOW,
     })!;
     expect(Object.keys(result)).toEqual(["CAROL"]);

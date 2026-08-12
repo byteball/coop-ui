@@ -113,7 +113,6 @@ export const VoteButton: FC<VoteButtonProps> = ({ address }) => {
       const deleteExpiredVotes = buildDeleteExpiredVotes({
         vars,
         voterAddress: connectedAddress,
-        forAddress: address,
       });
       const href = buildVoteLink({
         aa: mainAa,
