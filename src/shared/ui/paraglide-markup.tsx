@@ -42,4 +42,7 @@ export const paraglideMarkup = {
   b: ({ children }: { children?: ReactNode }) => (
     <strong className="font-semibold text-foreground">{children}</strong>
   ),
+  i: ({ children }: { children?: ReactNode }) => (
+    <em className="italic">{children}</em>
+  ),
 };
