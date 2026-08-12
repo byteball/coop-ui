@@ -22,10 +22,13 @@ describe("buildDeleteExpiredVotes", () => {
     ).toBeUndefined();
   });
 
-  it("excludes the vote being extended (voter -> for) and the self-vote (voter -> voter)", () => {
+  it("excludes every vote involving the voter or the user being voted for", () => {
     const vars = {
-      vote_VOTER_FOR: { votes: 5, ts: EXPIRED_TS }, // being extended now
-      vote_VOTER_VOTER: { votes: 9, ts: EXPIRED_TS }, // self-vote, refreshed now
+      vote_VOTER_FOR: { votes: 5, ts: EXPIRED_TS },
+      vote_VOTER_OTHER: { votes: 5, ts: EXPIRED_TS },
+      vote_OTHER_VOTER: { votes: 5, ts: EXPIRED_TS },
+      vote_FOR_OTHER: { votes: 5, ts: EXPIRED_TS },
+      vote_OTHER_FOR: { votes: 5, ts: EXPIRED_TS },
     };
     expect(
       buildDeleteExpiredVotes({
@@ -37,11 +40,11 @@ describe("buildDeleteExpiredVotes", () => {
     ).toBeUndefined();
   });
 
-  it("includes the voter's other expired votes and other users' expired votes", () => {
+  it("includes expired votes unrelated to the voter and recipient", () => {
     const vars = {
-      vote_VOTER_FOR: { votes: 5, ts: EXPIRED_TS }, // excluded (extended)
-      vote_VOTER_OTHER: { votes: 5, ts: EXPIRED_TS }, // own, different target -> allowed
-      vote_ALICE_BOB: { votes: 5, ts: EXPIRED_TS }, // someone else -> allowed
+      vote_VOTER_OTHER: { votes: 5, ts: EXPIRED_TS }, // excluded by voter
+      vote_OTHER_FOR: { votes: 5, ts: EXPIRED_TS }, // excluded by recipient
+      vote_ALICE_BOB: { votes: 5, ts: EXPIRED_TS }, // unrelated -> allowed
     };
     const result = buildDeleteExpiredVotes({
       vars,
@@ -49,9 +52,9 @@ describe("buildDeleteExpiredVotes", () => {
       forAddress: "FOR",
       nowTs: NOW,
     })!;
-    expect(result.VOTER).toBe("OTHER");
     expect(result.ALICE).toBe("BOB");
-    expect("FOR" in result).toBe(false);
+    expect(Object.keys(result)).toEqual(["ALICE"]);
+    expect(Object.values(result)).toEqual(["BOB"]);
   });
 
   it("never exceeds max entries", () => {

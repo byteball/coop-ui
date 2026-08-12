@@ -4,12 +4,11 @@ const MAX_DELETIONS = 5; // matches the foreach(..., 5, ...) limit in coop.oscri
 
 /**
  * Builds the optional `delete_expired_votes` payload to piggy-back on a vote
- * transaction. Picks a random batch of expired votes (the voter's own and
- * everyone else's) so cleanup work is amortized across the user base.
+ * transaction. Picks a random batch of unrelated expired votes so cleanup
+ * work is amortized across the user base.
  *
- * Excludes the votes this very transaction refreshes — the vote being cast
- * (voter -> forAddress) and the auto-added self-vote (voter -> voter) — so we
- * never try to delete a vote we are extending.
+ * Excludes every vote involving the voter or the user they are voting for, so
+ * neither address can appear as a key or value in the cleanup payload.
  *
  * The AA payload is a `{ from_address: to_address }` map: keys are unique, so
  * at most one expired vote per voter is cleaned per transaction. Returns
@@ -28,12 +27,11 @@ export function buildDeleteExpiredVotes({
   nowTs?: number;
   max?: number;
 }): Record<string, string> | undefined {
+  const excludedAddresses = new Set([voterAddress, forAddress]);
   const candidates = getExpiredVotes(vars, nowTs).filter(
     (v) =>
-      !(
-        v.fromAddress === voterAddress &&
-        (v.toAddress === forAddress || v.toAddress === voterAddress)
-      ),
+      !excludedAddresses.has(v.fromAddress) &&
+      !excludedAddresses.has(v.toAddress),
   );
 
   // Fisher–Yates shuffle so the deletions we pick are random across own + others.
