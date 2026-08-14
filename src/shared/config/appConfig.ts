@@ -36,12 +36,12 @@ export const paramDefs = {
   referrer_coop_deposit_reward_share: num(0.02),
   referrer_bytes_deposit_reward_share: num(0.01),
   referral_reward: int(10e9),
-  min_balance_instead_of_real_name: int(1e8),
+  min_balance_instead_of_real_name: int(50e9),
   messaging_attestors: str(
-    "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N:WVO7PWJUAIEGJM7HY25SX6UPXSTCN4VH:FSJVTTCHUIWALPN7Y6GYEKZACXMEXIG3:5KM36CFPBD2QJLVD65PHZG34WEM4RPY2",
+    "JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS:5KM36CFPBD2QJLVD65PHZG34WEM4RPY2",
   ),
   real_name_attestors: str(
-    "WMFLGI2GLAB2MDF2KQAH37VNRRMK7A5N:WVO7PWJUAIEGJM7HY25SX6UPXSTCN4VH:FSJVTTCHUIWALPN7Y6GYEKZACXMEXIG3",
+    "JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P",
   ),
 } as const;
 
