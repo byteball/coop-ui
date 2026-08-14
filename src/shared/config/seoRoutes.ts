@@ -17,7 +17,7 @@ export const seoRoutes: SeoRoute[] = [
     path: "/",
     title: "Obyte COOP — Cooperative Token on Obyte",
     description:
-      "Lock COOP or GBYTE to earn daily emissions, vote for contributors, and participate in governance of the Obyte cooperative.",
+      "Vote for contributors who help Obyte grow, receive votes for your own contributions, and earn a share of daily emissions in proportion to votes received.",
     ogImagePath: "/og/home.png",
   },
   {
@@ -31,7 +31,7 @@ export const seoRoutes: SeoRoute[] = [
     path: "/leaderboard",
     title: "Leaderboard — Obyte COOP",
     description:
-      "Top COOP cooperative members ranked by locked balance and votes received.",
+      "Top COOP contributors ranked by locked balance and votes received.",
     ogImagePath: "/og/leaderboard.png",
   },
   {
