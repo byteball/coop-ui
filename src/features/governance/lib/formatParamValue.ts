@@ -35,6 +35,18 @@ export function toAAValue(
   }
 }
 
+/**
+ * AA value → locale-formatted token amount, without the symbol. Split out so
+ * `ParamValue` can render the symbol as its own muted element and still match
+ * the string this module produces.
+ */
+export function formatParamAmount(
+  value: string | number,
+  coopDecimals: number,
+): string {
+  return toLocalString(Number(value) / 10 ** coopDecimals);
+}
+
 /** AA value → formatted read-only string with suffix (%, COOP, truncated addresses). */
 export function formatParamValue(
   value: string | number,
@@ -46,7 +58,7 @@ export function formatParamValue(
     case "number":
       return `${toLocalString(Number(value) * 100)}%`;
     case "integer":
-      return `${toLocalString(Number(value) / 10 ** coopDecimals)} ${coopSymbol}`;
+      return `${formatParamAmount(value, coopDecimals)} ${coopSymbol}`;
     case "string":
       return String(value)
         .split(":")

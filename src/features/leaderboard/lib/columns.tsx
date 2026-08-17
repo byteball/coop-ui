@@ -117,7 +117,8 @@ export function getColumns({
         return (
           <Tooltip>
             <TooltipTrigger className="cursor-default border-b border-dashed border-muted-foreground pb-0.5">
-              {toLocalString(total_balance / coopDivisor)} {coopSymbol}
+              {toLocalString(total_balance / coopDivisor)}{" "}
+              <span className="text-muted-foreground">{coopSymbol}</span>
             </TooltipTrigger>
             <TooltipContent>
               <p>

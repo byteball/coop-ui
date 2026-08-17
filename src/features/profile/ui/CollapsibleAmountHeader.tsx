@@ -32,7 +32,7 @@ export const CollapsibleAmountHeader: FC<CollapsibleAmountHeaderProps> = ({
       )}
     >
       <Amount value={value} decimals={decimals} symbol={symbol} />
-      <small>{symbol}</small>
+      <span className="text-muted-foreground">{symbol}</span>
       {hasDetails && (
         <ChevronDown
           className={cn(

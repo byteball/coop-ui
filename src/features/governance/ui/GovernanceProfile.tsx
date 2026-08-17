@@ -70,7 +70,8 @@ export function GovernanceProfile({ connectWallet }: GovernanceProfileProps) {
               </Tooltip>
             </div>
             <span className="font-medium">
-              {toLocalString(totalBalance / coopDivisor)} {coopSymbol}
+              {toLocalString(totalBalance / coopDivisor)}{" "}
+              <span className="text-muted-foreground">{coopSymbol}</span>
             </span>
           </div>
           <div className="flex flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-1">

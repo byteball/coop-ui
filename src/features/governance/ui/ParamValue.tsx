@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
 import type { GovernanceParamDef } from "#/shared/config/appConfig";
 
-import { formatParamValue } from "../lib/formatParamValue";
+import { formatParamAmount, formatParamValue } from "../lib/formatParamValue";
 
 interface ParamValueProps {
   value: string | number;
@@ -18,6 +18,15 @@ export function ParamValue({
   coopDecimals,
   coopSymbol,
 }: ParamValueProps) {
+  if (def.type === "integer") {
+    return (
+      <>
+        {formatParamAmount(value, coopDecimals)}{" "}
+        <span className="text-muted-foreground">{coopSymbol}</span>
+      </>
+    );
+  }
+
   if (def.type !== "string") {
     return <>{formatParamValue(value, def, coopDecimals, coopSymbol)}</>;
   }
