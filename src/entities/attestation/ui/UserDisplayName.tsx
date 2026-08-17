@@ -12,11 +12,7 @@ export const UserDisplayName: FC<UserDisplayNameProps> = ({ address }) => {
   const displayName = attestations?.displayName;
 
   return (
-    <Link
-      to="/user/$address"
-      params={{ address }}
-      className="font-medium link"
-    >
+    <Link to="/user/$address" params={{ address }} className="font-medium link">
       {displayName ?? (
         <span className="font-mono">
           {address.slice(0, 6)}...{address.slice(-4)}

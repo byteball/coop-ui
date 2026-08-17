@@ -1,11 +1,7 @@
 import { useState } from "react";
 
 import { Button } from "#/shared/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "#/shared/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "#/shared/ui/popover";
 import { getLocale, setLocale, locales } from "#/shared/i18n";
 
 const localeFlags: Record<string, string> = {

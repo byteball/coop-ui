@@ -17,8 +17,7 @@ interface DepositDescriptionProps {
   coopSymbol: string;
 }
 
-const linkClass =
-  "font-medium link";
+const linkClass = "font-medium link";
 
 export function DepositDescription({
   isLoaded,
@@ -28,10 +27,11 @@ export function DepositDescription({
   return (
     <div className="text-sm text-muted-foreground">
       <p>
-        {m.deposit_desc_attest({
-          telegram: `[TG]`,
-          discord: `[DC]`,
-        })
+        {m
+          .deposit_desc_attest({
+            telegram: `[TG]`,
+            discord: `[DC]`,
+          })
           .split("[TG]")
           .map((part, i) => (
             <span key={`tg-${i}`}>
@@ -64,10 +64,11 @@ export function DepositDescription({
           ))}
       </p>
       <p className="mt-2">
-        {m.deposit_desc_real_name({
-          minBalance: `[MB]`,
-          realName: `[RN]`,
-        })
+        {m
+          .deposit_desc_real_name({
+            minBalance: `[MB]`,
+            realName: `[RN]`,
+          })
           .split("[MB]")
           .map((part, i) => (
             <span key={`mb-${i}`}>

@@ -1,6 +1,9 @@
 import { useCoopState } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
-import { attestationLinks, obyteCommunityUrls } from "#/shared/config/appConfig";
+import {
+  attestationLinks,
+  obyteCommunityUrls,
+} from "#/shared/config/appConfig";
 import { toLocalString } from "#/shared/lib/toLocalString";
 
 export function useFaqInputs() {

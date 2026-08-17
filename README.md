@@ -35,26 +35,26 @@ Variables are validated in `src/shared/config/env.ts`. Ready-made examples:
 `.env.example.testnet` (local dev) and `.env.example.mainnet` (production).
 Copy one to `.env` to get started.
 
-| Var                         | Required | Description                                                                                             |
-| --------------------------- | -------- | ------------------------------------------------------------------------------------------------------- |
-| `VITE_AA_ADDRESS`           | yes      | 32-char COOP main AA address                                                                             |
-| `VITE_TESTNET`              | no       | `true` for testnet, anything else for livenet                                                            |
-| `VITE_OG_URL`               | no       | Base URL of the OG image service (used in OG `<meta>`)                                                   |
+| Var                         | Required | Description                                                                                                |
+| --------------------------- | -------- | ---------------------------------------------------------------------------------------------------------- |
+| `VITE_AA_ADDRESS`           | yes      | 32-char COOP main AA address                                                                               |
+| `VITE_TESTNET`              | no       | `true` for testnet, anything else for livenet                                                              |
+| `VITE_OG_URL`               | no       | Base URL of the OG image service (used in OG `<meta>`)                                                     |
 | `VITE_CONTRIBUTION_LOG_URL` | no       | contribution-log API; unset hides the Contributions card. Origin is appended to CSP `connect-src` at build |
-| `VITE_DISCORD_FORUM_URL`    | no       | Discord forum channel URL — "Forum" link on the Contributions card                                       |
-| `VITE_APP_TITLE`            | no       | Optional app title                                                                                       |
+| `VITE_DISCORD_FORUM_URL`    | no       | Discord forum channel URL — "Forum" link on the Contributions card                                         |
+| `VITE_APP_TITLE`            | no       | Optional app title                                                                                         |
 
 ## Scripts
 
-| Command        | Description                                        |
-| -------------- | -------------------------------------------------- |
-| `pnpm dev`     | Dev server on port 4000                            |
-| `pnpm build`   | Production build                                   |
-| `pnpm preview` | Preview the production build                        |
-| `pnpm test`    | Run tests (Vitest)                                 |
-| `pnpm lint`    | ESLint                                             |
-| `pnpm format`  | Prettier check                                     |
-| `pnpm check`   | Auto-fix: `prettier --write .` then `eslint --fix` |
+| Command        | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `pnpm dev`     | Dev server on port 4000                                     |
+| `pnpm build`   | Production build                                            |
+| `pnpm preview` | Preview the production build                                |
+| `pnpm test`    | Run tests (Vitest)                                          |
+| `pnpm lint`    | ESLint                                                      |
+| `pnpm format`  | Prettier check                                              |
+| `pnpm check`   | Auto-fix: `prettier --write .` then `eslint --fix`          |
 | `pnpm i18n`    | Recompile the Paraglide runtime (after editing `messages/`) |
 
 Add shadcn components: `pnpm dlx shadcn@latest add <component>`.

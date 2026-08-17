@@ -7,8 +7,7 @@ export interface Eligibility {
 }
 
 export function getEligibility(user: CoopUser | undefined): Eligibility {
-  const hasBalance =
-    !!user && (user.balance > 0 || user.bytes_balance > 0);
+  const hasBalance = !!user && (user.balance > 0 || user.bytes_balance > 0);
 
   const minDate = new Date();
   minDate.setDate(minDate.getDate() + 365);

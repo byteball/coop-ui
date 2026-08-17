@@ -40,9 +40,7 @@ export const paramDefs = {
   messaging_attestors: str(
     "JBW7HT5CRBSF7J7RD26AYLQG6GZDPFPS:5KM36CFPBD2QJLVD65PHZG34WEM4RPY2",
   ),
-  real_name_attestors: str(
-    "JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P",
-  ),
+  real_name_attestors: str("JFKWGRMXP3KHUAFMF4SJZVDXFL6ACC6P"),
 } as const;
 
 export type AppParamName = keyof typeof paramDefs;

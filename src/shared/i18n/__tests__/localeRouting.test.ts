@@ -1,13 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Make getLocale() controllable for the getLocaleBasepath tests, while keeping
-// every other paraglide runtime export real (localizeUrl, strategy, etc.).
-const mock = vi.hoisted(() => ({ locale: "en" }));
-vi.mock("#/paraglide/runtime", async (importOriginal) => {
-  const actual = (await importOriginal()) as typeof import("#/paraglide/runtime");
-  return { ...actual, getLocale: () => mock.locale };
-});
-
+import type * as ParaglideRuntime from "#/paraglide/runtime";
 import {
   strategy,
   locales,
@@ -17,6 +10,14 @@ import {
   extractLocaleFromUrl,
 } from "#/paraglide/runtime";
 import { getLocaleBasepath } from "#/shared/i18n";
+
+// Make getLocale() controllable for the getLocaleBasepath tests, while keeping
+// every other paraglide runtime export real (localizeUrl, strategy, etc.).
+const mock = vi.hoisted(() => ({ locale: "en" }));
+vi.mock("#/paraglide/runtime", async (importOriginal) => {
+  const actual = await importOriginal<typeof ParaglideRuntime>();
+  return { ...actual, getLocale: () => mock.locale };
+});
 
 const ORIGIN = "http://localhost:4000";
 
@@ -57,9 +58,9 @@ describe("paraglide URL routing config", () => {
   });
 
   it("drops the prefix when switching back to the base locale (en)", () => {
-    expect(localizeUrl(`${ORIGIN}/ru/user/FSJ`, { locale: "en" }).pathname).toBe(
-      "/user/FSJ",
-    );
+    expect(
+      localizeUrl(`${ORIGIN}/ru/user/FSJ`, { locale: "en" }).pathname,
+    ).toBe("/user/FSJ");
   });
 
   it("extracts the locale from a prefixed URL", () => {
@@ -90,8 +91,9 @@ describe("getLocaleBasepath", () => {
     // otherwise navigation 404s. Verify they agree for every non-base locale.
     for (const locale of locales) {
       mock.locale = locale;
-      const localizedPath = localizeUrl(`${ORIGIN}/governance`, { locale })
-        .pathname;
+      const localizedPath = localizeUrl(`${ORIGIN}/governance`, {
+        locale,
+      }).pathname;
       const basepath = getLocaleBasepath();
       expect(localizedPath).toBe(`${basepath}/governance`);
     }

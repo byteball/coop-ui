@@ -19,12 +19,20 @@ export const ScheduleIllustation = () => {
           </linearGradient>
           <linearGradient id="drop-grad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgb(186 230 253)" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="rgb(56 189 248)" stopOpacity="0.75" />
+            <stop
+              offset="100%"
+              stopColor="rgb(56 189 248)"
+              stopOpacity="0.75"
+            />
           </linearGradient>
           <linearGradient id="glass-highlight" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="rgb(255 255 255)" stopOpacity="0.3" />
             <stop offset="50%" stopColor="rgb(255 255 255)" stopOpacity="0" />
-            <stop offset="100%" stopColor="rgb(255 255 255)" stopOpacity="0.1" />
+            <stop
+              offset="100%"
+              stopColor="rgb(255 255 255)"
+              stopOpacity="0.1"
+            />
           </linearGradient>
           <clipPath id="glass-clip">
             <path d="M 50 70 L 50 188 Q 50 198 60 198 L 140 198 Q 150 198 150 188 L 150 70 Z" />
@@ -50,9 +58,21 @@ export const ScheduleIllustation = () => {
 
         {/* water inside glass */}
         <g clipPath="url(#glass-clip)">
-          <rect x="48" y="118" width="104" height="82" fill="url(#water-body)" />
+          <rect
+            x="48"
+            y="118"
+            width="104"
+            height="82"
+            fill="url(#water-body)"
+          />
           {/* top "new" layer */}
-          <rect x="48" y="118" width="104" height="14" fill="url(#water-layer)" />
+          <rect
+            x="48"
+            y="118"
+            width="104"
+            height="14"
+            fill="url(#water-layer)"
+          />
           {/* clean water surface line */}
           <line
             x1="48"

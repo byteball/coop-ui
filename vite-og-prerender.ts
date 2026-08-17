@@ -3,11 +3,8 @@ import { dirname, resolve } from "node:path";
 
 import { loadEnv } from "vite";
 
-import {
-  SITE_NAME,
-  seoRoutes,
-  type SeoRoute,
-} from "./src/shared/config/seoRoutes";
+import { SITE_NAME, seoRoutes } from "./src/shared/config/seoRoutes";
+import type { SeoRoute } from "./src/shared/config/seoRoutes";
 
 import type { Plugin } from "vite";
 
@@ -26,10 +23,11 @@ const escapeHtml = (s: string): string =>
  */
 const PRERENDER_ATTR = "data-prerender";
 
-const buildHeadBlock = (route: SeoRoute, ogBase: string | undefined): string => {
-  const ogUrl = ogBase
-    ? new URL(route.ogImagePath, ogBase).toString()
-    : null;
+const buildHeadBlock = (
+  route: SeoRoute,
+  ogBase: string | undefined,
+): string => {
+  const ogUrl = ogBase ? new URL(route.ogImagePath, ogBase).toString() : null;
   const a = PRERENDER_ATTR;
   const tags: string[] = [
     `<title ${a}>${escapeHtml(route.title)}</title>`,

@@ -4,11 +4,7 @@ import { useStore } from "@tanstack/react-store";
 import { defaultParams, variablesSchema } from "#/shared/config/appConfig";
 import type { AppParamName, AppParams } from "#/shared/config/appConfig";
 import { getCeilingPrice as calcCeilingPrice } from "../lib/getCeilingPrice";
-import {
-  coopConstantsSchema,
-  parseCoopUser,
-  parseCoopState,
-} from "./schemas";
+import { coopConstantsSchema, parseCoopUser, parseCoopState } from "./schemas";
 import type { CoopUser } from "./schemas";
 
 import { coopStore } from "./store";

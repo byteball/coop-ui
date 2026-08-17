@@ -119,13 +119,13 @@ describe("formatPeriod", () => {
       mockNow();
       i18n.locale = "ru";
       // collapseDays — the case from the vote list ("истекает через …")
-      expect(
-        formatPeriod(NOW_SEC + 39 * 86400, { collapseDays: true }),
-      ).toBe("39 дней");
+      expect(formatPeriod(NOW_SEC + 39 * 86400, { collapseDays: true })).toBe(
+        "39 дней",
+      );
       // compound days + hours + minutes
-      expect(
-        formatPeriod(NOW_SEC + 3 * 86400 + 4 * 3600 + 12 * 60),
-      ).toBe("3 дня 4 ч 12 мин");
+      expect(formatPeriod(NOW_SEC + 3 * 86400 + 4 * 3600 + 12 * 60)).toBe(
+        "3 дня 4 ч 12 мин",
+      );
       // singular day with correct Russian plural form
       expect(formatPeriod(NOW_SEC + 86400)).toBe("1 день");
       // standalone minutes / elapsed

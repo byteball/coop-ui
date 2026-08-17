@@ -46,7 +46,11 @@ export const KitIllustration = () => {
           </linearGradient>
           <linearGradient id="progress-grad" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="rgb(110 231 183)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="rgb(52 211 153)" stopOpacity="0.95" />
+            <stop
+              offset="100%"
+              stopColor="rgb(52 211 153)"
+              stopOpacity="0.95"
+            />
           </linearGradient>
         </defs>
 

@@ -71,7 +71,13 @@ describe("computePendingEmissions", () => {
 
   it("returns zeros when nowSec equals state.ts and accumulators match user.last_*", () => {
     const user = makeUser({ votes: 100, total_balance: 1000 });
-    const result = computePendingEmissions(user, baseState, params, 1, baseState.ts);
+    const result = computePendingEmissions(
+      user,
+      baseState,
+      params,
+      1,
+      baseState.ts,
+    );
     expect(result).toEqual({ pendingLocked: 0, pendingLiquid: 0 });
   });
 
@@ -102,10 +108,8 @@ describe("computePendingEmissions", () => {
 
     const v = params.by_votes_share * user.votes!;
     const vb = (1 - params.by_votes_share) * user.votes! * user.total_balance;
-    const expectedLocked =
-      v * expectedLockedPerVote + vb * expectedLockedPerVb;
-    const expectedLiquid =
-      v * expectedLiquidPerVote + vb * expectedLiquidPerVb;
+    const expectedLocked = v * expectedLockedPerVote + vb * expectedLockedPerVb;
+    const expectedLiquid = v * expectedLiquidPerVote + vb * expectedLiquidPerVb;
 
     const result = computePendingEmissions(
       user,

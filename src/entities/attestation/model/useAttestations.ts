@@ -53,15 +53,14 @@ export function attestationsQueryOptions(address: string | undefined) {
       const cached = readCache(address);
       if (cached) return cached;
 
-      const raw = await client.api
-        .getAttestations({ address })
-        .catch(() => [] as unknown);
+      const raw = await client.api.getAttestations({ address });
       const parsed = parseAttestations(parseRawAttestations(raw));
       writeCache(address, parsed);
       return parsed;
     },
     enabled: !!address,
     staleTime: CACHE_TTL,
+    retry: 3,
   });
 }
 

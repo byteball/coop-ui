@@ -1,20 +1,20 @@
 {
-	"version": "1.0",
-	"description": "COOP AA",
-	"homepage_url": "https://coop.obyte.org",
-	"source_url": "https://github.com/byteball/coop-aa",
-	"field_descriptions": {
-		"deposit": "Deposit funds",
-		"term": "Locking term in days",
-		"ref": "Referrer address",
-		"no_referrer_deposit_reward": "Waive deposit rewards from referrers",
-		"for": "Address of the user you are voting for",
-		"vote": "Vote for someone",
-		"strength": "Vote strength (0-3)",
-		"delete_expired_votes": "Delete expired votes of other users",
-		"claim": "Claim liquid rewards",
-		"restake_percent": "Percentage of liquid rewards to restake",
-		"withdraw": "Withdraw funds (after they unlock)",
-		"replace": "Replace the deposited GBYTE with COOP"
-	}
+  "version": "1.0",
+  "description": "COOP AA",
+  "homepage_url": "https://coop.obyte.org",
+  "source_url": "https://github.com/byteball/coop-aa",
+  "field_descriptions": {
+    "deposit": "Deposit funds",
+    "term": "Locking term in days",
+    "ref": "Referrer address",
+    "no_referrer_deposit_reward": "Waive deposit rewards from referrers",
+    "for": "Address of the user you are voting for",
+    "vote": "Vote for someone",
+    "strength": "Vote strength (0-3)",
+    "delete_expired_votes": "Delete expired votes of other users",
+    "claim": "Claim liquid rewards",
+    "restake_percent": "Percentage of liquid rewards to restake",
+    "withdraw": "Withdraw funds (after they unlock)",
+    "replace": "Replace the deposited GBYTE with COOP"
+  }
 }

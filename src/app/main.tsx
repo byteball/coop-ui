@@ -9,9 +9,7 @@ import "./styles.css";
 // proxy on /user/:address) so TanStack Router's <HeadContent /> owns them
 // at runtime without duplicates. Both producers mark their tags with
 // `data-prerender` — same ownership contract react-helmet uses with `data-rh`.
-document.head
-  .querySelectorAll("[data-prerender]")
-  .forEach((el) => el.remove());
+document.head.querySelectorAll("[data-prerender]").forEach((el) => el.remove());
 
 client.onConnect(bootstrap);
 

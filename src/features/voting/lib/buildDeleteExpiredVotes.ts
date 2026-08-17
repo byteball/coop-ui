@@ -26,8 +26,7 @@ export function buildDeleteExpiredVotes({
   max?: number;
 }): Record<string, string> | undefined {
   const candidates = getExpiredVotes(vars, nowTs).filter(
-    (v) =>
-      v.fromAddress !== voterAddress && v.toAddress !== voterAddress,
+    (v) => v.fromAddress !== voterAddress && v.toAddress !== voterAddress,
   );
 
   // Fisher–Yates shuffle so the deletions we pick are random across own + others.

@@ -1,13 +1,13 @@
 {
-	"version": "1.0",
-	"description": "COOP Governance",
-	"homepage_url": "https://coop.obyte.org/governance",
-	"source_url": "https://github.com/byteball/coop-aa",
-	"field_descriptions": {
-		"name": "Name of the parameter to vote for",
-		"value": "Value of the parameter to vote for",
-		"commit": "Commit a new value after voting has ended",
-		"update_user_balance": "Update user balance if it has changed",
-		"address": "User address"
-	}
+  "version": "1.0",
+  "description": "COOP Governance",
+  "homepage_url": "https://coop.obyte.org/governance",
+  "source_url": "https://github.com/byteball/coop-aa",
+  "field_descriptions": {
+    "name": "Name of the parameter to vote for",
+    "value": "Value of the parameter to vote for",
+    "commit": "Commit a new value after voting has ended",
+    "update_user_balance": "Update user balance if it has changed",
+    "address": "User address"
+  }
 }

@@ -17,4 +17,3 @@ export function getLocaleBasepath(): string {
   const locale = getLocale();
   return locale === baseLocale ? "" : `/${locale}`;
 }
-

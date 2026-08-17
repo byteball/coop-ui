@@ -19,7 +19,10 @@ interface ClaimRewardsDialogProps {
   children?: ReactNode;
 }
 
-export function ClaimRewardsDialog({ user, children }: ClaimRewardsDialogProps) {
+export function ClaimRewardsDialog({
+  user,
+  children,
+}: ClaimRewardsDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>

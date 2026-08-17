@@ -112,11 +112,7 @@ const ContributionsEmptyState: FC<{ forumUrl: string }> = ({ forumUrl }) => (
       </p>
     </div>
     <Button variant="secondary" size="sm" asChild>
-      <a
-        href={forumUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={forumUrl} target="_blank" rel="noopener noreferrer">
         {m.contributions_empty_cta()}
       </a>
     </Button>
