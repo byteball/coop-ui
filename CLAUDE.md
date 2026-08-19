@@ -148,6 +148,7 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
   - `lib/` — utilities (`utils.ts` with `cn()`).
   - `api/` — Obyte WebSocket client.
   - `i18n/` — re-exports from ParaglideJS runtime.
+  - `analytics/` — Microsoft Clarity loader and command helpers.
 
 **FSD import rule**: higher layers import from lower layers only (`app` > `pages` > `widgets` > `features` > `entities` > `shared`).
 
@@ -159,6 +160,8 @@ Project follows [FSD](https://feature-sliced.design/) structure under `src/`:
 - **i18n**: ParaglideJS with cookie/localStorage locale strategy. Locales: en (base), zh, es, ru, uk. Messages in `messages/`. Generated runtime in `src/paraglide/` (auto-generated, do not edit).
 - **Styling**: Tailwind CSS v4 with custom design tokens (CSS variables in `src/app/styles.css`).
 - **Env vars**: Type-safe via T3 Env (`src/shared/config/env.ts`). Client vars must be prefixed `VITE_`.
+- **CSP**: `index.html` ships a strict CSP `<meta>`. Deploy-specific origins (contribution-log API, Clarity) are appended by the `csp-extra-sources` plugin in `vite.config.ts` only when the matching env var is set — never hardcode third-party hosts in `index.html`.
+- **Analytics**: Microsoft Clarity, loaded from `src/app/main.tsx` via `initClarity()` and inert unless `VITE_CLARITY_PROJECT_ID` is set. Sessions stay pseudonymous — no wallet address, no `identify`, no network tag; the only session tag is `locale`. Route changes are auto-tracked (Clarity proxies the History API); the single custom event is `deposit`, fired when the deposit wallet link is opened.
 
 ## Path Aliases
 

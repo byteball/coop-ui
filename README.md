@@ -42,6 +42,7 @@ Copy one to `.env` to get started.
 | `VITE_OG_URL`               | no       | Base URL of the OG image service (used in OG `<meta>`)                                                     |
 | `VITE_CONTRIBUTION_LOG_URL` | no       | contribution-log API; unset hides the Contributions card. Origin is appended to CSP `connect-src` at build |
 | `VITE_DISCORD_FORUM_URL`    | no       | Discord forum channel URL — "Forum" link on the Contributions card                                         |
+| `VITE_CLARITY_PROJECT_ID`   | no       | Microsoft Clarity project id; unset disables analytics and keeps the CSP tight                             |
 | `VITE_APP_TITLE`            | no       | Optional app title                                                                                         |
 
 ## Scripts

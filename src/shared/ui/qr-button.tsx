@@ -18,15 +18,21 @@ import { WalletProtocolPopover } from "./wallet-protocol-popover";
 
 type QRButtonProps = React.ComponentProps<typeof Button> & {
   href: string;
+  /** Called when the user opens the wallet link (button or QR-code click). */
+  onOpen?: () => void;
 };
 
 export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
-  ({ children, href, variant, disabled = false, className, ...props }, ref) => {
+  (
+    { children, href, variant, disabled = false, className, onOpen, ...props },
+    ref,
+  ) => {
     const [showPopover, setShowPopover] = useState(false);
 
     const handleClick = useCallback(
       (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
+        onOpen?.();
         openCustomProtocol({
           href,
           onProtocolMissing: () => {
@@ -34,7 +40,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
           },
         });
       },
-      [href],
+      [href, onOpen],
     );
 
     return (
@@ -69,7 +75,7 @@ export const QRButton = forwardRef<HTMLButtonElement, QRButtonProps>(
               </DialogTitle>
             </DialogHeader>
             <div className="mx-auto">
-              <a href={href}>
+              <a href={href} onClick={() => onOpen?.()}>
                 <QRCodeSVG
                   size={200}
                   bgColor="#24292e"
