@@ -15,6 +15,7 @@ import { Slider } from "#/shared/ui/slider";
 import { diffDays } from "#/shared/lib/diffDays";
 import { formatDateShort } from "#/shared/lib/formatDateShort";
 import { tooManyDecimals } from "#/shared/lib/tooManyDecimals";
+import { oswapBuyCoopUrl } from "#/shared/config/appConfig";
 import { useCoopState, getEligibility } from "#/entities/coop";
 import { useAssetInfo } from "#/entities/token";
 import { useWallet } from "#/entities/user";
@@ -180,7 +181,7 @@ export function DepositForm() {
                 <FieldLabel htmlFor={field.name}>
                   {m.deposit_amount_label()}
                 </FieldLabel>
-                <div className="flex gap-2">
+                <div className="flex items-start gap-2">
                   <Input
                     id={field.name}
                     type="text"
@@ -196,27 +197,39 @@ export function DepositForm() {
                   />
                   <form.Field name="asset">
                     {(assetField) => (
-                      <Select
-                        value={assetField.state.value}
-                        onValueChange={(v) => {
-                          assetField.handleChange(v as AssetType);
-                          field.validate("change");
-                        }}
-                      >
-                        <SelectTrigger className="w-[120px] text-foreground">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="coop">
-                            {isLoaded ? (
-                              coopSymbol
-                            ) : (
-                              <Skeleton className="w-12" />
-                            )}
-                          </SelectItem>
-                          <SelectItem value="gbyte">GBYTE</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="flex w-[120px] flex-col gap-1.5">
+                        <Select
+                          value={assetField.state.value}
+                          onValueChange={(v) => {
+                            assetField.handleChange(v as AssetType);
+                            field.validate("change");
+                          }}
+                        >
+                          <SelectTrigger className="w-full text-foreground">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="coop">
+                              {isLoaded ? (
+                                coopSymbol
+                              ) : (
+                                <Skeleton className="w-12" />
+                              )}
+                            </SelectItem>
+                            <SelectItem value="gbyte">GBYTE</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {assetField.state.value === "coop" && (
+                          <a
+                            href={oswapBuyCoopUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs link"
+                          >
+                            {m.deposit_buy_on_oswap()}
+                          </a>
+                        )}
+                      </div>
                     )}
                   </form.Field>
                 </div>

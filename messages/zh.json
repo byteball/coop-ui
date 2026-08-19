@@ -112,6 +112,7 @@
   "replace_submit": "替换",
   "replace_error_no_bytes": "锁定的 GBYTE 不足以覆盖此数量",
   "deposit_amount_label": "金额",
+  "deposit_buy_on_oswap": "在 Oswap 购买",
   "deposit_lock_period_label": "锁定期限",
   "deposit_lock_days": "{days} 天",
   "deposit_button": "锁定代币",

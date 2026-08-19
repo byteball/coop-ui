@@ -112,6 +112,10 @@ export const obyteServiceUrls = {
   friends: (address: string) => `https://friends.obyte.org/${address}`,
 } as const;
 
+/** Oswap pool where COOP can be bought on the open market. */
+export const oswapBuyCoopUrl =
+  "https://oswap.io/swap/LIQH6ULRJMNXXYZGAGSOWOCTKZMAF3PU?reverse=1";
+
 export const obyteCommunityUrls = {
   telegram: "https://t.me/obyteorg",
   discord: "https://discord.obyte.org/",

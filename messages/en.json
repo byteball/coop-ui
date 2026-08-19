@@ -112,6 +112,7 @@
   "replace_submit": "Replace",
   "replace_error_no_bytes": "Not enough locked GBYTE to cover this amount",
   "deposit_amount_label": "Amount",
+  "deposit_buy_on_oswap": "Buy on Oswap",
   "deposit_lock_period_label": "Lock period",
   "deposit_lock_days": "{days} days",
   "deposit_button": "Lock tokens",

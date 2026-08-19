@@ -112,6 +112,7 @@
   "replace_submit": "Reemplazar",
   "replace_error_no_bytes": "GBYTE bloqueados insuficientes para esta cantidad",
   "deposit_amount_label": "Cantidad",
+  "deposit_buy_on_oswap": "Comprar en Oswap",
   "deposit_lock_period_label": "Periodo de bloqueo",
   "deposit_lock_days": "{days} días",
   "deposit_button": "Bloquear tokens",
