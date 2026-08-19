@@ -4,6 +4,7 @@ import { DetailRow } from "#/shared/ui/detail-row";
 import { QRButton } from "#/shared/ui/qr-button";
 import { toLocalString } from "#/shared/lib/toLocalString";
 import { getExplorerUrl } from "#/shared/lib/getExplorerUrl";
+import { trackClarityEvent } from "#/shared/analytics";
 
 import * as m from "#/paraglide/messages";
 
@@ -105,6 +106,7 @@ export function DepositMeta({
       <QRButton
         ref={qrButtonRef}
         href={href ?? ""}
+        onOpen={() => trackClarityEvent("deposit")}
         size="lg"
         className="mt-2 w-full"
         disabled={!href}

@@ -18,6 +18,9 @@ export const env = createEnv({
     // Discord forum channel URL (https://discord.com/channels/<guild>/<channel>);
     // shown as a "Forum" link on the Contributions card when set.
     VITE_DISCORD_FORUM_URL: z.url().optional(),
+    // Microsoft Clarity project id. When unset, the Clarity tag is never
+    // loaded and the CSP is not widened for clarity.ms.
+    VITE_CLARITY_PROJECT_ID: z.string().min(1).optional(),
   },
 
   /**
