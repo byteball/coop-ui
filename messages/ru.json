@@ -112,6 +112,7 @@
   "replace_submit": "Заменить",
   "replace_error_no_bytes": "Недостаточно заблокированных GBYTE для этой суммы",
   "deposit_amount_label": "Сумма",
+  "deposit_buy_on_oswap": "Купить на Oswap",
   "deposit_lock_period_label": "Срок блокировки",
   "deposit_lock_days": "{days} дней",
   "deposit_button": "Заблокировать токены",
